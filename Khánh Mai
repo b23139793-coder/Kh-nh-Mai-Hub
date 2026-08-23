@@ -1,0 +1,321 @@
+local Players, RunService, UserInputService = game:GetService("Players"), game:GetService("RunService"), game:GetService("UserInputService")
+local LocalPlayer, Camera = Players.LocalPlayer, workspace.CurrentCamera
+local CORRECT_KEY, hue = "KhanhMaiHub", 0
+
+local Settings = {
+    AimHead = false, AimTorso = false, DrawFOV = true, HideFOV = false, FOVSize = 100,
+    ESP_Tracer = true, ESP_Box = true, ESP_Name = true, Hitbox = false, HitboxSize = 10,
+    SpinBot = false, SpinSpeed = 50, ColorMode = "Rainbow"
+}
+
+local function playWelcomeVoice()
+    pcall(function()
+        local sound = Instance.new("Sound", game:GetService("SoundService"))
+        sound.SoundId = "rbxassetid://6893930818"
+        sound.Volume = 3
+        sound:Play()
+        game:GetService("StarterGui"):SetCore("SendNotification", {Title = "Khánh Mai Hub 🌸", Text = "Chào mừng bạn đến với script Khánh Mai Hub! 🌸", Duration = 5})
+    end)
+end
+
+local function getCurrentColor()
+    if Settings.ColorMode == "Rainbow" then return Color3.fromHSV(hue, 1, 1) end
+    if Settings.ColorMode == "Blue" then return Color3.fromRGB(0, 150, 255) end
+    if Settings.ColorMode == "Red" then return Color3.fromRGB(255, 30, 30) end
+    if Settings.ColorMode == "Pink" then return Color3.fromRGB(255, 105, 180) end
+    return Color3.fromRGB(255, 255, 255)
+end
+
+-- Kiểm tra xem người chơi có phải Kẻ Địch hay không
+local function isEnemy(player)
+    if not player or player == LocalPlayer then return false end
+    if player.Team ~= nil and LocalPlayer.Team ~= nil then
+        return player.Team ~= LocalPlayer.Team
+    end
+    return true -- Nếu không chia Team (ở ngoài trận/Lobby) thì coi như thấy tất cả
+end
+
+local function enableDragging(frame, handle)
+    local dragging, dragStart, startPos, dragInput
+    handle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging, dragStart, startPos = true, input.Position, frame.Position
+        end
+    end)
+    handle.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then dragInput = input end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = false end
+    end)
+end
+
+local FOVCircle = Drawing.new("Circle")
+FOVCircle.Thickness, FOVCircle.NumSides, FOVCircle.Radius, FOVCircle.Filled, FOVCircle.Visible = 1, 60, Settings.FOVSize, false, false
+
+local PlayerCountText = Drawing.new("Text")
+PlayerCountText.Color, PlayerCountText.Size, PlayerCountText.Center, PlayerCountText.Outline, PlayerCountText.Visible = Color3.fromRGB(255, 0, 0), 24, true, true, true
+
+local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+
+-- KEY SYSTEM UI
+local KeyFrame = Instance.new("Frame", ScreenGui)
+KeyFrame.Size, KeyFrame.Position, KeyFrame.BackgroundColor3 = UDim2.new(0, 320, 0, 180), UDim2.new(0.5, -160, 0.5, -90), Color3.fromRGB(15, 15, 20)
+Instance.new("UICorner", KeyFrame).CornerRadius = UDim.new(0, 12)
+local KeyStroke = Instance.new("UIStroke", KeyFrame)
+
+local KeyTitle = Instance.new("TextLabel", KeyFrame)
+KeyTitle.Size, KeyTitle.BackgroundTransparency, KeyTitle.Text, KeyTitle.TextColor3, KeyTitle.Font, KeyTitle.TextSize = UDim2.new(1, 0, 0, 40), 1, "Khánh Mai Hub - Key System 🌸", Color3.fromRGB(255, 255, 255), Enum.Font.SourceSansBold, 18
+
+local KeyInput = Instance.new("TextBox", KeyFrame)
+KeyInput.Size, KeyInput.Position, KeyInput.BackgroundColor3, KeyInput.PlaceholderText, KeyInput.TextColor3 = UDim2.new(0.8, 0, 0, 35), UDim2.new(0.1, 0, 0, 50), Color3.fromRGB(25, 25, 32), "Nhập Key tại đây...", Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", KeyInput).CornerRadius = UDim.new(0, 8)
+
+local SubmitBtn = Instance.new("TextButton", KeyFrame)
+SubmitBtn.Size, SubmitBtn.Position, SubmitBtn.BackgroundColor3, SubmitBtn.Text, SubmitBtn.TextColor3, SubmitBtn.Font = UDim2.new(0.8, 0, 0, 35), UDim2.new(0.1, 0, 0, 100), Color3.fromRGB(235, 40, 120), "XÁC NHẬN KEY 🌸", Color3.fromRGB(255, 255, 255), Enum.Font.SourceSansBold
+Instance.new("UICorner", SubmitBtn).CornerRadius = UDim.new(0, 8)
+
+local KeyStatus = Instance.new("TextLabel", KeyFrame)
+KeyStatus.Size, KeyStatus.Position, KeyStatus.BackgroundTransparency, KeyStatus.Text = UDim2.new(1, 0, 0, 20), UDim2.new(0, 0, 0, 145), 1, ""
+enableDragging(KeyFrame, KeyFrame)
+
+-- MAIN HUB UI
+local MainFrame = Instance.new("Frame", ScreenGui)
+MainFrame.Size, MainFrame.Position, MainFrame.BackgroundColor3, MainFrame.Visible = UDim2.new(0, 550, 0, 320), UDim2.new(0.5, -275, 0.5, -160), Color3.fromRGB(20, 20, 25), false
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
+local MainStroke = Instance.new("UIStroke", MainFrame)
+
+local ToggleBtn = Instance.new("ImageButton", ScreenGui)
+ToggleBtn.Size, ToggleBtn.Position, ToggleBtn.BackgroundColor3, ToggleBtn.Visible = UDim2.new(0, 50, 0, 50), UDim2.new(0, 15, 0, 15), Color3.fromRGB(15, 15, 20), false
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(0, 12)
+local ToggleStroke = Instance.new("UIStroke", ToggleBtn)
+
+local LogoK = Instance.new("TextLabel", ToggleBtn)
+LogoK.Size, LogoK.Position, LogoK.BackgroundTransparency, LogoK.Text, LogoK.TextColor3, LogoK.Font, LogoK.TextSize = UDim2.new(0.5,0,1,0), UDim2.new(0,2,0,0), 1, "K", Color3.fromRGB(240,240,240), Enum.Font.FredokaOne, 28
+local LogoM = Instance.new("TextLabel", ToggleBtn)
+LogoM.Size, LogoM.Position, LogoM.BackgroundTransparency, LogoM.Text, LogoM.TextColor3, LogoM.Font, LogoM.TextSize = UDim2.new(0.5,0,1,0), UDim2.new(0.5,-2,0,0), 1, "M", Color3.fromRGB(235,40,120), Enum.Font.FredokaOne, 28
+
+local SideBar = Instance.new("Frame", MainFrame)
+SideBar.Size, SideBar.BackgroundColor3 = UDim2.new(0, 130, 1, 0), Color3.fromRGB(15, 15, 20)
+Instance.new("UICorner", SideBar).CornerRadius = UDim.new(0, 12)
+
+local Title = Instance.new("TextLabel", SideBar)
+Title.Size, Title.BackgroundTransparency, Title.Text, Title.TextColor3, Title.Font = UDim2.new(1, 0, 0, 40), 1, "Khánh Mai Hub 🌸", Color3.fromRGB(255, 255, 255), Enum.Font.SourceSansBold
+
+enableDragging(MainFrame, SideBar)
+enableDragging(ToggleBtn, ToggleBtn)
+
+local Pages = Instance.new("Frame", MainFrame)
+Pages.Size, Pages.Position, Pages.BackgroundTransparency = UDim2.new(0, 400, 0, 260), UDim2.new(0, 140, 0, 45), 1
+
+local TabMain, TabVisuals, TabSettings = Instance.new("Frame", Pages), Instance.new("Frame", Pages), Instance.new("Frame", Pages)
+TabMain.Size, TabMain.BackgroundTransparency = UDim2.new(1,0,1,0), 1
+TabVisuals.Size, TabVisuals.BackgroundTransparency, TabVisuals.Visible = UDim2.new(1,0,1,0), 1, false
+TabSettings.Size, TabSettings.BackgroundTransparency, TabSettings.Visible = UDim2.new(1,0,1,0), 1, false
+
+for _, page in pairs({TabMain, TabVisuals, TabSettings}) do
+    local grid = Instance.new("UIGridLayout", page)
+    grid.CellSize, grid.CellPadding = UDim2.new(0, 190, 0, 45), UDim2.new(0, 10, 0, 10)
+end
+
+local tabButtons, tabsData = {}, {{Name = "Main 🌸", Frame = TabMain}, {Name = "Visuals 🌸", Frame = TabVisuals}, {Name = "Settings 🌸", Frame = TabSettings}}
+for i, tabInfo in ipairs(tabsData) do
+    local tabBtn = Instance.new("TextButton", SideBar)
+    tabBtn.Size, tabBtn.Position, tabBtn.BackgroundTransparency, tabBtn.Text = UDim2.new(1, -20, 0, 30), UDim2.new(0, 10, 0, 45 + (i - 1) * 35), 1, tabInfo.Name
+    tabBtn.TextColor3, tabBtn.Font, tabBtn.TextSize, tabBtn.TextXAlignment = (i == 1) and Color3.fromRGB(255,255,255) or Color3.fromRGB(130,130,130), Enum.Font.SourceSansBold, 15, Enum.TextXAlignment.Left
+    tabButtons[tabInfo.Name] = tabBtn
+    tabBtn.MouseButton1Click:Connect(function()
+        for _, t in pairs(tabsData) do
+            t.Frame.Visible = (t.Name == tabInfo.Name)
+            tabButtons[t.Name].TextColor3 = (t.Name == tabInfo.Name) and Color3.fromRGB(255,255,255) or Color3.fromRGB(130,130,130)
+        end
+    end)
+end
+
+local CloseBtn = Instance.new("TextButton", MainFrame)
+CloseBtn.Size, CloseBtn.Position, CloseBtn.BackgroundTransparency, CloseBtn.Text, CloseBtn.TextColor3 = UDim2.new(0, 30, 0, 30), UDim2.new(1, -35, 0, 10), 1, "✕", Color3.fromRGB(200, 200, 200)
+CloseBtn.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
+ToggleBtn.MouseButton1Click:Connect(function() MainFrame.Visible = not MainFrame.Visible end)
+
+local function createCard(parent, name, defaultState, callback)
+    local card = Instance.new("TextButton", parent)
+    card.BackgroundColor3, card.Text, card.AutoButtonColor = Color3.fromRGB(28, 28, 35), "", false
+    Instance.new("UICorner", card).CornerRadius = UDim.new(0, 6)
+    local label = Instance.new("TextLabel", card)
+    label.Size, label.Position, label.BackgroundTransparency, label.Text = UDim2.new(0.8, 0, 1, 0), UDim2.new(0, 10, 0, 0), 1, name .. " 🌸"
+    label.TextColor3, label.Font, label.TextXAlignment = defaultState and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(150, 150, 150), Enum.Font.SourceSansBold, Enum.TextXAlignment.Left
+    local arrow = Instance.new("TextLabel", card)
+    arrow.Size, arrow.Position, arrow.BackgroundTransparency, arrow.Text = UDim2.new(0.2, 0, 1, 0), UDim2.new(0.8, 0, 0, 0), 1, "▶"
+    arrow.TextColor3 = defaultState and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(100, 100, 100)
+    local state = defaultState
+    card.MouseButton1Click:Connect(function()
+        state = not state
+        label.TextColor3 = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(150, 150, 150)
+        arrow.TextColor3 = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(100, 100, 100)
+        callback(state)
+    end)
+end
+
+createCard(TabMain, "Aim Đầu Khi Bắn", Settings.AimHead, function(s) Settings.AimHead = s if s then Settings.AimTorso = false end end)
+createCard(TabMain, "Aim Thân Khi Bắn", Settings.AimTorso, function(s) Settings.AimTorso = s if s then Settings.AimHead = false end end)
+createCard(TabMain, "Bật Hitbox To", Settings.Hitbox, function(s) Settings.Hitbox = s end)
+createCard(TabMain, "Bật/Tắt FOV", Settings.DrawFOV, function(s) Settings.DrawFOV = s FOVCircle.Visible = Settings.DrawFOV and not Settings.HideFOV end)
+createCard(TabMain, "Hide FOV", Settings.HideFOV, function(s) Settings.HideFOV = s FOVCircle.Visible = Settings.DrawFOV and not Settings.HideFOV end)
+createCard(TabMain, "Bật Spin Bot", Settings.SpinBot, function(s) Settings.SpinBot = s end)
+
+local SliderFrame = Instance.new("Frame", TabMain)
+SliderFrame.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
+Instance.new("UICorner", SliderFrame).CornerRadius = UDim.new(0, 6)
+local SliderLabel = Instance.new("TextLabel", SliderFrame)
+SliderLabel.Size, SliderLabel.Position, SliderLabel.BackgroundTransparency, SliderLabel.Text, SliderLabel.TextColor3 = UDim2.new(1, -10, 0, 20), UDim2.new(0, 10, 0, 2), 1, "Chỉnh FOV: " .. tostring(Settings.FOVSize) .. " 🌸", Color3.fromRGB(255, 255, 255)
+local SliderBtn = Instance.new("TextButton", SliderFrame)
+SliderBtn.Size, SliderBtn.Position, SliderBtn.BackgroundColor3, SliderBtn.Text = UDim2.new(1, -20, 0, 10), UDim2.new(0, 10, 0, 25), Color3.fromRGB(15, 15, 20), ""
+local SliderFill = Instance.new("Frame", SliderBtn)
+SliderFill.Size, SliderFill.BackgroundColor3, SliderFill.BorderSizePixel = UDim2.new(Settings.FOVSize / 360, 0, 1, 0), Color3.fromRGB(235, 40, 120), 0
+
+local isDragging = false
+local function updateSlider(input)
+    local pos = math.clamp((input.Position.X - SliderBtn.AbsolutePosition.X) / SliderBtn.AbsoluteSize.X, 0, 1)
+    local val = math.floor(pos * 360)
+    Settings.FOVSize, FOVCircle.Radius = val, val
+    SliderFill.Size, SliderLabel.Text = UDim2.new(pos, 0, 1, 0), "Chỉnh FOV: " .. tostring(val) .. " 🌸"
+end
+
+SliderBtn.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then isDragging = true updateSlider(input) end
+end)
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then isDragging = false end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if isDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then updateSlider(input) end
+end)
+
+createCard(TabVisuals, "ESP Tia Dây", Settings.ESP_Tracer, function(s) Settings.ESP_Tracer = s end)
+createCard(TabVisuals, "ESP Hộp", Settings.ESP_Box, function(s) Settings.ESP_Box = s end)
+createCard(TabVisuals, "ESP Tên", Settings.ESP_Name, function(s) Settings.ESP_Name = s end)
+
+createCard(TabSettings, "Màu Rainbow", Settings.ColorMode == "Rainbow", function() Settings.ColorMode = "Rainbow" end)
+createCard(TabSettings, "Màu Xanh (Blue)", Settings.ColorMode == "Blue", function() Settings.ColorMode = "Blue" end)
+createCard(TabSettings, "Màu Đỏ (Red)", Settings.ColorMode == "Red", function() Settings.ColorMode = "Red" end)
+createCard(TabSettings, "Màu Hồng (Pink)", Settings.ColorMode == "Pink", function() Settings.ColorMode = "Pink" end)
+
+SubmitBtn.MouseButton1Click:Connect(function()
+    if KeyInput.Text == CORRECT_KEY then
+        KeyStatus.TextColor3, KeyStatus.Text = Color3.fromRGB(0, 255, 100), "Key Đúng! Đang mở Hub..."
+        task.wait(0.8)
+        KeyFrame:Destroy()
+        MainFrame.Visible, ToggleBtn.Visible = true, true
+        FOVCircle.Visible = Settings.DrawFOV and not Settings.HideFOV
+        playWelcomeVoice()
+    else
+        KeyStatus.TextColor3, KeyStatus.Text = Color3.fromRGB(255, 50, 50), "Key Sai! Vui lòng thử lại."
+    end
+end)
+
+local function getClosestPlayer(partName)
+    local closest, shortestDistance = nil, Settings.FOVSize
+    for _, v in pairs(Players:GetPlayers()) do
+        if isEnemy(v) and v.Character and v.Character:FindFirstChild(partName) and v.Character:FindFirstChildOfClass("Humanoid").Health > 0 then
+            local pos, onScreen = Camera:WorldToViewportPoint(v.Character[partName].Position)
+            if onScreen then
+                local dist = (Vector2.new(pos.X, pos.Y) - Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)).Magnitude
+                if dist < shortestDistance then shortestDistance, closest = dist, v end
+            end
+        end
+    end
+    return closest
+end
+
+local ESP_Cache = {}
+local function createESP(player)
+    local tracer, box, nameTag = Drawing.new("Line"), Drawing.new("Square"), Drawing.new("Text")
+    tracer.Thickness, box.Thickness, box.Filled = 1.5, 1, false
+    nameTag.Color, nameTag.Size, nameTag.Center, nameTag.Outline = Color3.fromRGB(255, 255, 255), 14, true, true
+    ESP_Cache[player] = {Tracer = tracer, Box = box, Name = nameTag}
+end
+
+local function removeESP(player)
+    if ESP_Cache[player] then
+        ESP_Cache[player].Tracer:Remove() ESP_Cache[player].Box:Remove() ESP_Cache[player].Name:Remove()
+        ESP_Cache[player] = nil
+    end
+end
+
+for _, p in pairs(Players:GetPlayers()) do if p ~= LocalPlayer then createESP(p) end end
+Players.PlayerAdded:Connect(function(p) if p ~= LocalPlayer then createESP(p) end end)
+Players.PlayerRemoving:Connect(removeESP)
+
+local spinAngle = 0
+RunService.RenderStepped:Connect(function()
+    FOVCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    hue = (hue + 0.005 > 1) and 0 or hue + 0.005
+    local activeColor = getCurrentColor()
+    
+    KeyStroke.Color, MainStroke.Color, ToggleStroke.Color, FOVCircle.Color = activeColor, activeColor, activeColor, activeColor
+    PlayerCountText.Text, PlayerCountText.Position = tostring(#Players:GetPlayers()), Vector2.new(Camera.ViewportSize.X / 2, 10)
+
+    -- SpinBot Logic
+    if Settings.SpinBot and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        spinAngle = spinAngle + Settings.SpinSpeed
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position) * CFrame.Angles(0, math.rad(spinAngle), 0)
+    end
+
+    -- Hitbox Logic (Chỉ tác động lên Kẻ Địch)
+    for _, v in pairs(Players:GetPlayers()) do
+        if v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+            local hrp = v.Character.HumanoidRootPart
+            if Settings.Hitbox and isEnemy(v) then
+                hrp.Size = Vector3.new(Settings.HitboxSize, Settings.HitboxSize, Settings.HitboxSize)
+                hrp.Transparency = 0.7
+                hrp.BrickColor = BrickColor.new("Medium reddish violet")
+                hrp.Material = Enum.Material.Neon
+                hrp.CanCollide = false
+            else
+                hrp.Size = Vector3.new(2, 2, 1)
+                hrp.Transparency = 1
+                hrp.CanCollide = true
+            end
+        end
+    end
+
+    -- Aim Logic
+    if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
+        local targetPart = Settings.AimHead and "Head" or (Settings.AimTorso and "HumanoidRootPart" or nil)
+        if targetPart then
+            local target = getClosestPlayer(targetPart)
+            if target and target.Character and target.Character:FindFirstChild(targetPart) then
+                Camera.CFrame = CFrame.new(Camera.CFrame.Position, target.Character[targetPart].Position)
+            end
+        end
+    end
+
+    -- ESP Loop (Chỉ vẽ ESP trên Kẻ Địch hoặc người chơi ngoài trận)
+    for player, drawings in pairs(ESP_Cache) do
+        if isEnemy(player) and player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChildOfClass("Humanoid").Health > 0 then
+            local pos, onScreen = Camera:WorldToViewportPoint(player.Character.HumanoidRootPart.Position)
+            if onScreen then
+                drawings.Tracer.Visible, drawings.Tracer.Color = Settings.ESP_Tracer, activeColor
+                drawings.Tracer.From, drawings.Tracer.To = Vector2.new(Camera.ViewportSize.X / 2, 0), Vector2.new(pos.X, pos.Y)
+
+                drawings.Box.Visible, drawings.Box.Color = Settings.ESP_Box, activeColor
+                local sizeY = (Camera:WorldToViewportPoint(player.Character.HumanoidRootPart.Position + Vector3.new(0, 3, 0)).Y - Camera:WorldToViewportPoint(player.Character.HumanoidRootPart.Position - Vector3.new(0, 3.5, 0)).Y)
+                local sizeX = sizeY / 1.5
+                drawings.Box.Size, drawings.Box.Position = Vector2.new(math.abs(sizeX), math.abs(sizeY)), Vector2.new(pos.X - math.abs(sizeX) / 2, pos.Y - math.abs(sizeY) / 2)
+
+                drawings.Name.Visible, drawings.Name.Text = Settings.ESP_Name, player.Name .. " 🌸"
+                drawings.Name.Position = Vector2.new(pos.X, pos.Y - math.abs(sizeY) / 2 - 15)
+            else
+                drawings.Tracer.Visible, drawings.Box.Visible, drawings.Name.Visible = false, false, false
+            end
+        else
+            drawings.Tracer.Visible, drawings.Box.Visible, drawings.Name.Visible = false, false, false
+        end
+    end
+end)
