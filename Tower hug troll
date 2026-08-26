@@ -1,0 +1,2172 @@
+--// =========================================================
+--// INFINITI SYSTEM - MOBILE EDITION
+--// KEY SYSTEM + MAIN MENU + ADMIN + HITBOX + MOBILE FLY
+--// =========================================================
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+--// =========================================================
+--// CONFIG
+--// =========================================================
+
+local SAVE_FILE_NAME = "InfinitiKeyData.json"
+local CUSTOM_KEYS_FILE = "InfinitiCustomKeys.json"
+
+local GETKEY_URL =
+    "https://profound-nasturtium-22c30b.netlify.app"
+
+local ValidKeys = {
+    ["INFI-PREM-8822"] = math.huge,
+    ["INFI-ADMIN-9999"] = math.huge,
+    ["hit box"] = 300,
+    ["VIP-KEY-2026"] = math.huge
+}
+
+local HeadSize = 10
+local HitboxEnabled = false
+
+local FlyEnabled = false
+local FlySpeed = 60
+
+local GodModeEnabled = false
+
+local CurrentActiveFrame = nil
+local TimerThread = nil
+local FlyConnection = nil
+local GodConnection = nil
+
+--// =========================================================
+--// SCREEN GUI
+--// =========================================================
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "InfinitiSystemUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
+
+--// =========================================================
+--// FILE FUNCTIONS
+--// =========================================================
+
+local function SaveKeyData(key, startTime)
+    if writefile then
+        pcall(function()
+            writefile(
+                SAVE_FILE_NAME,
+                HttpService:JSONEncode({
+                    Key = key,
+                    StartTime = startTime
+                })
+            )
+        end)
+    end
+end
+
+local function LoadKeyData()
+    if readfile and isfile and isfile(SAVE_FILE_NAME) then
+        local success, result = pcall(function()
+            return HttpService:JSONDecode(
+                readfile(SAVE_FILE_NAME)
+            )
+        end)
+
+        if success and result then
+            return result
+        end
+    end
+
+    return nil
+end
+
+local function ClearKeyData()
+    if delfile and isfile and isfile(SAVE_FILE_NAME) then
+        pcall(function()
+            delfile(SAVE_FILE_NAME)
+        end)
+    end
+end
+
+local function SaveCustomKeys()
+    if writefile then
+        pcall(function()
+            writefile(
+                CUSTOM_KEYS_FILE,
+                HttpService:JSONEncode(ValidKeys)
+            )
+        end)
+    end
+end
+
+local function LoadCustomKeys()
+    if readfile and isfile and isfile(CUSTOM_KEYS_FILE) then
+        local success, result = pcall(function()
+            return HttpService:JSONDecode(
+                readfile(CUSTOM_KEYS_FILE)
+            )
+        end)
+
+        if success and result then
+            for key, value in pairs(result) do
+                ValidKeys[key] = value
+            end
+        end
+    end
+end
+
+LoadCustomKeys()
+
+--// =========================================================
+--// KEY CHECK
+--// =========================================================
+
+local function CheckValidKey(keyInput)
+
+    if not keyInput
+        or type(keyInput) ~= "string" then
+        return nil
+    end
+
+    if ValidKeys[keyInput] then
+        return ValidKeys[keyInput]
+    end
+
+    if string.match(
+        keyInput,
+        "^INF%-1D%-[A-Z0-9]+%-[A-Z0-9]+%-[A-Z0-9]+$"
+    ) then
+        return 86400
+    end
+
+    return nil
+end
+
+--// =========================================================
+--// UI HELPERS
+--// =========================================================
+
+local function Corner(object, radius)
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, radius)
+    c.Parent = object
+    return c
+end
+
+local function Stroke(object, thickness)
+    local s = Instance.new("UIStroke")
+    s.Thickness = thickness or 2
+    s.Parent = object
+    return s
+end
+
+local function CreateButton(parent, text, height)
+    local button = Instance.new("TextButton")
+    button.Parent = parent
+    button.Size = UDim2.new(1, 0, 0, height or 36)
+    button.Text = text
+    button.BackgroundColor3 =
+        Color3.fromRGB(28, 28, 40)
+    button.TextColor3 =
+        Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.GothamBold
+    button.TextSize = 13
+    button.AutoButtonColor = true
+
+    Corner(button, 8)
+
+    return button
+end
+
+--// =========================================================
+--// TOGGLE BUTTONS
+--// =========================================================
+
+local HDToggleButton = Instance.new("TextButton")
+HDToggleButton.Parent = ScreenGui
+HDToggleButton.Name = "HDToggleButton"
+HDToggleButton.Size = UDim2.new(0, 55, 0, 55)
+HDToggleButton.Position =
+    UDim2.new(0, 15, 0.5, -28)
+HDToggleButton.Text = "HD"
+HDToggleButton.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+HDToggleButton.Font = Enum.Font.GothamBold
+HDToggleButton.TextSize = 20
+HDToggleButton.BackgroundColor3 =
+    Color3.fromRGB(15, 18, 24)
+HDToggleButton.Visible = false
+
+Corner(HDToggleButton, 12)
+
+local HDStroke = Stroke(HDToggleButton, 2.5)
+
+local UserToggleButton = Instance.new("TextButton")
+UserToggleButton.Parent = ScreenGui
+UserToggleButton.Name = "UserToggleButton"
+UserToggleButton.Size = UDim2.new(0, 55, 0, 55)
+UserToggleButton.Position =
+    UDim2.new(0, 15, 0.5, -28)
+UserToggleButton.Text = "USER"
+UserToggleButton.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+UserToggleButton.Font = Enum.Font.GothamBold
+UserToggleButton.TextSize = 10
+UserToggleButton.BackgroundColor3 =
+    Color3.fromRGB(15, 18, 24)
+UserToggleButton.Visible = false
+
+Corner(UserToggleButton, 12)
+
+local UserStroke = Stroke(UserToggleButton, 2.5)
+
+--// =========================================================
+--// TIMER
+--// =========================================================
+
+local TimerFrame = Instance.new("Frame")
+TimerFrame.Parent = ScreenGui
+TimerFrame.Size = UDim2.new(0, 240, 0, 32)
+TimerFrame.Position =
+    UDim2.new(0.5, -120, 0, 10)
+TimerFrame.BackgroundColor3 =
+    Color3.fromRGB(18, 18, 24)
+TimerFrame.Visible = false
+
+Corner(TimerFrame, 8)
+
+local TimerStroke = Stroke(TimerFrame, 2)
+
+local TimerText = Instance.new("TextLabel")
+TimerText.Parent = TimerFrame
+TimerText.Size = UDim2.new(1, 0, 1, 0)
+TimerText.BackgroundTransparency = 1
+TimerText.Text = "Thời gian: --:--:--"
+TimerText.Font = Enum.Font.GothamBold
+TimerText.TextSize = 13
+
+--// =========================================================
+--// KEY FRAME
+--// =========================================================
+
+local KeyFrame = Instance.new("Frame")
+KeyFrame.Parent = ScreenGui
+KeyFrame.Name = "KeyFrame"
+KeyFrame.Size =
+    UDim2.new(0, 320, 0, 185)
+KeyFrame.Position =
+    UDim2.new(0.5, -160, 0.5, -92)
+KeyFrame.BackgroundColor3 =
+    Color3.fromRGB(18, 18, 24)
+KeyFrame.Active = true
+KeyFrame.Draggable = true
+
+Corner(KeyFrame, 12)
+
+local KeyStroke = Stroke(KeyFrame, 2)
+
+local Header = Instance.new("Frame")
+Header.Parent = KeyFrame
+Header.Size = UDim2.new(1, 0, 0, 36)
+Header.BackgroundColor3 =
+    Color3.fromRGB(24, 24, 32)
+
+local KeyTitle = Instance.new("TextLabel")
+KeyTitle.Parent = Header
+KeyTitle.Size =
+    UDim2.new(1, -45, 1, 0)
+KeyTitle.Position = UDim2.new(0, 12, 0, 0)
+KeyTitle.Text = "INFINITI KEY SYSTEM"
+KeyTitle.Font = Enum.Font.GothamBold
+KeyTitle.TextSize = 13
+KeyTitle.TextXAlignment =
+    Enum.TextXAlignment.Left
+KeyTitle.BackgroundTransparency = 1
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Parent = Header
+CloseBtn.Size = UDim2.new(0, 36, 1, 0)
+CloseBtn.Position = UDim2.new(1, -36, 0, 0)
+CloseBtn.Text = "✕"
+CloseBtn.TextColor3 =
+    Color3.fromRGB(180, 180, 190)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 14
+CloseBtn.BackgroundTransparency = 1
+
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+local Container = Instance.new("Frame")
+Container.Parent = KeyFrame
+Container.Size =
+    UDim2.new(1, -24, 1, -48)
+Container.Position = UDim2.new(0, 12, 0, 42)
+Container.BackgroundTransparency = 1
+
+local KeyInput = Instance.new("TextBox")
+KeyInput.Parent = Container
+KeyInput.Size = UDim2.new(1, 0, 0, 42)
+KeyInput.Position = UDim2.new(0, 0, 0, 8)
+KeyInput.PlaceholderText =
+    "Nhập Key của bạn..."
+KeyInput.Text = ""
+KeyInput.BackgroundColor3 =
+    Color3.fromRGB(28, 28, 38)
+KeyInput.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+KeyInput.Font = Enum.Font.Gotham
+KeyInput.TextSize = 13
+
+Corner(KeyInput, 8)
+
+local InputStroke = Stroke(KeyInput, 1.5)
+
+local ButtonContainer = Instance.new("Frame")
+ButtonContainer.Parent = Container
+ButtonContainer.Size =
+    UDim2.new(1, 0, 0, 40)
+ButtonContainer.Position =
+    UDim2.new(0, 0, 0, 60)
+ButtonContainer.BackgroundTransparency = 1
+
+local ButtonLayout = Instance.new("UIListLayout")
+ButtonLayout.Parent = ButtonContainer
+ButtonLayout.FillDirection =
+    Enum.FillDirection.Horizontal
+ButtonLayout.HorizontalAlignment =
+    Enum.HorizontalAlignment.Center
+ButtonLayout.Padding = UDim.new(0, 10)
+
+local GetKeyBtn = Instance.new("TextButton")
+GetKeyBtn.Parent = ButtonContainer
+GetKeyBtn.Size =
+    UDim2.new(0.5, -5, 1, 0)
+GetKeyBtn.Text = "Get Key"
+GetKeyBtn.BackgroundColor3 =
+    Color3.fromRGB(35, 35, 48)
+GetKeyBtn.TextColor3 =
+    Color3.fromRGB(220, 220, 235)
+GetKeyBtn.Font = Enum.Font.GothamBold
+GetKeyBtn.TextSize = 13
+
+Corner(GetKeyBtn, 8)
+
+local SubmitBtn = Instance.new("TextButton")
+SubmitBtn.Parent = ButtonContainer
+SubmitBtn.Size =
+    UDim2.new(0.5, -5, 1, 0)
+SubmitBtn.Text = "Check Key"
+SubmitBtn.BackgroundColor3 =
+    Color3.fromRGB(140, 80, 255)
+SubmitBtn.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+SubmitBtn.Font = Enum.Font.GothamBold
+SubmitBtn.TextSize = 13
+
+Corner(SubmitBtn, 8)
+
+GetKeyBtn.MouseButton1Click:Connect(function()
+
+    if setclipboard then
+        setclipboard(GETKEY_URL)
+
+        GetKeyBtn.Text = "Copied!"
+
+        task.wait(1.2)
+
+        GetKeyBtn.Text = "Get Key"
+    end
+
+end)
+
+--// =========================================================
+--// MAIN MENU
+--// =========================================================
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Parent = ScreenGui
+MainFrame.Size =
+    UDim2.new(0, 230, 0, 190)
+MainFrame.Position =
+    UDim2.new(0.5, -115, 0.5, -95)
+MainFrame.BackgroundColor3 =
+    Color3.fromRGB(18, 18, 24)
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Visible = false
+
+Corner(MainFrame, 12)
+
+local MainStroke = Stroke(MainFrame, 2)
+
+local MainHeader = Instance.new("Frame")
+MainHeader.Parent = MainFrame
+MainHeader.Size =
+    UDim2.new(1, 0, 0, 36)
+MainHeader.BackgroundColor3 =
+    Color3.fromRGB(24, 24, 32)
+
+local MainTitle = Instance.new("TextLabel")
+MainTitle.Parent = MainHeader
+MainTitle.Size =
+    UDim2.new(1, 0, 1, 0)
+MainTitle.Position =
+    UDim2.new(0, 12, 0, 0)
+MainTitle.Text = "INFINITI MAIN"
+MainTitle.TextXAlignment =
+    Enum.TextXAlignment.Left
+MainTitle.Font = Enum.Font.GothamBold
+MainTitle.TextSize = 13
+MainTitle.BackgroundTransparency = 1
+
+local MainContent = Instance.new("ScrollingFrame")
+MainContent.Parent = MainFrame
+MainContent.Size =
+    UDim2.new(1, -16, 1, -45)
+MainContent.Position =
+    UDim2.new(0, 8, 0, 42)
+MainContent.BackgroundTransparency = 1
+MainContent.ScrollBarThickness = 3
+MainContent.CanvasSize =
+    UDim2.new(0, 0, 0, 100)
+
+local MainLayout = Instance.new("UIListLayout")
+MainLayout.Parent = MainContent
+MainLayout.Padding = UDim.new(0, 8)
+
+local EnableBtn =
+    CreateButton(MainContent, "Open Hitbox", 34)
+
+local LogoutUserBtn =
+    CreateButton(MainContent, "Logout Key", 34)
+
+LogoutUserBtn.BackgroundColor3 =
+    Color3.fromRGB(200, 50, 50)
+
+--// =========================================================
+--// ADMIN PANEL
+--// =========================================================
+
+local AdminFrame = Instance.new("Frame")
+AdminFrame.Parent = ScreenGui
+AdminFrame.Size =
+    UDim2.new(0, 340, 0, 420)
+AdminFrame.Position =
+    UDim2.new(0.5, -170, 0.5, -210)
+AdminFrame.BackgroundColor3 =
+    Color3.fromRGB(15, 15, 22)
+AdminFrame.Active = true
+AdminFrame.Draggable = true
+AdminFrame.Visible = false
+
+Corner(AdminFrame, 16)
+
+local AdminStroke = Stroke(AdminFrame, 2)
+
+local AdminHeader = Instance.new("Frame")
+AdminHeader.Parent = AdminFrame
+AdminHeader.Size =
+    UDim2.new(1, 0, 0, 40)
+AdminHeader.BackgroundColor3 =
+    Color3.fromRGB(22, 22, 32)
+
+local AdminTitle = Instance.new("TextLabel")
+AdminTitle.Parent = AdminHeader
+AdminTitle.Size =
+    UDim2.new(1, -40, 1, 0)
+AdminTitle.Position =
+    UDim2.new(0, 14, 0, 0)
+AdminTitle.Text = "INFINITI ADMIN V.I.P"
+AdminTitle.Font = Enum.Font.GothamBold
+AdminTitle.TextSize = 14
+AdminTitle.TextXAlignment =
+    Enum.TextXAlignment.Left
+AdminTitle.BackgroundTransparency = 1
+
+local AdminCloseBtn = Instance.new("TextButton")
+AdminCloseBtn.Parent = AdminHeader
+AdminCloseBtn.Size = UDim2.new(0, 36, 1, 0)
+AdminCloseBtn.Position =
+    UDim2.new(1, -36, 0, 0)
+AdminCloseBtn.Text = "✕"
+AdminCloseBtn.BackgroundTransparency = 1
+AdminCloseBtn.TextColor3 =
+    Color3.fromRGB(180, 180, 190)
+AdminCloseBtn.Font = Enum.Font.GothamBold
+AdminCloseBtn.TextSize = 14
+
+AdminCloseBtn.MouseButton1Click:Connect(function()
+    AdminFrame.Visible = false
+end)
+
+local AdminContent = Instance.new("ScrollingFrame")
+AdminContent.Parent = AdminFrame
+AdminContent.Size =
+    UDim2.new(1, -16, 1, -50)
+AdminContent.Position =
+    UDim2.new(0, 8, 0, 45)
+AdminContent.BackgroundTransparency = 1
+AdminContent.ScrollBarThickness = 5
+AdminContent.CanvasSize =
+    UDim2.new(0, 0, 0, 500)
+
+local AdminList = Instance.new("UIListLayout")
+AdminList.Parent = AdminContent
+AdminList.Padding = UDim.new(0, 9)
+
+local AdminHitboxBtn =
+    CreateButton(AdminContent, "Open Hitbox", 36)
+
+local FlyBtn =
+    CreateButton(AdminContent, "Open Mobile Fly", 36)
+
+local GodModeBtn =
+    CreateButton(AdminContent, "God Mode: OFF", 36)
+
+local AutoObbyBtn =
+    CreateButton(AdminContent, "Auto Obby", 36)
+
+AutoObbyBtn.BackgroundColor3 =
+    Color3.fromRGB(0, 162, 232)
+
+local SpeedLabel = Instance.new("TextLabel")
+SpeedLabel.Parent = AdminContent
+SpeedLabel.Size =
+    UDim2.new(1, 0, 0, 18)
+SpeedLabel.Text = "WalkSpeed: 16"
+SpeedLabel.TextColor3 =
+    Color3.fromRGB(200, 200, 220)
+SpeedLabel.Font = Enum.Font.Gotham
+SpeedLabel.TextSize = 12
+SpeedLabel.BackgroundTransparency = 1
+
+local SpeedBox = Instance.new("TextBox")
+SpeedBox.Parent = AdminContent
+SpeedBox.Size =
+    UDim2.new(1, 0, 0, 36)
+SpeedBox.Text = "16"
+SpeedBox.PlaceholderText = "WalkSpeed 0 - 50"
+SpeedBox.BackgroundColor3 =
+    Color3.fromRGB(28, 28, 40)
+SpeedBox.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+SpeedBox.Font = Enum.Font.Gotham
+SpeedBox.TextSize = 13
+
+Corner(SpeedBox, 8)
+
+local LogoutAdminBtn =
+    CreateButton(AdminContent, "Logout Key", 36)
+
+LogoutAdminBtn.BackgroundColor3 =
+    Color3.fromRGB(200, 50, 50)
+
+--// =========================================================
+--// HITBOX UI
+--// =========================================================
+
+local HitboxUI = Instance.new("Frame")
+HitboxUI.Parent = ScreenGui
+HitboxUI.Name = "HitboxUI"
+HitboxUI.Size =
+    UDim2.new(0, 190, 0, 120)
+HitboxUI.Position =
+    UDim2.new(0.5, -95, 0.7, 0)
+HitboxUI.BackgroundColor3 =
+    Color3.fromRGB(18, 18, 24)
+HitboxUI.Active = true
+HitboxUI.Draggable = true
+HitboxUI.Visible = false
+
+Corner(HitboxUI, 10)
+
+local HitboxStroke = Stroke(HitboxUI, 2)
+
+local HitboxTitle = Instance.new("TextLabel")
+HitboxTitle.Parent = HitboxUI
+HitboxTitle.Size =
+    UDim2.new(1, 0, 0, 25)
+HitboxTitle.Text = "HITBOX"
+HitboxTitle.Font = Enum.Font.GothamBold
+HitboxTitle.TextSize = 12
+HitboxTitle.BackgroundTransparency = 1
+
+local HitboxToggleBtn =
+    CreateButton(HitboxUI, "Hitbox: OFF", 30)
+
+HitboxToggleBtn.Size =
+    UDim2.new(0.9, 0, 0, 30)
+HitboxToggleBtn.Position =
+    UDim2.new(0.05, 0, 0, 32)
+
+local HitboxSizeInput = Instance.new("TextBox")
+HitboxSizeInput.Parent = HitboxUI
+HitboxSizeInput.Size =
+    UDim2.new(0.9, 0, 0, 30)
+HitboxSizeInput.Position =
+    UDim2.new(0.05, 0, 0, 70)
+HitboxSizeInput.Text = "10"
+HitboxSizeInput.PlaceholderText =
+    "Size 1 - 50"
+HitboxSizeInput.BackgroundColor3 =
+    Color3.fromRGB(28, 28, 40)
+HitboxSizeInput.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+HitboxSizeInput.Font = Enum.Font.Gotham
+HitboxSizeInput.TextSize = 12
+
+Corner(HitboxSizeInput, 6)
+
+--// =========================================================
+--// MOBILE FLY UI
+--// =========================================================
+
+local FlyUI = Instance.new("Frame")
+FlyUI.Parent = ScreenGui
+FlyUI.Name = "MobileFly"
+FlyUI.Size =
+    UDim2.new(0, 280, 0, 260)
+FlyUI.Position =
+    UDim2.new(0.5, -140, 0.55, -130)
+FlyUI.BackgroundColor3 =
+    Color3.fromRGB(15, 15, 22)
+FlyUI.Active = true
+FlyUI.Draggable = true
+FlyUI.Visible = false
+
+Corner(FlyUI, 16)
+
+local FlyStroke = Stroke(FlyUI, 2)
+
+local FlyTitle = Instance.new("TextLabel")
+FlyTitle.Parent = FlyUI
+FlyTitle.Size =
+    UDim2.new(1, -50, 0, 38)
+FlyTitle.Position =
+    UDim2.new(0, 14, 0, 0)
+FlyTitle.Text = "MOBILE FLY"
+FlyTitle.Font = Enum.Font.GothamBold
+FlyTitle.TextSize = 14
+FlyTitle.TextXAlignment =
+    Enum.TextXAlignment.Left
+FlyTitle.BackgroundTransparency = 1
+
+local FlyClose = Instance.new("TextButton")
+FlyClose.Parent = FlyUI
+FlyClose.Size = UDim2.new(0, 38, 0, 38)
+FlyClose.Position =
+    UDim2.new(1, -42, 0, 0)
+FlyClose.Text = "✕"
+FlyClose.BackgroundTransparency = 1
+FlyClose.TextColor3 =
+    Color3.fromRGB(200, 200, 210)
+FlyClose.Font = Enum.Font.GothamBold
+FlyClose.TextSize = 14
+
+FlyClose.MouseButton1Click:Connect(function()
+    FlyUI.Visible = false
+end)
+
+local FlyToggle = Instance.new("TextButton")
+FlyToggle.Parent = FlyUI
+FlyToggle.Size =
+    UDim2.new(0, 90, 0, 34)
+FlyToggle.Position =
+    UDim2.new(0.5, -45, 0, 40)
+FlyToggle.Text = "FLY OFF"
+FlyToggle.BackgroundColor3 =
+    Color3.fromRGB(35, 35, 48)
+FlyToggle.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+FlyToggle.Font = Enum.Font.GothamBold
+FlyToggle.TextSize = 12
+
+Corner(FlyToggle, 8)
+
+--// =========================================================
+--// MOBILE FLY BUTTONS
+--// =========================================================
+
+local function FlyButton(text, position)
+    local button = Instance.new("TextButton")
+    button.Parent = FlyUI
+    button.Size = UDim2.new(0, 55, 0, 45)
+    button.Position = position
+    button.Text = text
+    button.BackgroundColor3 =
+        Color3.fromRGB(30, 30, 44)
+    button.TextColor3 =
+        Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.GothamBold
+    button.TextSize = 16
+    button.AutoButtonColor = true
+
+    Corner(button, 10)
+
+    return button
+end
+
+-- Hướng
+local UpButton =
+    FlyButton("▲", UDim2.new(0.5, -27, 0, 90))
+
+local LeftButton =
+    FlyButton("◀", UDim2.new(0.5, -88, 0, 140))
+
+local DownButton =
+    FlyButton("▼", UDim2.new(0.5, -27, 0, 140))
+
+local RightButton =
+    FlyButton("▶", UDim2.new(0.5, 34, 0, 140))
+
+-- Lên / xuống
+local RiseButton =
+    FlyButton("UP", UDim2.new(0.5, -88, 0, 195))
+
+local FallButton =
+    FlyButton("DOWN", UDim2.new(0.5, 34, 0, 195))
+
+--// =========================================================
+--// MOBILE INPUT STATE
+--// =========================================================
+
+local MobileInput = {
+    Forward = false,
+    Backward = false,
+    Left = false,
+    Right = false,
+    Up = false,
+    Down = false
+}
+
+local function BindHold(button, name)
+
+    button.InputBegan:Connect(function(input)
+
+        if input.UserInputType == Enum.UserInputType.Touch
+            or input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+            MobileInput[name] = true
+        end
+    end)
+
+    button.InputEnded:Connect(function(input)
+
+        if input.UserInputType == Enum.UserInputType.Touch
+            or input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+            MobileInput[name] = false
+        end
+    end)
+
+end
+
+BindHold(UpButton, "Forward")
+BindHold(LeftButton, "Left")
+BindHold(DownButton, "Backward")
+BindHold(RightButton, "Right")
+BindHold(RiseButton, "Up")
+BindHold(FallButton, "Down")
+
+--// =========================================================
+--// FLY SYSTEM
+--// =========================================================
+
+local FlyVelocity = nil
+local FlyGyro = nil
+
+local function StopFly()
+
+    FlyEnabled = false
+
+    -- Ngắt RenderStepped
+    if FlyConnection then
+        FlyConnection:Disconnect()
+        FlyConnection = nil
+    end
+
+    -- Xóa BodyVelocity
+    if FlyVelocity then
+        FlyVelocity:Destroy()
+        FlyVelocity = nil
+    end
+
+    -- Xóa BodyGyro
+    if FlyGyro then
+        FlyGyro:Destroy()
+        FlyGyro = nil
+    end
+
+    -- Reset toàn bộ nút
+    for name in pairs(MobileInput) do
+        MobileInput[name] = false
+    end
+
+    local character = LocalPlayer.Character
+
+    if character then
+
+        local humanoid =
+            character:FindFirstChildOfClass("Humanoid")
+
+        if humanoid then
+            humanoid.PlatformStand = false
+        end
+    end
+
+    FlyToggle.Text = "FLY OFF"
+
+    FlyToggle.BackgroundColor3 =
+        Color3.fromRGB(35, 35, 48)
+
+end
+
+local function StartFly()
+
+    local character =
+        LocalPlayer.Character
+
+    if not character then
+        return
+    end
+
+    local humanoid =
+        character:FindFirstChildOfClass("Humanoid")
+
+    local root =
+        character:FindFirstChild("HumanoidRootPart")
+
+    if not humanoid or not root then
+        return
+    end
+
+    -- Nếu đang Fly thì không tạo thêm
+    if FlyEnabled then
+        return
+    end
+
+    FlyEnabled = true
+
+    --// BodyVelocity
+    FlyVelocity = Instance.new("BodyVelocity")
+    FlyVelocity.Name = "InfinitiFlyVelocity"
+
+    FlyVelocity.MaxForce =
+        Vector3.new(
+            math.huge,
+            math.huge,
+            math.huge
+        )
+
+    FlyVelocity.P = 9000
+    FlyVelocity.Velocity =
+        Vector3.zero
+
+    FlyVelocity.Parent = root
+
+    --// BodyGyro
+    FlyGyro = Instance.new("BodyGyro")
+    FlyGyro.Name = "InfinitiFlyGyro"
+
+    FlyGyro.MaxTorque =
+        Vector3.new(
+            math.huge,
+            math.huge,
+            math.huge
+        )
+
+    FlyGyro.P = 9000
+    FlyGyro.D = 500
+    FlyGyro.CFrame =
+        root.CFrame
+
+    FlyGyro.Parent = root
+
+    humanoid.PlatformStand = true
+
+    FlyToggle.Text = "FLY ON"
+
+    FlyToggle.BackgroundColor3 =
+        Color3.fromRGB(46, 204, 113)
+
+    --// =====================================================
+    --// FLY LOOP
+    --// =====================================================
+
+    FlyConnection =
+        RunService.RenderStepped:Connect(function()
+
+            if not FlyEnabled then
+                return
+            end
+
+            if not character.Parent
+                or not root.Parent
+                or humanoid.Health <= 0 then
+
+                StopFly()
+                return
+            end
+
+            local camera =
+                workspace.CurrentCamera
+
+            if not camera then
+                return
+            end
+
+            local direction =
+                Vector3.zero
+
+            --// =============================================
+            --// MOBILE INPUT
+            --// =============================================
+
+            if MobileInput.Forward then
+                direction +=
+                    camera.CFrame.LookVector
+            end
+
+            if MobileInput.Backward then
+                direction -=
+                    camera.CFrame.LookVector
+            end
+
+            if MobileInput.Left then
+                direction -=
+                    camera.CFrame.RightVector
+            end
+
+            if MobileInput.Right then
+                direction +=
+                    camera.CFrame.RightVector
+            end
+
+            if MobileInput.Up then
+                direction +=
+                    Vector3.new(0, 1, 0)
+            end
+
+            if MobileInput.Down then
+                direction -=
+                    Vector3.new(0, 1, 0)
+            end
+
+            --// =============================================
+            --// PC INPUT
+            --// =============================================
+
+            if UserInputService:IsKeyDown(
+                Enum.KeyCode.W
+            ) then
+
+                direction +=
+                    camera.CFrame.LookVector
+            end
+
+            if UserInputService:IsKeyDown(
+                Enum.KeyCode.S
+            ) then
+
+                direction -=
+                    camera.CFrame.LookVector
+            end
+
+            if UserInputService:IsKeyDown(
+                Enum.KeyCode.A
+            ) then
+
+                direction -=
+                    camera.CFrame.RightVector
+            end
+
+            if UserInputService:IsKeyDown(
+                Enum.KeyCode.D
+            ) then
+
+                direction +=
+                    camera.CFrame.RightVector
+            end
+
+            if UserInputService:IsKeyDown(
+                Enum.KeyCode.Space
+            ) then
+
+                direction +=
+                    Vector3.new(0, 1, 0)
+            end
+
+            if UserInputService:IsKeyDown(
+                Enum.KeyCode.LeftControl
+            ) then
+
+                direction -=
+                    Vector3.new(0, 1, 0)
+            end
+
+            --// =============================================
+            --// APPLY VELOCITY
+            --// =============================================
+
+            if direction.Magnitude > 0 then
+
+                direction =
+                    direction.Unit
+
+                FlyVelocity.Velocity =
+                    direction * FlySpeed
+
+            else
+
+                FlyVelocity.Velocity =
+                    Vector3.zero
+            end
+
+            --// =============================================
+            --// XOAY NHÂN VẬT THEO CAMERA
+            --// =============================================
+
+            local look =
+                camera.CFrame.LookVector
+
+            local horizontalLook =
+                Vector3.new(
+                    look.X,
+                    0,
+                    look.Z
+                )
+
+            if horizontalLook.Magnitude > 0 then
+
+                horizontalLook =
+                    horizontalLook.Unit
+
+                FlyGyro.CFrame =
+                    CFrame.lookAt(
+                        root.Position,
+                        root.Position +
+                            horizontalLook
+                    )
+            end
+
+        end)
+end
+
+--// =========================================================
+--// FLY ON / OFF
+--// =========================================================
+
+FlyToggle.MouseButton1Click:Connect(function()
+
+    if FlyEnabled then
+        StopFly()
+    else
+        StartFly()
+    end
+
+end)
+
+--// =========================================================
+--// FLY SPEED
+--// =========================================================
+
+FlySpeedBox.FocusLost:Connect(function()
+
+    local value =
+        tonumber(FlySpeedBox.Text)
+
+    if value then
+
+        FlySpeed =
+            math.clamp(
+                value,
+                10,
+                300
+            )
+
+        FlySpeedBox.Text =
+            tostring(FlySpeed)
+
+    else
+
+        FlySpeedBox.Text =
+            tostring(FlySpeed)
+    end
+
+end)
+
+--// =========================================================
+--// OPEN / CLOSE FLY UI
+--// =========================================================
+
+FlyBtn.MouseButton1Click:Connect(function()
+
+    FlyUI.Visible =
+        not FlyUI.Visible
+
+end)
+
+FlyClose.MouseButton1Click:Connect(function()
+
+    FlyUI.Visible = false
+
+end)
+
+--// =========================================================
+--// HITBOX
+--// =========================================================
+
+HitboxToggleBtn.MouseButton1Click:Connect(function()
+
+    HitboxEnabled =
+        not HitboxEnabled
+
+    if HitboxEnabled then
+
+        HitboxToggleBtn.Text =
+            "Hitbox: ON"
+
+        HitboxToggleBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                46,
+                204,
+                113
+            )
+
+    else
+
+        HitboxToggleBtn.Text =
+            "Hitbox: OFF"
+
+        HitboxToggleBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                28,
+                28,
+                40
+            )
+    end
+
+end)
+
+HitboxSizeInput.FocusLost:Connect(function()
+
+    local value =
+        tonumber(
+            HitboxSizeInput.Text
+        )
+
+    if value then
+
+        HeadSize =
+            math.clamp(
+                value,
+                1,
+                50
+            )
+
+        HitboxSizeInput.Text =
+            tostring(HeadSize)
+    end
+
+end)
+
+--// =========================================================
+--// HITBOX LOOP
+--// =========================================================
+
+RunService.RenderStepped:Connect(function()
+
+    if not HitboxEnabled then
+        return
+    end
+
+    for _, player in ipairs(
+        Players:GetPlayers()
+    ) do
+
+        if player ~= LocalPlayer
+            and player.Character then
+
+            local root =
+                player.Character:
+                FindFirstChild(
+                    "HumanoidRootPart"
+                )
+
+            if root then
+
+                root.Size =
+                    Vector3.new(
+                        HeadSize,
+                        HeadSize,
+                        HeadSize
+                    )
+
+                root.Transparency = 0.7
+                root.CanCollide = false
+
+            end
+        end
+    end
+end)
+
+--// =========================================================
+--// GOD MODE
+--// =========================================================
+
+GodModeBtn.MouseButton1Click:Connect(function()
+
+    GodModeEnabled =
+        not GodModeEnabled
+
+    if GodConnection then
+
+        GodConnection:Disconnect()
+        GodConnection = nil
+
+    end
+
+    if GodModeEnabled then
+
+        GodModeBtn.Text =
+            "God Mode: ON"
+
+        GodModeBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                46,
+                204,
+                113
+            )
+
+        GodConnection =
+            RunService.Heartbeat:Connect(
+                function()
+
+                    local character =
+                        LocalPlayer.Character
+
+                    if not character then
+                        return
+                    end
+
+                    local humanoid =
+                        character:
+                        FindFirstChildOfClass(
+                            "Humanoid"
+                        )
+
+                    if humanoid then
+
+                        humanoid.Health =
+                            humanoid.MaxHealth
+                    end
+                end
+            )
+
+    else
+
+        GodModeBtn.Text =
+            "God Mode: OFF"
+
+        GodModeBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                28,
+                28,
+                40
+            )
+    end
+
+end)
+
+--// =========================================================
+--// WALK SPEED
+--// =========================================================
+
+SpeedBox.FocusLost:Connect(function()
+
+    local value =
+        tonumber(
+            SpeedBox.Text
+        )
+
+    if not value then
+        return
+    end
+
+    value =
+        math.clamp(
+            value,
+            0,
+            50
+        )
+
+    local character =
+        LocalPlayer.Character
+
+    if character then
+
+        local humanoid =
+            character:
+            FindFirstChildOfClass(
+                "Humanoid"
+            )
+
+        if humanoid then
+
+            humanoid.WalkSpeed =
+                value
+
+            SpeedLabel.Text =
+                "WalkSpeed: " ..
+                tostring(value)
+        end
+    end
+
+end)
+
+--// =========================================================
+--// AUTO OBBY
+--// =========================================================
+
+local function AutoWinObby()
+
+    local character =
+        LocalPlayer.Character
+
+    if not character then
+        return
+    end
+
+    local root =
+        character:
+        FindFirstChild(
+            "HumanoidRootPart"
+        )
+
+    if not root then
+        return
+    end
+
+    local checkpoints =
+        workspace:FindFirstChild(
+            "Checkpoints"
+        )
+        or workspace:FindFirstChild(
+            "Stages"
+        )
+        or workspace:FindFirstChild(
+            "Spawns"
+        )
+
+    if not checkpoints then
+        return
+    end
+
+    for _, object in ipairs(
+        checkpoints:GetChildren()
+    ) do
+
+        if object:IsA("BasePart") then
+
+            root.CFrame =
+                object.CFrame +
+                Vector3.new(
+                    0,
+                    3,
+                    0
+                )
+
+            task.wait(0.1)
+        end
+    end
+end
+
+AutoObbyBtn.MouseButton1Click:Connect(
+    AutoWinObby
+)
+
+--// =========================================================
+--// LOGOUT
+--// =========================================================
+
+local function Logout()
+
+    HitboxEnabled = false
+
+    StopFly()
+
+    GodModeEnabled = false
+
+    if GodConnection then
+        GodConnection:Disconnect()
+        GodConnection = nil
+    end
+
+    ClearKeyData()
+
+    if TimerThread then
+
+        task.cancel(
+            TimerThread
+        )
+
+        TimerThread = nil
+    end
+
+    HDToggleButton.Visible = false
+    UserToggleButton.Visible = false
+
+    TimerFrame.Visible = false
+
+    MainFrame.Visible = false
+    AdminFrame.Visible = false
+    HitboxUI.Visible = false
+    FlyUI.Visible = false
+
+    KeyFrame.Visible = true
+
+    KeyInput.Text = ""
+
+    KeyInput.PlaceholderText =
+        "Đã đăng xuất! Nhập Key..."
+
+end
+
+LogoutUserBtn.MouseButton1Click:Connect(
+    Logout
+)
+
+LogoutAdminBtn.MouseButton1Click:Connect(
+    Logout
+)
+
+--// =========================================================
+--// TIMER
+--// =========================================================
+
+local function FormatTime(seconds)
+
+    if seconds == math.huge then
+        return "Vĩnh Viễn"
+    end
+
+    seconds =
+        math.max(
+            0,
+            math.floor(seconds)
+        )
+
+    local days =
+        math.floor(
+            seconds / 86400
+        )
+
+    local hours =
+        math.floor(
+            (seconds % 86400) / 3600
+        )
+
+    local minutes =
+        math.floor(
+            (seconds % 3600) / 60
+        )
+
+    local secs =
+        seconds % 60
+
+    if days > 0 then
+
+        return string.format(
+            "%d Ngày %02d:%02d:%02d",
+            days,
+            hours,
+            minutes,
+            secs
+        )
+
+    end
+
+    return string.format(
+        "%02d:%02d:%02d",
+        hours,
+        minutes,
+        secs
+    )
+end
+
+local function StartTimer(
+    key,
+    startTime
+)
+
+    local duration =
+        ValidKeys[key]
+        or CheckValidKey(key)
+
+    if not duration then
+        return
+    end
+
+    TimerFrame.Visible = true
+
+    if TimerThread then
+
+        task.cancel(
+            TimerThread
+        )
+    end
+
+    TimerThread =
+        task.spawn(function()
+
+            while true do
+
+                if duration == math.huge then
+
+                    TimerText.Text =
+                        "Key: Vĩnh Viễn"
+
+                    break
+                end
+
+                local remaining =
+                    duration -
+                    (
+                        os.time()
+                        - startTime
+                    )
+
+                if remaining <= 0 then
+
+                    Logout()
+                    break
+                end
+
+                TimerText.Text =
+                    "Key: " ..
+                    FormatTime(
+                        remaining
+                    )
+
+                task.wait(1)
+
+            end
+        end)
+end
+
+--// =========================================================
+--// AUTHENTICATE
+--// =========================================================
+
+local function AuthenticateKey(
+    key,
+    startTime
+)
+
+    KeyFrame.Visible = false
+
+    if key == "INFI-ADMIN-9999" then
+
+        HDToggleButton.Visible = true
+        AdminFrame.Visible = true
+
+        CurrentActiveFrame =
+            AdminFrame
+
+    else
+
+        UserToggleButton.Visible = true
+        MainFrame.Visible = true
+
+        CurrentActiveFrame =
+            MainFrame
+    end
+
+    StartTimer(
+        key,
+        startTime
+    )
+end
+
+--// =========================================================
+--// LOAD SAVED KEY
+--// =========================================================
+
+local SavedData =
+    LoadKeyData()
+
+if SavedData
+    and SavedData.Key
+    and SavedData.StartTime then
+
+    local duration =
+        ValidKeys[SavedData.Key]
+        or CheckValidKey(
+            SavedData.Key
+        )
+
+    if duration then
+
+        local elapsed =
+            os.time()
+            - SavedData.StartTime
+
+        if duration == math.huge
+            or elapsed < duration then
+
+            ValidKeys[
+                SavedData.Key
+            ] = duration
+
+            AuthenticateKey(
+                SavedData.Key,
+                SavedData.StartTime
+            )
+
+        else
+
+            ClearKeyData()
+        end
+    end
+end
+
+--// =========================================================
+--// CHECK KEY
+--// =========================================================
+
+SubmitBtn.MouseButton1Click:Connect(function()
+
+    local inputKey =
+        KeyInput.Text
+
+    local duration =
+        CheckValidKey(
+            inputKey
+        )
+
+    if duration then
+
+        SubmitBtn.Text =
+            "Key Đúng!"
+
+        SubmitBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                46,
+                204,
+                113
+            )
+
+        task.wait(0.5)
+
+        local startTime =
+            os.time()
+
+        ValidKeys[inputKey] =
+            duration
+
+        SaveKeyData(
+            inputKey,
+            startTime
+        )
+
+        AuthenticateKey(
+            inputKey,
+            startTime
+        )
+
+        SubmitBtn.Text =
+            "Check Key"
+
+        SubmitBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                140,
+                80,
+                255
+            )
+
+    else
+
+        KeyInput.Text = ""
+
+        KeyInput.PlaceholderText =
+            "Sai Key! Thử lại..."
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                255,
+                70,
+                70
+            )
+
+        SubmitBtn.Text =
+            "Key Sai!"
+
+        task.wait(1.2)
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                45,
+                45,
+                60
+            )
+
+        SubmitBtn.Text =
+            "Check Key"
+    end
+end)
+
+--// =========================================================
+--// RAINBOW
+--// =========================================================
+
+RunService.RenderStepped:Connect(function()
+
+    local rainbow =
+        Color3.fromHSV(
+            (tick() % 5) / 5,
+            1,
+            1
+        )
+
+    --// Frame strokes
+    if TimerStroke then
+        TimerStroke.Color = rainbow
+    end
+
+    if KeyStroke then
+        KeyStroke.Color = rainbow
+    end
+
+    if MainStroke then
+        MainStroke.Color = rainbow
+    end
+
+    if AdminStroke then
+        AdminStroke.Color = rainbow
+    end
+
+    if HDStroke then
+        HDStroke.Color = rainbow
+    end
+
+    if UserStroke then
+        UserStroke.Color = rainbow
+    end
+
+    if HitboxStroke then
+        HitboxStroke.Color = rainbow
+    end
+
+    if FlyStroke then
+        FlyStroke.Color = rainbow
+    end
+
+    --// Text
+    if TimerText then
+        TimerText.TextColor3 = rainbow
+    end
+
+    if KeyTitle then
+        KeyTitle.TextColor3 = rainbow
+    end
+
+    if MainTitle then
+        MainTitle.TextColor3 = rainbow
+    end
+
+    if AdminTitle then
+        AdminTitle.TextColor3 = rainbow
+    end
+
+    if FlyTitle then
+        FlyTitle.TextColor3 = rainbow
+    end
+
+    if HitboxTitle then
+        HitboxTitle.TextColor3 = rainbow
+    end
+
+end)
+
+--// =========================================================
+--// CHARACTER RESPAWN
+--// =========================================================
+
+LocalPlayer.CharacterAdded:Connect(function(character)
+
+    --// Chờ nhân vật load
+    local humanoid =
+        character:WaitForChild(
+            "Humanoid",
+            5
+        )
+
+    local root =
+        character:WaitForChild(
+            "HumanoidRootPart",
+            5
+        )
+
+    --// Tắt Fly khi respawn
+    if FlyEnabled then
+        StopFly()
+    end
+
+    --// Reset toàn bộ mobile input
+    MobileInput.Forward = false
+    MobileInput.Backward = false
+    MobileInput.Left = false
+    MobileInput.Right = false
+    MobileInput.Up = false
+    MobileInput.Down = false
+
+    --// Reset God Mode
+    if GodConnection then
+        GodConnection:Disconnect()
+        GodConnection = nil
+    end
+
+    GodModeEnabled = false
+
+    if GodModeBtn then
+        GodModeBtn.Text =
+            "God Mode: OFF"
+
+        GodModeBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                28,
+                28,
+                40
+            )
+    end
+
+end)
+
+--// =========================================================
+--// KEY SYSTEM - AUTO LOAD
+--// =========================================================
+
+local SavedData = LoadKeyData()
+
+if SavedData
+    and SavedData.Key
+    and SavedData.StartTime then
+
+    local savedKey =
+        tostring(
+            SavedData.Key
+        )
+
+    local savedStart =
+        tonumber(
+            SavedData.StartTime
+        )
+
+    local duration =
+        ValidKeys[savedKey]
+        or CheckValidKey(
+            savedKey
+        )
+
+    if duration and savedStart then
+
+        local elapsed =
+            os.time() - savedStart
+
+        if duration == math.huge then
+
+            ValidKeys[savedKey] =
+                duration
+
+            AuthenticateKey(
+                savedKey,
+                savedStart
+            )
+
+        elseif elapsed < duration then
+
+            ValidKeys[savedKey] =
+                duration
+
+            AuthenticateKey(
+                savedKey,
+                savedStart
+            )
+
+        else
+
+            ClearKeyData()
+
+            KeyFrame.Visible = true
+
+        end
+
+    else
+
+        ClearKeyData()
+
+        KeyFrame.Visible = true
+    end
+end
+
+--// =========================================================
+--// CHECK KEY
+--// =========================================================
+
+SubmitBtn.MouseButton1Click:Connect(function()
+
+    local inputKey =
+        tostring(
+            KeyInput.Text
+        )
+
+    inputKey =
+        inputKey:gsub(
+            "^%s+",
+            ""
+        ):gsub(
+            "%s+$",
+            ""
+        )
+
+    if inputKey == "" then
+
+        KeyInput.PlaceholderText =
+            "Vui lòng nhập Key!"
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                255,
+                170,
+                0
+            )
+
+        return
+    end
+
+    local duration =
+        CheckValidKey(
+            inputKey
+        )
+
+    if duration then
+
+        --// Key đúng
+        SubmitBtn.Text =
+            "✓ KEY ĐÚNG"
+
+        SubmitBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                46,
+                204,
+                113
+            )
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                46,
+                204,
+                113
+            )
+
+        task.wait(0.5)
+
+        local startTime =
+            os.time()
+
+        ValidKeys[inputKey] =
+            duration
+
+        SaveKeyData(
+            inputKey,
+            startTime
+        )
+
+        AuthenticateKey(
+            inputKey,
+            startTime
+        )
+
+        task.wait(0.2)
+
+        SubmitBtn.Text =
+            "Check Key"
+
+        SubmitBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                140,
+                80,
+                255
+            )
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                45,
+                45,
+                60
+            )
+
+    else
+
+        --// Key sai
+        KeyInput.Text = ""
+
+        KeyInput.PlaceholderText =
+            "✕ Key không hợp lệ!"
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                255,
+                70,
+                70
+            )
+
+        SubmitBtn.Text =
+            "✕ KEY SAI"
+
+        SubmitBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                190,
+                55,
+                55
+            )
+
+        task.wait(1.3)
+
+        KeyInput.PlaceholderText =
+            "Nhập Key của bạn..."
+
+        InputStroke.Color =
+            Color3.fromRGB(
+                45,
+                45,
+                60
+            )
+
+        SubmitBtn.Text =
+            "Check Key"
+
+        SubmitBtn.BackgroundColor3 =
+            Color3.fromRGB(
+                140,
+                80,
+                255
+            )
+    end
+end)
+
+--// =========================================================
+--// TOGGLE MAIN MENU
+--// =========================================================
+
+HDToggleButton.MouseButton1Click:Connect(function()
+
+    if not CurrentActiveFrame then
+        return
+    end
+
+    CurrentActiveFrame.Visible =
+        not CurrentActiveFrame.Visible
+
+end)
+
+UserToggleButton.MouseButton1Click:Connect(function()
+
+    if not CurrentActiveFrame then
+        return
+    end
+
+    CurrentActiveFrame.Visible =
+        not CurrentActiveFrame.Visible
+
+end)
+
+--// =========================================================
+--// CLOSE / OPEN UI
+--// =========================================================
+
+AdminCloseBtn.MouseButton1Click:Connect(function()
+
+    AdminFrame.Visible = false
+
+end)
+
+FlyClose.MouseButton1Click:Connect(function()
+
+    FlyUI.Visible = false
+
+end)
+
+--// =========================================================
+--// CLEANUP
+--// =========================================================
+
+ScreenGui.Destroying:Connect(function()
+
+    --// Stop Fly
+    if FlyEnabled then
+        StopFly()
+    end
+
+    --// Stop God Mode
+    if GodConnection then
+
+        GodConnection:Disconnect()
+        GodConnection = nil
+
+    end
+
+    --// Stop Timer
+    if TimerThread then
+
+        task.cancel(
+            TimerThread
+        )
+
+        TimerThread = nil
+    end
+
+    --// Reset mobile input
+    for name in pairs(
+        MobileInput
+    ) do
+
+        MobileInput[name] = false
+
+    end
+
+end)
+
+--// =========================================================
+--// FINAL
+--// =========================================================
+
+print(
+    "========================================"
+)
+
+print(
+    "[INFINITI] SYSTEM LOADED"
+)
+
+print(
+    "[INFINITI] Mobile Fly: READY"
+)
+
+print(
+    "[INFINITI] Mobile Controls: READY"
+)
+
+print(
+    "[INFINITI] Key System: READY"
+)
+
+print(
+    "========================================"
+)
