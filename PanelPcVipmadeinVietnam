@@ -1,0 +1,953 @@
+--==================================================
+-- TÈO PANEL PC - COMPACT GLASS UI
+--==================================================
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+
+local Player = Players.LocalPlayer
+if not Player then return end
+
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+local OldGui = PlayerGui:FindFirstChild("GlassUI")
+if OldGui then
+    OldGui:Destroy()
+end
+
+--==================================================
+-- SCREEN GUI
+--==================================================
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "GlassUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.DisplayOrder = 999
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = PlayerGui
+
+--==================================================
+-- MAIN GLASS PANEL
+--==================================================
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.AnchorPoint = Vector2.new(0.5,0.5)
+MainFrame.Position = UDim2.new(0.5,0,0.5,0)
+
+-- Dùng scale để panel tự co theo màn hình
+MainFrame.Size = UDim2.new(0.92,0,0,315)
+
+MainFrame.BackgroundColor3 =
+    Color3.fromRGB(18,20,28)
+
+MainFrame.BackgroundTransparency = 0.28
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.ZIndex = 5
+MainFrame.Parent = ScreenGui
+
+-- Glass corner
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0,12)
+MainCorner.Parent = MainFrame
+
+-- Glass border
+local MainStroke = Instance.new("UIStroke")
+MainStroke.Thickness = 1.5
+MainStroke.Transparency = 0.15
+MainStroke.Parent = MainFrame
+
+--==================================================
+-- HEADER
+--==================================================
+
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1,0,0,44)
+Header.BackgroundColor3 =
+    Color3.fromRGB(255,255,255)
+
+Header.BackgroundTransparency = 0.92
+Header.BorderSizePixel = 0
+Header.ZIndex = 10
+Header.Parent = MainFrame
+
+local HeaderCorner = Instance.new("UICorner")
+HeaderCorner.CornerRadius = UDim.new(0,12)
+HeaderCorner.Parent = Header
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1,-60,1,0)
+Title.Position = UDim2.new(0,13,0,0)
+Title.BackgroundTransparency = 1
+Title.Text = "TÈO PANEL PC  🖥️💻"
+Title.TextColor3 =
+    Color3.fromRGB(120,210,255)
+Title.TextSize = 16
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.ZIndex = 11
+Title.Parent = Header
+
+--==================================================
+-- FOLD BUTTON
+--==================================================
+
+local FoldBtn = Instance.new("TextButton")
+FoldBtn.Size = UDim2.new(0,38,0,30)
+FoldBtn.Position = UDim2.new(1,-45,0,7)
+FoldBtn.BackgroundColor3 =
+    Color3.fromRGB(255,255,255)
+
+FoldBtn.BackgroundTransparency = 0.84
+FoldBtn.BorderSizePixel = 0
+FoldBtn.Text = "▲"
+FoldBtn.TextColor3 =
+    Color3.fromRGB(255,255,255)
+
+FoldBtn.TextSize = 14
+FoldBtn.Font = Enum.Font.GothamBold
+FoldBtn.ZIndex = 12
+FoldBtn.Parent = Header
+
+local FoldCorner = Instance.new("UICorner")
+FoldCorner.CornerRadius = UDim.new(0,7)
+FoldCorner.Parent = FoldBtn
+
+--==================================================
+-- CONTENT
+--==================================================
+
+local Content = Instance.new("Frame")
+Content.Position = UDim2.new(0,8,0,51)
+Content.Size = UDim2.new(1,-16,1,-59)
+Content.BackgroundTransparency = 1
+Content.ClipsDescendants = true
+Content.ZIndex = 6
+Content.Parent = MainFrame
+
+-- 2 CỘT
+local Grid = Instance.new("UIGridLayout")
+Grid.CellSize = UDim2.new(0.49,0,0,120)
+Grid.CellPadding = UDim2.new(0.02,0,0,7)
+Grid.HorizontalAlignment =
+    Enum.HorizontalAlignment.Center
+Grid.VerticalAlignment =
+    Enum.VerticalAlignment.Top
+Grid.SortOrder =
+    Enum.SortOrder.LayoutOrder
+Grid.Parent = Content
+
+--==================================================
+-- SECTION
+--==================================================
+
+local function createSection(titleText)
+
+    local Section = Instance.new("Frame")
+
+    Section.BackgroundColor3 =
+        Color3.fromRGB(255,255,255)
+
+    Section.BackgroundTransparency = 0.91
+    Section.BorderSizePixel = 0
+    Section.ClipsDescendants = true
+    Section.ZIndex = 7
+    Section.Parent = Content
+
+    local Stroke = Instance.new("UIStroke")
+    Stroke.Thickness = 1
+    Stroke.Transparency = 0.65
+    Stroke.Parent = Section
+
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0,8)
+    Corner.Parent = Section
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Size = UDim2.new(1,-12,0,26)
+    TitleLabel.Position = UDim2.new(0,6,0,3)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = titleText
+    TitleLabel.TextColor3 =
+        Color3.fromRGB(120,215,255)
+    TitleLabel.TextSize = 11
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.TextXAlignment =
+        Enum.TextXAlignment.Left
+    TitleLabel.ZIndex = 9
+    TitleLabel.Parent = Section
+
+    local Items = Instance.new("Frame")
+    Items.Position = UDim2.new(0,6,0,31)
+    Items.Size = UDim2.new(1,-12,1,-36)
+    Items.BackgroundTransparency = 1
+    Items.ClipsDescendants = true
+    Items.ZIndex = 8
+    Items.Parent = Section
+
+    local List = Instance.new("UIListLayout")
+    List.Padding = UDim.new(0,5)
+    List.HorizontalAlignment =
+        Enum.HorizontalAlignment.Center
+    List.SortOrder =
+        Enum.SortOrder.LayoutOrder
+    List.Parent = Items
+
+    return Section,Items
+end
+
+--==================================================
+-- BUTTON
+--==================================================
+
+local function createButton(parent,text)
+
+    local Button = Instance.new("TextButton")
+
+    Button.Size = UDim2.new(1,0,0,29)
+    Button.BackgroundColor3 =
+        Color3.fromRGB(255,255,255)
+
+    Button.BackgroundTransparency = 0.86
+    Button.BorderSizePixel = 0
+    Button.Text = text
+    Button.TextColor3 =
+        Color3.fromRGB(245,245,250)
+
+    Button.TextSize = 11
+    Button.Font = Enum.Font.GothamMedium
+    Button.ZIndex = 10
+    Button.Parent = parent
+
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0,5)
+    Corner.Parent = Button
+
+    local Stroke = Instance.new("UIStroke")
+    Stroke.Transparency = 0.8
+    Stroke.Parent = Button
+
+    return Button
+end
+
+--==================================================
+-- INPUT
+--==================================================
+
+local function createInput(parent,text)
+
+    local Input = Instance.new("TextBox")
+
+    Input.Size = UDim2.new(1,0,0,26)
+    Input.BackgroundColor3 =
+        Color3.fromRGB(255,255,255)
+
+    Input.BackgroundTransparency = 0.9
+    Input.BorderSizePixel = 0
+    Input.Text = text
+    Input.TextColor3 =
+        Color3.fromRGB(255,255,255)
+
+    Input.PlaceholderColor3 =
+        Color3.fromRGB(180,180,190)
+
+    Input.TextSize = 11
+    Input.Font = Enum.Font.GothamMedium
+    Input.ClearTextOnFocus = false
+    Input.ZIndex = 10
+    Input.Parent = parent
+
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0,5)
+    Corner.Parent = Input
+
+    return Input
+end
+
+--==================================================
+-- MOVEMENT
+--==================================================
+
+local MovementSection,MovementItems =
+    createSection("MOVEMENT")
+
+local tpWalkEnabled = false
+local tpWalkSpeed = 50
+
+local TpWalkBtn =
+    createButton(
+        MovementItems,
+        "TP Walk: OFF"
+    )
+
+local TpWalkInput =
+    createInput(
+        MovementItems,
+        "50"
+    )
+
+TpWalkInput.PlaceholderText =
+    "TP Walk Speed"
+
+TpWalkInput.FocusLost:Connect(function()
+
+    local n = tonumber(TpWalkInput.Text)
+
+    if n then
+        tpWalkSpeed =
+            math.clamp(n,0,500)
+
+        TpWalkInput.Text =
+            tostring(tpWalkSpeed)
+    else
+        TpWalkInput.Text =
+            tostring(tpWalkSpeed)
+    end
+
+end)
+
+TpWalkBtn.MouseButton1Click:Connect(function()
+
+    tpWalkEnabled =
+        not tpWalkEnabled
+
+    TpWalkBtn.Text =
+        tpWalkEnabled
+        and "TP Walk: ON"
+        or "TP Walk: OFF"
+
+end)
+
+RunService.RenderStepped:Connect(function()
+
+    if not tpWalkEnabled then return end
+
+    local Character =
+        Player.Character
+
+    if not Character then return end
+
+    local Root =
+        Character:FindFirstChild(
+            "HumanoidRootPart"
+        )
+
+    local Humanoid =
+        Character:FindFirstChildOfClass(
+            "Humanoid"
+        )
+
+    if Root
+        and Humanoid
+        and Humanoid.MoveDirection.Magnitude > 0 then
+
+        Root.CFrame =
+            Root.CFrame +
+            Humanoid.MoveDirection *
+            (tpWalkSpeed / 30)
+
+    end
+
+end)
+
+--==================================================
+-- SPIN
+--==================================================
+
+local SpinSection,SpinItems =
+    createSection("SPIN")
+
+local spinEnabled = false
+local spinSpeed = 50
+
+local SpinBtn =
+    createButton(
+        SpinItems,
+        "Spin: OFF"
+    )
+
+SpinBtn.MouseButton1Click:Connect(function()
+
+    spinEnabled =
+        not spinEnabled
+
+    SpinBtn.Text =
+        spinEnabled
+        and "Spin: ON"
+        or "Spin: OFF"
+
+end)
+
+RunService.Stepped:Connect(function()
+
+    if not spinEnabled then return end
+
+    local Character =
+        Player.Character
+
+    if not Character then return end
+
+    local Root =
+        Character:FindFirstChild(
+            "HumanoidRootPart"
+        )
+
+    if Root then
+
+        Root.CFrame =
+            Root.CFrame *
+            CFrame.Angles(
+                0,
+                math.rad(spinSpeed),
+                0
+            )
+
+    end
+
+end)
+
+--==================================================
+-- POSITION
+--==================================================
+
+local PositionSection,PositionItems =
+    createSection("POSITION")
+
+local SavedPosition = nil
+
+local SaveBtn =
+    createButton(
+        PositionItems,
+        "📍 Lưu vị trí"
+    )
+
+SaveBtn.MouseButton1Click:Connect(function()
+
+    local Character =
+        Player.Character
+
+    if not Character then return end
+
+    local Root =
+        Character:FindFirstChild(
+            "HumanoidRootPart"
+        )
+
+    if not Root then return end
+
+    SavedPosition =
+        Root.CFrame
+
+    SaveBtn.Text =
+        "✓ Đã lưu vị trí"
+
+    task.delay(1.2,function()
+
+        if SaveBtn.Parent then
+            SaveBtn.Text =
+                "📍 Lưu vị trí"
+        end
+
+    end)
+
+end)
+
+local Flying = false
+local FlySpeed = 1000
+
+local FlyBtn =
+    createButton(
+        PositionItems,
+        "🚀 Bay về vị trí: OFF"
+    )
+
+local FlyInput =
+    createInput(
+        PositionItems,
+        "1000"
+    )
+
+FlyInput.PlaceholderText =
+    "Fly Speed"
+
+FlyInput.FocusLost:Connect(function()
+
+    local n =
+        tonumber(FlyInput.Text)
+
+    if n then
+
+        FlySpeed =
+            math.clamp(n,50,5000)
+
+        FlyInput.Text =
+            tostring(FlySpeed)
+
+    else
+
+        FlyInput.Text =
+            tostring(FlySpeed)
+
+    end
+
+end)
+
+FlyBtn.MouseButton1Click:Connect(function()
+
+    if Flying then
+
+        Flying = false
+
+        FlyBtn.Text =
+            "🚀 Bay về vị trí: OFF"
+
+        return
+    end
+
+    if not SavedPosition then
+
+        FlyBtn.Text =
+            "❌ Chưa lưu vị trí"
+
+        task.delay(1,function()
+
+            if FlyBtn.Parent then
+                FlyBtn.Text =
+                    "🚀 Bay về vị trí: OFF"
+            end
+
+        end)
+
+        return
+    end
+
+    local Character =
+        Player.Character
+
+    if not Character then return end
+
+    local Root =
+        Character:FindFirstChild(
+            "HumanoidRootPart"
+        )
+
+    if not Root then return end
+
+    Flying = true
+
+    FlyBtn.Text =
+        "🚀 Đang bay..."
+
+    task.spawn(function()
+
+        while
+            Flying
+            and Root.Parent
+            and SavedPosition
+        do
+
+            local Target =
+                SavedPosition.Position
+
+            local Current =
+                Root.Position
+
+            local Direction =
+                Target - Current
+
+            local Distance =
+                Direction.Magnitude
+
+            if Distance <= 3 then
+
+                Root.CFrame =
+                    SavedPosition
+
+                Flying = false
+
+                FlyBtn.Text =
+                    "🚀 Bay về vị trí: OFF"
+
+                break
+            end
+
+            local dt =
+                RunService.Heartbeat:Wait()
+
+            local MoveDistance =
+                math.min(
+                    FlySpeed * dt,
+                    Distance
+                )
+
+            local NewPosition =
+                Current +
+                Direction.Unit *
+                MoveDistance
+
+            Root.CFrame =
+                CFrame.new(
+                    NewPosition
+                ) *
+                SavedPosition.Rotation
+
+        end
+
+    end)
+
+end)
+
+--==================================================
+-- UTILITY
+--==================================================
+
+local UtilitySection,UtilityItems =
+    createSection("UTILITY")
+
+local instantLootEnabled = false
+local originalHoldDurations = {}
+
+local InstantBtn =
+    createButton(
+        UtilityItems,
+        "Instant Loot: OFF"
+    )
+
+local function MakePromptInstant(Prompt)
+
+    if not Prompt:IsA(
+        "ProximityPrompt"
+    ) then
+        return
+    end
+
+    if originalHoldDurations[Prompt]
+        == nil then
+
+        originalHoldDurations[Prompt] =
+            Prompt.HoldDuration
+
+    end
+
+    Prompt.HoldDuration = 0
+
+end
+
+InstantBtn.MouseButton1Click:Connect(function()
+
+    instantLootEnabled =
+        not instantLootEnabled
+
+    if instantLootEnabled then
+
+        InstantBtn.Text =
+            "Instant Loot: ON"
+
+        for _,Object in ipairs(
+            workspace:GetDescendants()
+        ) do
+
+            MakePromptInstant(Object)
+
+        end
+
+    else
+
+        InstantBtn.Text =
+            "Instant Loot: OFF"
+
+        for Prompt,Duration in pairs(
+            originalHoldDurations
+        ) do
+
+            if Prompt
+                and Prompt.Parent then
+
+                Prompt.HoldDuration =
+                    Duration
+
+            end
+
+        end
+
+        table.clear(
+            originalHoldDurations
+        )
+
+    end
+
+end)
+
+ProximityPromptService.PromptShown:Connect(
+    function(Prompt)
+
+        if instantLootEnabled then
+            MakePromptInstant(Prompt)
+        end
+
+    end
+)
+
+--==================================================
+-- SERVER HOP
+--==================================================
+
+local ServerHopBtn =
+    createButton(
+        UtilityItems,
+        "🌐 Server Hop"
+    )
+
+ServerHopBtn.MouseButton1Click:Connect(function()
+
+    ServerHopBtn.Text =
+        "Đang tìm server..."
+
+    local Success = pcall(function()
+
+        local URL =
+            "https://games.roblox.com/v1/games/"
+            .. game.PlaceId
+            .. "/servers/Public?sortOrder=Asc&limit=100"
+
+        local Response =
+            HttpService:JSONDecode(
+                game:HttpGet(URL)
+            )
+
+        local Servers = {}
+
+        for _,Server in ipairs(
+            Response.data
+        ) do
+
+            if
+                Server.playing <
+                Server.maxPlayers
+                and Server.id ~= game.JobId
+            then
+
+                table.insert(
+                    Servers,
+                    Server.id
+                )
+
+            end
+
+        end
+
+        if #Servers > 0 then
+
+            TeleportService:
+                TeleportToPlaceInstance(
+                    game.PlaceId,
+                    Servers[
+                        math.random(
+                            1,
+                            #Servers
+                        )
+                    ],
+                    Player
+                )
+
+        else
+
+            ServerHopBtn.Text =
+                "Không có server"
+
+        end
+
+    end)
+
+    if not Success then
+
+        ServerHopBtn.Text =
+            "Server Hop Error"
+
+    end
+
+end)
+
+--==================================================
+-- FOLD
+--==================================================
+
+local folded = false
+
+FoldBtn.MouseButton1Click:Connect(function()
+
+    folded =
+        not folded
+
+    if folded then
+
+        Content.Visible = false
+
+        MainFrame.Size =
+            UDim2.new(
+                0.92,
+                0,
+                0,
+                44
+            )
+
+        FoldBtn.Text = "▼"
+
+    else
+
+        Content.Visible = true
+
+        MainFrame.Size =
+            UDim2.new(
+                0.92,
+                0,
+                0,
+                315
+            )
+
+        FoldBtn.Text = "▲"
+
+    end
+
+end)
+
+--==================================================
+-- TOGGLE IMAGE
+--==================================================
+
+local ToggleButton =
+    Instance.new("ImageButton")
+
+ToggleButton.Name =
+    "ToggleUIBtn"
+
+ToggleButton.Size =
+    UDim2.new(0,58,0,58)
+
+ToggleButton.Position =
+    UDim2.new(0,15,0.5,-29)
+
+ToggleButton.BackgroundTransparency = 1
+ToggleButton.BorderSizePixel = 0
+
+ToggleButton.Image =
+    "rbxassetid://135981102784363"
+
+ToggleButton.ScaleType =
+    Enum.ScaleType.Fit
+
+ToggleButton.Active = true
+ToggleButton.Draggable = true
+ToggleButton.ZIndex = 20
+ToggleButton.Parent = ScreenGui
+
+local isOpen = true
+
+ToggleButton.MouseButton1Click:Connect(function()
+
+    isOpen =
+        not isOpen
+
+    MainFrame.Visible =
+        isOpen
+
+end)
+
+--==================================================
+-- CREDIT
+--==================================================
+
+local Credit =
+    Instance.new("TextLabel")
+
+Credit.Name = "Credit"
+
+Credit.AnchorPoint =
+    Vector2.new(0,1)
+
+Credit.Position =
+    UDim2.new(0,10,1,-8)
+
+Credit.Size =
+    UDim2.new(0,300,0,35)
+
+Credit.BackgroundTransparency = 1
+
+Credit.Text =
+    "🖥️ Panel pc by teonamcoi"
+
+Credit.TextColor3 =
+    Color3.fromRGB(
+        180,
+        220,
+        255
+    )
+
+Credit.TextSize = 17
+Credit.Font =
+    Enum.Font.GothamBold
+
+Credit.TextXAlignment =
+    Enum.TextXAlignment.Left
+
+Credit.ZIndex = 30
+Credit.Parent = ScreenGui
+
+--==================================================
+-- GLASS / RGB EFFECT
+--==================================================
+
+RunService.RenderStepped:Connect(function()
+
+    local Time =
+        tick()
+
+    local Hue =
+        (Time % 6) / 6
+
+    MainStroke.Color =
+        Color3.fromHSV(
+            Hue,
+            0.55,
+            1
+        )
+
+    local Pulse =
+        (math.sin(
+            Time * 4
+        ) + 1) / 2
+
+    Title.TextColor3 =
+        Color3.fromRGB(
+            100,
+            180 +
+                math.floor(
+                    Pulse * 55
+                ),
+            255
+        )
+
+    Credit.TextColor3 =
+        Color3.fromHSV(
+            Hue,
+            0.45,
+            1
+        )
+
+end)
+
+--==================================================
+-- DONE
+--==================================================
+
+print("==============================")
+print("TÈO PANEL PC")
+print("COMPACT GLASS UI")
+print("BY TEONAMCOI")
+print("==============================")
