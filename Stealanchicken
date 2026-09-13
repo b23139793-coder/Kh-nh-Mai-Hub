@@ -1,0 +1,702 @@
+--========================================
+-- TÈO PANEL PC
+-- FIX UI
+-- MADE IN VIETNAM 🇻🇳
+--========================================
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+
+local Player = Players.LocalPlayer
+if not Player then return end
+
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+-- XÓA BẢN CŨ
+pcall(function()
+    local old = PlayerGui:FindFirstChild("TEO_PANEL_PC")
+    if old then old:Destroy() end
+end)
+
+--========================================
+-- GUI
+--========================================
+
+local Gui = Instance.new("ScreenGui")
+Gui.Name = "TEO_PANEL_PC"
+Gui.ResetOnSpawn = false
+Gui.IgnoreGuiInset = true
+Gui.DisplayOrder = 999999
+Gui.Parent = PlayerGui
+
+-- NÚT MỞ
+local Toggle = Instance.new("ImageButton")
+Toggle.Name = "Toggle"
+Toggle.Size = UDim2.fromOffset(60,60)
+Toggle.Position = UDim2.new(0,15,0.5,-30)
+Toggle.BackgroundColor3 = Color3.fromRGB(20,20,28)
+Toggle.BackgroundTransparency = 0.05
+Toggle.BorderSizePixel = 0
+Toggle.Image = "rbxassetid://135981102784363"
+Toggle.ZIndex = 100
+Toggle.Parent = Gui
+
+local TC = Instance.new("UICorner")
+TC.CornerRadius = UDim.new(1,0)
+TC.Parent = Toggle
+
+local TS = Instance.new("UIStroke")
+TS.Thickness = 2
+TS.Parent = Toggle
+
+--========================================
+-- PANEL
+--========================================
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.Size = UDim2.fromOffset(320,420)
+Main.Position = UDim2.new(0.5,-160,0.5,-210)
+Main.BackgroundColor3 = Color3.fromRGB(18,22,32)
+Main.BackgroundTransparency = 0.05
+Main.BorderSizePixel = 0
+Main.Active = true
+Main.Draggable = true
+Main.Visible = true
+Main.ZIndex = 10
+Main.Parent = Gui
+
+local MC = Instance.new("UICorner")
+MC.CornerRadius = UDim.new(0,20)
+MC.Parent = Main
+
+local MS = Instance.new("UIStroke")
+MS.Thickness = 2
+MS.Parent = Main
+
+--========================================
+-- TITLE
+--========================================
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1,-20,0,45)
+Title.Position = UDim2.fromOffset(10,8)
+Title.BackgroundTransparency = 1
+Title.Text = "TÈO PANEL PC 🖥️💻"
+Title.TextColor3 = Color3.new(1,1,1)
+Title.TextSize = 17
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.ZIndex = 20
+Title.Parent = Main
+
+local Made = Instance.new("TextLabel")
+Made.Size = UDim2.new(1,-20,0,22)
+Made.Position = UDim2.fromOffset(10,48)
+Made.BackgroundTransparency = 1
+Made.Text = "🇻🇳 MADE IN VIETNAM"
+Made.TextColor3 = Color3.new(1,1,1)
+Made.TextSize = 11
+Made.Font = Enum.Font.GothamBold
+Made.TextXAlignment = Enum.TextXAlignment.Left
+Made.ZIndex = 20
+Made.Parent = Main
+
+--========================================
+-- TAB
+--========================================
+
+local TabNames = {"MAIN","SPEED","SPIN","POS","UTIL"}
+local Tabs = {}
+
+for i,name in ipairs(TabNames) do
+
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.fromOffset(55,32)
+    b.Position = UDim2.fromOffset(8 + (i-1)*61,75)
+    b.BackgroundColor3 = Color3.fromRGB(255,255,255)
+    b.BackgroundTransparency = 0.85
+    b.BorderSizePixel = 0
+    b.Text = name
+    b.TextColor3 = Color3.new(1,1,1)
+    b.TextSize = 8
+    b.Font = Enum.Font.GothamBold
+    b.AutoButtonColor = false
+    b.ZIndex = 20
+    b.Parent = Main
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0,9)
+    c.Parent = b
+
+    Tabs[name] = b
+end
+
+--========================================
+-- PAGE
+--========================================
+
+local Content = Instance.new("Frame")
+Content.Size = UDim2.new(1,-20,0,290)
+Content.Position = UDim2.fromOffset(10,115)
+Content.BackgroundTransparency = 1
+Content.ZIndex = 15
+Content.Parent = Main
+
+local Pages = {}
+
+local function Page(name)
+
+    local p = Instance.new("Frame")
+    p.Name = name
+    p.Size = UDim2.fromScale(1,1)
+    p.BackgroundColor3 = Color3.fromRGB(255,255,255)
+    p.BackgroundTransparency = 0.92
+    p.BorderSizePixel = 0
+    p.Visible = false
+    p.ZIndex = 16
+    p.Parent = Content
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0,15)
+    c.Parent = p
+
+    Pages[name] = p
+    return p
+end
+
+local function Button(parent,text,y)
+
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(1,-20,0,44)
+    b.Position = UDim2.fromOffset(10,y)
+    b.BackgroundColor3 = Color3.fromRGB(255,255,255)
+    b.BackgroundTransparency = 0.82
+    b.BorderSizePixel = 0
+    b.Text = text
+    b.TextColor3 = Color3.new(1,1,1)
+    b.TextSize = 11
+    b.Font = Enum.Font.GothamBold
+    b.AutoButtonColor = false
+    b.ZIndex = 25
+    b.Parent = parent
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0,12)
+    c.Parent = b
+
+    return b
+end
+
+local function Input(parent,text,placeholder,y)
+
+    local b = Instance.new("TextBox")
+    b.Size = UDim2.new(1,-20,0,40)
+    b.Position = UDim2.fromOffset(10,y)
+    b.BackgroundColor3 = Color3.fromRGB(255,255,255)
+    b.BackgroundTransparency = 0.86
+    b.BorderSizePixel = 0
+    b.Text = text
+    b.PlaceholderText = placeholder
+    b.TextColor3 = Color3.new(1,1,1)
+    b.TextSize = 11
+    b.Font = Enum.Font.Gotham
+    b.ClearTextOnFocus = false
+    b.ZIndex = 25
+    b.Parent = parent
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0,12)
+    c.Parent = b
+
+    return b
+end
+
+--========================================
+-- MAIN PAGE
+--========================================
+
+local MainPage = Page("MAIN")
+
+local Info = Instance.new("TextLabel")
+Info.Size = UDim2.new(1,-20,1,-20)
+Info.Position = UDim2.fromOffset(10,10)
+Info.BackgroundTransparency = 1
+Info.Text = "🇻🇳\n\nMADE IN VIETNAM\n\nTÈO PANEL PC 🖥️💻\n\nGLASS EDITION\n\nMade by teonamcoi"
+Info.TextColor3 = Color3.fromRGB(160,225,255)
+Info.TextSize = 17
+Info.Font = Enum.Font.GothamBold
+Info.TextXAlignment = Enum.TextXAlignment.Center
+Info.TextYAlignment = Enum.TextYAlignment.Center
+Info.ZIndex = 25
+Info.Parent = MainPage
+
+--========================================
+-- SPEED
+--========================================
+
+local SpeedPage = Page("SPEED")
+
+local TP = false
+local TPSpeed = 16
+
+local TPBtn = Button(SpeedPage,"⚡ TP WALK: OFF",20)
+local TPBox = Input(SpeedPage,"16","Speed 1 - 500",75)
+
+TPBox.FocusLost:Connect(function()
+    local n = tonumber(TPBox.Text)
+    if n then TPSpeed = math.clamp(n,1,500) end
+    TPBox.Text = tostring(TPSpeed)
+end)
+
+TPBtn.MouseButton1Click:Connect(function()
+
+    TP = not TP
+
+    if TP then
+        TPBtn.Text = "⚡ TP WALK: ON"
+        TPBtn.BackgroundTransparency = 0.60
+    else
+        TPBtn.Text = "⚡ TP WALK: OFF"
+        TPBtn.BackgroundTransparency = 0.82
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+
+    if not TP then return end
+
+    local char = Player.Character
+    if not char then return end
+
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    local root = char:FindFirstChild("HumanoidRootPart")
+
+    if hum and root then
+
+        local dir = hum.MoveDirection
+
+        if dir.Magnitude > 0 then
+            root.CFrame =
+                root.CFrame +
+                dir * (TPSpeed / 30)
+        end
+    end
+end)
+
+--========================================
+-- SPIN
+--========================================
+
+local SpinPage = Page("SPIN")
+
+local Spin = false
+local SpinSpeed = 50
+
+local SpinBtn = Button(SpinPage,"🌀 SPIN: OFF",20)
+local SpinBox = Input(SpinPage,"50","Spin Speed 1 - 500",75)
+
+SpinBox.FocusLost:Connect(function()
+
+    local n = tonumber(SpinBox.Text)
+
+    if n then
+        SpinSpeed = math.clamp(n,1,500)
+    end
+
+    SpinBox.Text = tostring(SpinSpeed)
+end)
+
+SpinBtn.MouseButton1Click:Connect(function()
+
+    Spin = not Spin
+
+    if Spin then
+        SpinBtn.Text = "🌀 SPIN: ON"
+        SpinBtn.BackgroundTransparency = 0.60
+    else
+        SpinBtn.Text = "🌀 SPIN: OFF"
+        SpinBtn.BackgroundTransparency = 0.82
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+
+    if not Spin then return end
+
+    local char = Player.Character
+    if not char then return end
+
+    local root = char:FindFirstChild("HumanoidRootPart")
+
+    if root then
+        root.CFrame =
+            root.CFrame *
+            CFrame.Angles(0,math.rad(SpinSpeed),0)
+    end
+end)
+
+--========================================
+-- POS
+--========================================
+
+local PosPage = Page("POS")
+
+local Saved = nil
+local Flying = false
+local FlySpeed = 500
+
+local SaveBtn = Button(PosPage,"📍 LƯU VỊ TRÍ",20)
+local FlyBtn = Button(PosPage,"🚀 BAY TỚI VỊ TRÍ: OFF",75)
+local FlyBox = Input(PosPage,"500","Fly Speed 50 - 5000",130)
+
+SaveBtn.MouseButton1Click:Connect(function()
+
+    local char = Player.Character
+    if not char then return end
+
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+
+    Saved = root.CFrame
+    SaveBtn.Text = "✅ ĐÃ LƯU"
+
+    task.delay(1.5,function()
+        if SaveBtn.Parent then
+            SaveBtn.Text = "📍 LƯU VỊ TRÍ"
+        end
+    end)
+end)
+
+FlyBox.FocusLost:Connect(function()
+
+    local n = tonumber(FlyBox.Text)
+
+    if n then
+        FlySpeed = math.clamp(n,50,5000)
+    end
+
+    FlyBox.Text = tostring(FlySpeed)
+end)
+
+local function MoveTo(root,target)
+
+    while Flying and root.Parent do
+
+        local current = root.Position
+        local delta = target-current
+        local distance = delta.Magnitude
+
+        if distance <= 3 then
+            root.CFrame = CFrame.new(target)
+            return true
+        end
+
+        local dt = RunService.Heartbeat:Wait()
+        local step = math.min(FlySpeed*dt,distance)
+
+        root.CFrame =
+            CFrame.new(current + delta.Unit*step)
+    end
+
+    return false
+end
+
+FlyBtn.MouseButton1Click:Connect(function()
+
+    if Flying then
+        Flying = false
+        FlyBtn.Text = "🚀 BAY TỚI VỊ TRÍ: OFF"
+        return
+    end
+
+    if not Saved then
+        FlyBtn.Text = "❌ CHƯA LƯU"
+        task.delay(1,function()
+            if FlyBtn.Parent then
+                FlyBtn.Text = "🚀 BAY TỚI VỊ TRÍ: OFF"
+            end
+        end)
+        return
+    end
+
+    local char = Player.Character
+    if not char then return end
+
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+
+    Flying = true
+    FlyBtn.Text = "🚀 ĐANG BAY..."
+
+    task.spawn(function()
+
+        local start = root.Position
+        local target = Saved.Position
+
+        local highY =
+            math.max(start.Y,target.Y) + 100
+
+        -- LÊN CAO
+        if not MoveTo(
+            root,
+            Vector3.new(start.X,highY,start.Z)
+        ) then return end
+
+        -- BAY NGANG
+        if not MoveTo(
+            root,
+            Vector3.new(target.X,highY,target.Z)
+        ) then return end
+
+        -- HẠ XUỐNG
+        MoveTo(root,target)
+
+        if Flying then
+            root.CFrame = Saved
+        end
+
+        Flying = false
+
+        if FlyBtn.Parent then
+            FlyBtn.Text = "🚀 BAY TỚI VỊ TRÍ: OFF"
+        end
+    end)
+end)
+
+--========================================
+-- UTIL
+--========================================
+
+local UtilPage = Page("UTIL")
+
+local Instant = false
+local Original = {}
+
+local LootBtn =
+    Button(UtilPage,"⚡ INSTANT LOOT: OFF",20)
+
+local ServerBtn =
+    Button(UtilPage,"🌐 SERVER HOP",75)
+
+local ServerText = Instance.new("TextLabel")
+ServerText.Size = UDim2.new(1,-20,0,50)
+ServerText.Position = UDim2.fromOffset(10,135)
+ServerText.BackgroundTransparency = 1
+ServerText.Text = ""
+ServerText.TextColor3 = Color3.fromRGB(150,225,255)
+ServerText.TextSize = 13
+ServerText.Font = Enum.Font.GothamBold
+ServerText.TextXAlignment = Enum.TextXAlignment.Center
+ServerText.ZIndex = 25
+ServerText.Parent = UtilPage
+
+--========================================
+-- INSTANT LOOT
+--========================================
+
+local function InstantPrompt(prompt)
+
+    if not prompt:IsA("ProximityPrompt") then return end
+
+    if Original[prompt] == nil then
+        Original[prompt] = prompt.HoldDuration
+    end
+
+    prompt.HoldDuration = 0
+end
+
+LootBtn.MouseButton1Click:Connect(function()
+
+    Instant = not Instant
+
+    if Instant then
+
+        LootBtn.Text = "⚡ INSTANT LOOT: ON"
+        LootBtn.BackgroundTransparency = 0.60
+
+        for _,v in ipairs(workspace:GetDescendants()) do
+            if v:IsA("ProximityPrompt") then
+                InstantPrompt(v)
+            end
+        end
+
+    else
+
+        LootBtn.Text = "⚡ INSTANT LOOT: OFF"
+        LootBtn.BackgroundTransparency = 0.82
+
+        for prompt,value in pairs(Original) do
+
+            if prompt and prompt.Parent then
+                prompt.HoldDuration = value
+            end
+
+        end
+
+        table.clear(Original)
+    end
+end)
+
+ProximityPromptService.PromptShown:Connect(function(prompt)
+
+    if Instant then
+        InstantPrompt(prompt)
+    end
+end)
+
+--========================================
+-- SERVER HOP
+--========================================
+
+local Hopping = false
+
+ServerBtn.MouseButton1Click:Connect(function()
+
+    if Hopping then return end
+
+    Hopping = true
+    ServerBtn.Text = "🔎 ĐANG TÌM SERVER..."
+
+    task.spawn(function()
+
+        local ok,err = pcall(function()
+
+            local url =
+                "https://games.roblox.com/v1/games/"
+                .. game.PlaceId
+                .. "/servers/Public?sortOrder=Asc&limit=100"
+
+            local raw = game:HttpGet(url)
+            local data = HttpService:JSONDecode(raw)
+
+            local list = {}
+
+            for _,server in ipairs(data.data or {}) do
+
+                if server.id ~= game.JobId
+                and server.playing < server.maxPlayers then
+
+                    table.insert(list,server)
+                end
+            end
+
+            if #list == 0 then
+                error("Không tìm thấy server")
+            end
+
+            table.sort(list,function(a,b)
+                return a.playing < b.playing
+            end)
+
+            local target = list[1]
+
+            ServerBtn.Text =
+                "🚀 ĐANG VÀO SERVER..."
+
+            TeleportService:TeleportToPlaceInstance(
+                game.PlaceId,
+                target.id,
+                Player
+            )
+        end)
+
+        if not ok then
+
+            warn("[TÈO PANEL] SERVER HOP:",err)
+
+            ServerBtn.Text =
+                "❌ SERVER HOP LỖI"
+
+            task.wait(2)
+
+            if ServerBtn.Parent then
+                ServerBtn.Text = "🌐 SERVER HOP"
+            end
+        end
+
+        Hopping = false
+    end)
+end)
+
+--========================================
+-- SERVER PLAYER COUNT
+--========================================
+
+local function ShowPlayers()
+
+    local count = #Players:GetPlayers()
+
+    ServerText.Text =
+        "🌐 SERVER HIỆN TẠI\n"
+        .. tostring(count)
+        .. " NGƯỜI"
+end
+
+task.delay(2,ShowPlayers)
+
+Players.PlayerAdded:Connect(function()
+    ShowPlayers()
+end)
+
+Players.PlayerRemoving:Connect(function()
+    task.wait()
+    ShowPlayers()
+end)
+
+--========================================
+-- TAB
+--========================================
+
+local function Show(name)
+
+    for n,p in pairs(Pages) do
+        p.Visible = (n == name)
+    end
+
+    for n,b in pairs(Tabs) do
+
+        if n == name then
+            b.BackgroundTransparency = 0.55
+        else
+            b.BackgroundTransparency = 0.85
+        end
+    end
+end
+
+for name,button in pairs(Tabs) do
+
+    button.MouseButton1Click:Connect(function()
+        Show(name)
+    end)
+end
+
+Show("MAIN")
+
+--========================================
+-- TOGGLE
+--========================================
+
+Toggle.MouseButton1Click:Connect(function()
+
+    Main.Visible = not Main.Visible
+end)
+
+--========================================
+-- RGB
+--========================================
+
+RunService.RenderStepped:Connect(function()
+
+    local hue = (tick()%6)/6
+    local rgb = Color3.fromHSV(hue,0.7,1)
+
+    MS.Color = rgb
+    TS.Color = rgb
+    Made.TextColor3 = rgb
+end)
+
+print("TÈO PANEL PC LOADED")
