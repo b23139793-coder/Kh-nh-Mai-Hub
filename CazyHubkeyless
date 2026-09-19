@@ -1,0 +1,1028 @@
+--==================================================
+-- CAZY HUB
+-- GLASS EDITION
+-- KEY: CONMEMAYCODAUBUOI
+--==================================================
+
+local Players=game:GetService("Players")
+local RunService=game:GetService("RunService")
+local TweenService=game:GetService("TweenService")
+local TeleportService=game:GetService("TeleportService")
+local HttpService=game:GetService("HttpService")
+local UIS=game:GetService("UserInputService")
+local PPS=game:GetService("ProximityPromptService")
+
+local Player=Players.LocalPlayer
+local PG=Player:WaitForChild("PlayerGui")
+
+local IMAGE_ID="rbxassetid://72089814211820"
+local VALID_KEY="CRAZYHUB"
+
+local old=PG:FindFirstChild("CAZY_HUB")
+if old then old:Destroy() end
+
+local Gui=Instance.new("ScreenGui")
+Gui.Name="CAZY_HUB"
+Gui.ResetOnSpawn=false
+Gui.IgnoreGuiInset=true
+Gui.DisplayOrder=999999
+Gui.Parent=PG
+
+--==================================================
+-- HELPERS
+--==================================================
+
+local function Corner(obj,r)
+    local c=Instance.new("UICorner")
+    c.CornerRadius=UDim.new(0,r)
+    c.Parent=obj
+    return c
+end
+
+local function Stroke(obj)
+    local s=Instance.new("UIStroke")
+    s.Thickness=2
+    s.Transparency=.1
+    s.Parent=obj
+    return s
+end
+
+--==================================================
+-- KEY SYSTEM
+--==================================================
+
+local KeyFrame=Instance.new("Frame")
+KeyFrame.Size=UDim2.fromOffset(340,330)
+KeyFrame.Position=UDim2.new(.5,-170,.5,-165)
+KeyFrame.BackgroundColor3=Color3.fromRGB(8,11,20)
+KeyFrame.BackgroundTransparency=.12
+KeyFrame.BorderSizePixel=0
+KeyFrame.Parent=Gui
+
+Corner(KeyFrame,24)
+local KeyStroke=Stroke(KeyFrame)
+
+local KeyIcon=Instance.new("ImageLabel")
+KeyIcon.Size=UDim2.fromOffset(82,82)
+KeyIcon.Position=UDim2.new(.5,-41,0,25)
+KeyIcon.BackgroundTransparency=.65
+KeyIcon.BorderSizePixel=0
+KeyIcon.Image=IMAGE_ID
+KeyIcon.ScaleType=Enum.ScaleType.Crop
+KeyIcon.Parent=KeyFrame
+
+Corner(KeyIcon,20)
+local KeyIconStroke=Stroke(KeyIcon)
+
+local KeyTitle=Instance.new("TextLabel")
+KeyTitle.Size=UDim2.new(1,-30,0,38)
+KeyTitle.Position=UDim2.fromOffset(15,115)
+KeyTitle.BackgroundTransparency=1
+KeyTitle.Text="CAZY HUB"
+KeyTitle.TextColor3=Color3.new(1,1,1)
+KeyTitle.TextSize=25
+KeyTitle.Font=Enum.Font.GothamBold
+KeyTitle.Parent=KeyFrame
+
+local KeySub=Instance.new("TextLabel")
+KeySub.Size=UDim2.new(1,-30,0,25)
+KeySub.Position=UDim2.fromOffset(15,150)
+KeySub.BackgroundTransparency=1
+KeySub.Text="ENTER ACCESS KEY"
+KeySub.TextColor3=Color3.fromRGB(180,220,255)
+KeySub.TextSize=11
+KeySub.Font=Enum.Font.GothamBold
+KeySub.Parent=KeyFrame
+
+local KeyBox=Instance.new("TextBox")
+KeyBox.Size=UDim2.new(1,-40,0,48)
+KeyBox.Position=UDim2.fromOffset(20,185)
+KeyBox.BackgroundColor3=Color3.fromRGB(255,255,255)
+KeyBox.BackgroundTransparency=.86
+KeyBox.BorderSizePixel=0
+KeyBox.PlaceholderText="Enter key..."
+KeyBox.Text=""
+KeyBox.TextColor3=Color3.new(1,1,1)
+KeyBox.PlaceholderColor3=Color3.fromRGB(170,180,195)
+KeyBox.TextSize=13
+KeyBox.Font=Enum.Font.GothamBold
+KeyBox.ClearTextOnFocus=false
+KeyBox.Parent=KeyFrame
+
+Corner(KeyBox,14)
+local KeyBoxStroke=Stroke(KeyBox)
+
+local Verify=Instance.new("TextButton")
+Verify.Size=UDim2.new(1,-40,0,46)
+Verify.Position=UDim2.fromOffset(20,245)
+Verify.BackgroundColor3=Color3.fromRGB(255,255,255)
+Verify.BackgroundTransparency=.72
+Verify.BorderSizePixel=0
+Verify.Text="ENTER KEY"
+Verify.TextColor3=Color3.new(1,1,1)
+Verify.TextSize=12
+Verify.Font=Enum.Font.GothamBold
+Verify.AutoButtonColor=false
+Verify.Parent=KeyFrame
+
+Corner(Verify,14)
+local VerifyStroke=Stroke(Verify)
+
+local KeyStatus=Instance.new("TextLabel")
+KeyStatus.Size=UDim2.new(1,-30,0,22)
+KeyStatus.Position=UDim2.fromOffset(15,292)
+KeyStatus.BackgroundTransparency=1
+KeyStatus.Text=""
+KeyStatus.TextColor3=Color3.new(1,1,1)
+KeyStatus.TextSize=10
+KeyStatus.Font=Enum.Font.GothamBold
+KeyStatus.Parent=KeyFrame
+
+--==================================================
+-- LOADING
+--==================================================
+
+local function ShowLoading(callback)
+
+    local Loading=Instance.new("Frame")
+    Loading.Size=UDim2.fromScale(1,1)
+    Loading.BackgroundColor3=Color3.fromRGB(5,7,15)
+    Loading.BackgroundTransparency=.04
+    Loading.ZIndex=1000
+    Loading.Parent=Gui
+
+    local Icon=Instance.new("ImageLabel")
+    Icon.Size=UDim2.fromOffset(110,110)
+    Icon.Position=UDim2.new(.5,-55,.5,-135)
+    Icon.BackgroundTransparency=.72
+    Icon.BorderSizePixel=0
+    Icon.Image=IMAGE_ID
+    Icon.ScaleType=Enum.ScaleType.Crop
+    Icon.ZIndex=1001
+    Icon.Parent=Loading
+
+    Corner(Icon,26)
+    local IS=Stroke(Icon)
+
+    local T=Instance.new("TextLabel")
+    T.Size=UDim2.new(1,-30,0,40)
+    T.Position=UDim2.new(0,15,.5,-15)
+    T.BackgroundTransparency=1
+    T.Text="HUMAN HUB"
+    T.TextColor3=Color3.new(1,1,1)
+    T.TextSize=24
+    T.Font=Enum.Font.GothamBold
+    T.ZIndex=1001
+    T.Parent=Loading
+
+    local Back=Instance.new("Frame")
+    Back.Size=UDim2.fromOffset(270,12)
+    Back.Position=UDim2.new(.5,-135,.5,60)
+    Back.BackgroundColor3=Color3.fromRGB(255,255,255)
+    Back.BackgroundTransparency=.82
+    Back.BorderSizePixel=0
+    Back.ZIndex=1001
+    Back.Parent=Loading
+
+    Corner(Back,10)
+
+    local Fill=Instance.new("Frame")
+    Fill.Size=UDim2.new(0,0,1,0)
+    Fill.BackgroundColor3=Color3.new(1,1,1)
+    Fill.BorderSizePixel=0
+    Fill.ZIndex=1002
+    Fill.Parent=Back
+
+    Corner(Fill,10)
+
+    local P=Instance.new("TextLabel")
+    P.Size=UDim2.fromOffset(100,25)
+    P.Position=UDim2.new(.5,-50,.5,82)
+    P.BackgroundTransparency=1
+    P.Text="0%"
+    P.TextColor3=Color3.new(1,1,1)
+    P.TextSize=12
+    P.Font=Enum.Font.GothamBold
+    P.ZIndex=1001
+    P.Parent=Loading
+
+    task.spawn(function()
+        for i=0,100 do
+            P.Text=i.."%"
+            Fill.Size=UDim2.new(i/100,0,1,0)
+            task.wait(.018)
+        end
+
+        task.wait(.15)
+        Loading:Destroy()
+
+        if callback then
+            callback()
+        end
+    end)
+
+    return IS
+end
+
+--==================================================
+-- MAIN HUB
+--==================================================
+
+local Toggle=Instance.new("ImageButton")
+Toggle.Size=UDim2.fromOffset(55,55)
+Toggle.Position=UDim2.new(0,12,.5,-28)
+Toggle.BackgroundColor3=Color3.fromRGB(255,255,255)
+Toggle.BackgroundTransparency=.78
+Toggle.BorderSizePixel=0
+Toggle.Image=IMAGE_ID
+Toggle.ScaleType=Enum.ScaleType.Crop
+Toggle.Visible=false
+Toggle.Parent=Gui
+
+Corner(Toggle,18)
+local ToggleStroke=Stroke(Toggle)
+
+local Main=Instance.new("Frame")
+Main.Size=UDim2.fromOffset(340,450)
+Main.Position=UDim2.new(.5,-170,.5,-225)
+Main.BackgroundColor3=Color3.fromRGB(8,11,20)
+Main.BackgroundTransparency=.18
+Main.BorderSizePixel=0
+Main.Visible=false
+Main.Active=true
+Main.Parent=Gui
+
+Corner(Main,22)
+local MainStroke=Stroke(Main)
+
+--==================================================
+-- HEADER
+--==================================================
+
+local Header=Instance.new("Frame")
+Header.Size=UDim2.new(1,0,0,70)
+Header.BackgroundTransparency=1
+Header.Active=true
+Header.Parent=Main
+
+local HIcon=Instance.new("ImageLabel")
+HIcon.Size=UDim2.fromOffset(34,34)
+HIcon.Position=UDim2.fromOffset(10,8)
+HIcon.BackgroundTransparency=.7
+HIcon.BorderSizePixel=0
+HIcon.Image=IMAGE_ID
+HIcon.ScaleType=Enum.ScaleType.Crop
+HIcon.Parent=Header
+
+Corner(HIcon,10)
+local HIS=Stroke(HIcon)
+
+local Title=Instance.new("TextLabel")
+Title.Size=UDim2.new(1,-100,0,32)
+Title.Position=UDim2.fromOffset(52,7)
+Title.BackgroundTransparency=1
+Title.Text="HUMAN HUB"
+Title.TextColor3=Color3.new(1,1,1)
+Title.TextSize=19
+Title.Font=Enum.Font.GothamBold
+Title.TextXAlignment=Enum.TextXAlignment.Left
+Title.Parent=Header
+
+local Made=Instance.new("TextLabel")
+Made.Size=UDim2.new(1,-100,0,20)
+Made.Position=UDim2.fromOffset(52,38)
+Made.BackgroundTransparency=1
+Made.Text="SCRIPT BY TIKTOK NHAVUAFIFAI"
+Made.TextColor3=Color3.new(1,1,1)
+Made.TextSize=10
+Made.Font=Enum.Font.GothamBold
+Made.TextXAlignment=Enum.TextXAlignment.Left
+Made.Parent=Header
+
+local Close=Instance.new("TextButton")
+Close.Size=UDim2.fromOffset(34,34)
+Close.Position=UDim2.new(1,-44,0,12)
+Close.BackgroundColor3=Color3.fromRGB(255,255,255)
+Close.BackgroundTransparency=.86
+Close.BorderSizePixel=0
+Close.Text="×"
+Close.TextColor3=Color3.new(1,1,1)
+Close.TextSize=21
+Close.Font=Enum.Font.GothamBold
+Close.Parent=Header
+
+Corner(Close,11)
+
+Close.MouseButton1Click:Connect(function()
+    Main.Visible=false
+end)
+
+Toggle.MouseButton1Click:Connect(function()
+    Main.Visible=not Main.Visible
+end)
+
+--==================================================
+-- DRAG
+--==================================================
+
+local dragging=false
+local dragStart
+local startPos
+
+Header.InputBegan:Connect(function(input)
+
+    if input.UserInputType==Enum.UserInputType.MouseButton1
+    or input.UserInputType==Enum.UserInputType.Touch then
+
+        dragging=true
+        dragStart=input.Position
+        startPos=Main.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState==Enum.UserInputState.End then
+                dragging=false
+            end
+        end)
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+
+    if not dragging then return end
+
+    if input.UserInputType==Enum.UserInputType.MouseMovement
+    or input.UserInputType==Enum.UserInputType.Touch then
+
+        local d=input.Position-dragStart
+
+        Main.Position=UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset+d.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset+d.Y
+        )
+    end
+end)
+
+--==================================================
+-- TABS
+--==================================================
+
+local TabFrame=Instance.new("Frame")
+TabFrame.Size=UDim2.new(1,-20,0,38)
+TabFrame.Position=UDim2.fromOffset(10,72)
+TabFrame.BackgroundTransparency=1
+TabFrame.Parent=Main
+
+local Tabs={}
+local Pages={}
+
+local Names={
+    "MAIN",
+    "SPEED",
+    "SPIN",
+    "POS",
+    "UTIL",
+    "AVATAR",
+    "EGGS"
+}
+
+for i,name in ipairs(Names) do
+
+    local B=Instance.new("TextButton")
+    B.Size=UDim2.fromOffset(42,34)
+    B.Position=UDim2.fromOffset((i-1)*45,0)
+    B.BackgroundColor3=Color3.fromRGB(255,255,255)
+    B.BackgroundTransparency=.87
+    B.BorderSizePixel=0
+    B.Text=name
+    B.TextColor3=Color3.new(1,1,1)
+    B.TextSize=7
+    B.Font=Enum.Font.GothamBold
+    B.AutoButtonColor=false
+    B.Parent=TabFrame
+
+    Corner(B,9)
+
+    Tabs[name]=B
+
+    local P=Instance.new("Frame")
+    P.Size=UDim2.new(1,-20,1,-125)
+    P.Position=UDim2.fromOffset(10,115)
+    P.BackgroundColor3=Color3.fromRGB(255,255,255)
+    P.BackgroundTransparency=.95
+    P.BorderSizePixel=0
+    P.Visible=false
+    P.Parent=Main
+
+    Corner(P,15)
+
+    Pages[name]=P
+end
+
+--==================================================
+-- BUTTON / BOX
+--==================================================
+
+local function MakeButton(parent,text,y)
+
+    local B=Instance.new("TextButton")
+    B.Size=UDim2.new(1,-20,0,46)
+    B.Position=UDim2.fromOffset(10,y)
+    B.BackgroundColor3=Color3.fromRGB(255,255,255)
+    B.BackgroundTransparency=.85
+    B.BorderSizePixel=0
+    B.Text=text
+    B.TextColor3=Color3.new(1,1,1)
+    B.TextSize=11
+    B.Font=Enum.Font.GothamBold
+    B.AutoButtonColor=false
+    B.Parent=parent
+
+    Corner(B,12)
+
+    return B
+end
+
+local function MakeBox(parent,text,placeholder,y)
+
+    local B=Instance.new("TextBox")
+    B.Size=UDim2.new(1,-20,0,42)
+    B.Position=UDim2.fromOffset(10,y)
+    B.BackgroundColor3=Color3.fromRGB(255,255,255)
+    B.BackgroundTransparency=.89
+    B.BorderSizePixel=0
+    B.Text=text
+    B.PlaceholderText=placeholder
+    B.TextColor3=Color3.new(1,1,1)
+    B.PlaceholderColor3=Color3.fromRGB(170,180,195)
+    B.TextSize=11
+    B.Font=Enum.Font.Gotham
+    B.ClearTextOnFocus=false
+    B.Parent=parent
+
+    Corner(B,12)
+
+    return B
+end
+
+--==================================================
+-- MAIN
+--==================================================
+
+local MainInfo=Instance.new("TextLabel")
+MainInfo.Size=UDim2.new(1,-20,1,-20)
+MainInfo.Position=UDim2.fromOffset(10,10)
+MainInfo.BackgroundTransparency=1
+MainInfo.Text=
+    "CAZY HUB\n\n"..
+    "SCRIPT MADE IN VN🇻🇳\n\n"..
+    "HÃY CHƠI VUI VẺ\n\n"..
+    "MADE IN VIETNAM 🇻🇳"
+MainInfo.TextColor3=Color3.fromRGB(190,225,255)
+MainInfo.TextSize=17
+MainInfo.Font=Enum.Font.GothamBold
+MainInfo.TextXAlignment=Enum.TextXAlignment.Center
+MainInfo.TextYAlignment=Enum.TextYAlignment.Center
+MainInfo.Parent=Pages.MAIN
+
+--==================================================
+-- SPEED
+--==================================================
+
+local TP=false
+local TPSpeed=16
+
+local TPB=MakeButton(Pages.SPEED,"⚡ TP WALK: OFF",18)
+local TPBox=MakeBox(Pages.SPEED,"16","Speed 1 - 500",500)
+
+TPBox.FocusLost:Connect(function()
+    local n=tonumber(TPBox.Text)
+    if n then TPSpeed=math.clamp(n,1,500) end
+    TPBox.Text=tostring(TPSpeed)
+end)
+
+TPB.MouseButton1Click:Connect(function()
+    TP=not TP
+    TPB.Text=TP and "⚡ TP WALK: ON" or "⚡ TP WALK: OFF"
+    TPB.BackgroundTransparency=TP and .60 or .85
+end)
+
+--==================================================
+-- SPIN
+--==================================================
+
+local Spin=false
+local SpinSpeed=50
+
+local SpinB=MakeButton(Pages.SPIN,"🌀 SPIN: OFF",18)
+local SpinBox=MakeBox(Pages.SPIN,"50","Spin Speed 1 - 500",75)
+
+SpinBox.FocusLost:Connect(function()
+    local n=tonumber(SpinBox.Text)
+    if n then SpinSpeed=math.clamp(n,1,500) end
+    SpinBox.Text=tostring(SpinSpeed)
+end)
+
+SpinB.MouseButton1Click:Connect(function()
+    Spin=not Spin
+    SpinB.Text=Spin and "🌀 SPIN: ON" or "🌀 SPIN: OFF"
+    SpinB.BackgroundTransparency=Spin and .1000 or .8500
+end)
+
+--==================================================
+-- POSITION
+--==================================================
+
+local Saved=nil
+local Flying=false
+local FlySpeed=500
+local FlyTween=nil
+
+local SaveB=MakeButton(Pages.POS,"📍 SAVE POSITION",18)
+local FlyB=MakeButton(Pages.POS,"🚀 FLY TO POSITION: OFF",73)
+local FlyBox=MakeBox(Pages.POS,"500","Fly Speed 50 - 5000",128)
+
+SaveB.MouseButton1Click:Connect(function()
+
+    local char=Player.Character
+    if not char then return end
+
+    local root=char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+
+    Saved=root.CFrame
+    SaveB.Text="✅ POSITION SAVED"
+
+    task.delay(1.5,function()
+        if SaveB.Parent then
+            SaveB.Text="📍 SAVE POSITION"
+        end
+    end)
+end)
+
+FlyBox.FocusLost:Connect(function()
+    local n=tonumber(FlyBox.Text)
+    if n then FlySpeed=math.clamp(n,50,5000) end
+    FlyBox.Text=tostring(FlySpeed)
+end)
+
+FlyB.MouseButton1Click:Connect(function()
+
+    if Flying then
+        Flying=false
+
+        if FlyTween then
+            FlyTween:Cancel()
+            FlyTween=nil
+        end
+
+        FlyB.Text="🚀 FLY TO POSITION: OFF"
+        return
+    end
+
+    if not Saved then
+        FlyB.Text="❌ SAVE A POSITION FIRST"
+
+        task.delay(1,function()
+            if FlyB.Parent then
+                FlyB.Text="🚀 FLY TO POSITION: OFF"
+            end
+        end)
+
+        return
+    end
+
+    local char=Player.Character
+    if not char then return end
+
+    local root=char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+
+    Flying=true
+    FlyB.Text="🚀 FLYING..."
+
+    local distance=(root.Position-Saved.Position).Magnitude
+    local duration=math.clamp(distance/FlySpeed,.25,8)
+
+    FlyTween=TweenService:Create(
+        root,
+        TweenInfo.new(duration,Enum.EasingStyle.Linear),
+        {CFrame=Saved}
+    )
+
+    FlyTween.Completed:Connect(function(state)
+
+        if state==Enum.PlaybackState.Completed
+        and root.Parent then
+            root.CFrame=Saved
+        end
+
+        Flying=false
+        FlyTween=nil
+
+        if FlyB.Parent then
+            FlyB.Text="🚀 FLY TO POSITION: OFF"
+        end
+    end)
+
+    FlyTween:Play()
+end)
+
+--==================================================
+-- UTIL
+--==================================================
+
+local Instant=false
+local Original={}
+
+local LootB=MakeButton(Pages.UTIL,"⚡ INSTANT LOOT: OFF",18)
+local ServerB=MakeButton(Pages.UTIL,"🌐 SERVER HOP",73)
+
+local ServerInfo=Instance.new("TextLabel")
+ServerInfo.Size=UDim2.new(1,-20,0,55)
+ServerInfo.Position=UDim2.fromOffset(10,135)
+ServerInfo.BackgroundTransparency=1
+ServerInfo.TextColor3=Color3.fromRGB(180,225,255)
+ServerInfo.TextSize=13
+ServerInfo.Font=Enum.Font.GothamBold
+ServerInfo.TextXAlignment=Enum.TextXAlignment.Center
+ServerInfo.Parent=Pages.UTIL
+
+local function SetPrompt(p)
+
+    if not p:IsA("ProximityPrompt") then return end
+
+    if Original[p]==nil then
+        Original[p]=p.HoldDuration
+    end
+
+    p.HoldDuration=0
+end
+
+LootB.MouseButton1Click:Connect(function()
+
+    Instant=not Instant
+
+    if Instant then
+
+        LootB.Text="⚡ INSTANT LOOT: ON"
+        LootB.BackgroundTransparency=.60
+
+        for _,v in ipairs(workspace:GetDescendants()) do
+            if v:IsA("ProximityPrompt") then
+                SetPrompt(v)
+            end
+        end
+
+    else
+
+        LootB.Text="⚡ INSTANT LOOT: OFF"
+        LootB.BackgroundTransparency=.85
+
+        for p,value in pairs(Original) do
+            if p and p.Parent then
+                p.HoldDuration=value
+            end
+        end
+
+        table.clear(Original)
+    end
+end)
+
+PPS.PromptShown:Connect(function(p)
+    if Instant then
+        SetPrompt(p)
+    end
+end)
+
+--==================================================
+-- SERVER HOP
+--==================================================
+
+local Hopping=false
+
+ServerB.MouseButton1Click:Connect(function()
+
+    if Hopping then return end
+
+    Hopping=true
+    ServerB.Text="🔎 SEARCHING..."
+
+    task.spawn(function()
+
+        local ok,err=pcall(function()
+
+            local url=
+                "https://games.roblox.com/v1/games/"
+                ..game.PlaceId..
+                "/servers/Public?sortOrder=Asc&limit=100"
+
+            local data=HttpService:JSONDecode(
+                game:HttpGet(url)
+            )
+
+            local list={}
+
+            for _,s in ipairs(data.data or {}) do
+                if s.id~=game.JobId
+                and s.playing<s.maxPlayers then
+                    table.insert(list,s)
+                end
+            end
+
+            if #list==0 then
+                error("No server found")
+            end
+
+            table.sort(list,function(a,b)
+                return a.playing<b.playing
+            end)
+
+            ServerB.Text="🚀 JOINING..."
+
+            TeleportService:TeleportToPlaceInstance(
+                game.PlaceId,
+                list[1].id,
+                Player
+            )
+        end)
+
+        if not ok then
+            warn("[HUMAN HUB]",err)
+            ServerB.Text="❌ SERVER ERROR"
+
+            task.wait(2)
+
+            if ServerB.Parent then
+                ServerB.Text="🌐 SERVER HOP"
+            end
+        end
+
+        Hopping=false
+    end)
+end)
+
+local function UpdatePlayers()
+
+    ServerInfo.Text=
+        "🌐 CURRENT SERVER\n"..
+        #Players:GetPlayers().." PLAYERS"
+
+end
+
+UpdatePlayers()
+
+Players.PlayerAdded:Connect(UpdatePlayers)
+
+Players.PlayerRemoving:Connect(function()
+    task.defer(UpdatePlayers)
+end)
+
+--==================================================
+-- AVATAR
+--==================================================
+
+local AvatarImage=Instance.new("ImageLabel")
+AvatarImage.Size=UDim2.fromOffset(165,165)
+AvatarImage.Position=UDim2.new(.5,-82,0,20)
+AvatarImage.BackgroundTransparency=.72
+AvatarImage.BorderSizePixel=0
+AvatarImage.Image=IMAGE_ID
+AvatarImage.ScaleType=Enum.ScaleType.Crop
+AvatarImage.Parent=Pages.AVATAR
+
+Corner(AvatarImage,25)
+local AIS=Stroke(AvatarImage)
+
+local AvatarName=Instance.new("TextLabel")
+AvatarName.Size=UDim2.new(1,-20,0,35)
+AvatarName.Position=UDim2.fromOffset(10,195)
+AvatarName.BackgroundTransparency=1
+AvatarName.Text="CAZY HUB"
+AvatarName.TextColor3=Color3.new(1,1,1)
+AvatarName.TextSize=19
+AvatarName.Font=Enum.Font.GothamBold
+AvatarName.Parent=Pages.AVATAR
+
+local Asset=Instance.new("TextLabel")
+Asset.Size=UDim2.new(1,-20,0,30)
+Asset.Position=UDim2.fromOffset(10,235)
+Asset.BackgroundTransparency=1
+Asset.Text="RBL ASSET • 72089814211820"
+Asset.TextColor3=Color3.fromRGB(180,220,255)
+Asset.TextSize=9
+Asset.Font=Enum.Font.GothamBold
+Asset.Parent=Pages.AVATAR
+
+--==================================================
+-- EGG SCANNER
+--==================================================
+
+local ScanB=MakeButton(Pages.EGGS,"🥚 SCAN VISIBLE EGGS",18)
+
+local EggInfo=Instance.new("TextLabel")
+EggInfo.Size=UDim2.new(1,-20,0,150)
+EggInfo.Position=UDim2.fromOffset(10,75)
+EggInfo.BackgroundColor3=Color3.fromRGB(255,255,255)
+EggInfo.BackgroundTransparency=.90
+EggInfo.BorderSizePixel=0
+EggInfo.Text="No scan yet."
+EggInfo.TextColor3=Color3.fromRGB(210,230,255)
+EggInfo.TextSize=10
+EggInfo.Font=Enum.Font.Gotham
+EggInfo.TextWrapped=true
+EggInfo.TextYAlignment=Enum.TextYAlignment.Top
+EggInfo.Parent=Pages.EGGS
+
+Corner(EggInfo,12)
+
+local function ScanEggs()
+
+    EggInfo.Text="Scanning visible objects..."
+
+    local results={}
+    local count=0
+
+    for _,obj in ipairs(workspace:GetDescendants()) do
+
+        local n=string.lower(obj.Name)
+
+        if string.find(n,"egg")
+        or string.find(n,"pet")
+        or string.find(n,"rare")
+        or string.find(n,"legend") then
+
+            count=count+1
+
+            if count<=12 then
+                table.insert(results,"• "..obj.Name)
+            end
+        end
+    end
+
+    if #results==0 then
+
+        EggInfo.Text=
+            "No visible egg-related objects found.\n\n"..
+            "The game may keep egg data server-side."
+
+    else
+
+        EggInfo.Text=
+            "VISIBLE OBJECTS FOUND: "..count..
+            "\n\n"..
+            table.concat(results,"\n")
+    end
+end
+
+ScanB.MouseButton1Click:Connect(ScanEggs)
+
+--==================================================
+-- TAB SYSTEM
+--==================================================
+
+local function ShowPage(name)
+
+    for n,p in pairs(Pages) do
+        p.Visible=(n==name)
+    end
+
+    for n,b in pairs(Tabs) do
+        b.BackgroundTransparency=
+            (n==name) and .55 or .87
+    end
+end
+
+for name,b in pairs(Tabs) do
+    b.MouseButton1Click:Connect(function()
+        ShowPage(name)
+    end)
+end
+
+ShowPage("MAIN")
+
+--==================================================
+-- MOVEMENT
+--==================================================
+
+RunService.Heartbeat:Connect(function()
+
+    if not TP then return end
+
+    local char=Player.Character
+    if not char then return end
+
+    local hum=char:FindFirstChildOfClass("Humanoid")
+    local root=char:FindFirstChild("HumanoidRootPart")
+
+    if not hum or not root then return end
+
+    local dir=hum.MoveDirection
+
+    if dir.Magnitude>0 then
+
+        local v=root.AssemblyLinearVelocity
+
+        root.AssemblyLinearVelocity=Vector3.new(
+            dir.X*TPSpeed,
+            v.Y,
+            dir.Z*TPSpeed
+        )
+    end
+end)
+
+RunService.Heartbeat:Connect(function(dt)
+
+    if not Spin then return end
+
+    local char=Player.Character
+    if not char then return end
+
+    local root=char:FindFirstChild("HumanoidRootPart")
+
+    if root then
+
+        root.CFrame=
+            root.CFrame*
+            CFrame.Angles(
+                0,
+                math.rad(SpinSpeed)*dt,
+                0
+            )
+    end
+end)
+
+--==================================================
+-- RGB
+--==================================================
+
+RunService.RenderStepped:Connect(function()
+
+    local rgb=Color3.fromHSV(
+        (os.clock()%6)/6,
+        .75,
+        1
+    )
+
+    MainStroke.Color=rgb
+    ToggleStroke.Color=rgb
+    HIS.Color=rgb
+    AIS.Color=rgb
+    KeyStroke.Color=rgb
+    KeyIconStroke.Color=rgb
+    KeyBoxStroke.Color=rgb
+    VerifyStroke.Color=rgb
+    Made.TextColor3=rgb
+end)
+
+--==================================================
+-- KEY VERIFY
+--==================================================
+
+local unlocked=false
+
+local function Unlock()
+
+    if unlocked then return end
+
+    if KeyBox.Text==VALID_KEY then
+
+        unlocked=true
+        KeyStatus.Text="✓ ACCESS GRANTED"
+        KeyStatus.TextColor3=Color3.fromRGB(120,255,170)
+
+        task.wait(.35)
+
+        KeyFrame.Visible=false
+        Toggle.Visible=true
+
+        ShowLoading(function()
+            Main.Visible=true
+        end)
+
+    else
+
+        KeyStatus.Text="✕ INVALID KEY"
+        KeyStatus.TextColor3=Color3.fromRGB(255,100,120)
+
+        KeyBox.Text=""
+
+        task.wait(.8)
+
+        KeyStatus.Text=""
+    end
+end
+
+Verify.MouseButton1Click:Connect(Unlock)
+
+KeyBox.FocusLost:Connect(function(enter)
+    if enter then
+        Unlock()
+    end
+end)
+
+print("================================")
+print("CRAZY HUB LOADED")
+print("KEY SYSTEM ACTIVE")
+print("================================")
