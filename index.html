@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FREE KEY</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial,sans-serif;
+  color:white;
+  background:
+    radial-gradient(circle at top,#29295f,#080812 65%);
+}
+
+.card{
+  width:min(92%,440px);
+  padding:30px;
+  border-radius:26px;
+  text-align:center;
+  background:#11111deb;
+  border:1px solid #ffffff18;
+  box-shadow:0 20px 70px #0009;
+}
+
+.logo{
+  width:76px;
+  height:76px;
+  margin:auto;
+  border-radius:23px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#713cff,#00cfff);
+  box-shadow:0 0 35px #604cff66;
+}
+
+h1{
+  margin:18px 0 6px;
+  font-size:28px;
+}
+
+.sub{
+  color:#999;
+  font-size:13px;
+  margin-bottom:23px;
+}
+
+.box{
+  background:#080811;
+  border:1px solid #ffffff12;
+  border-radius:16px;
+  padding:17px;
+  margin:13px 0;
+}
+
+.label{
+  color:#888;
+  font-size:12px;
+  text-align:left;
+  margin-bottom:9px;
+}
+
+.key{
+  color:#62eaff;
+  font-size:16px;
+  font-weight:bold;
+  line-height:1.5;
+  word-break:break-all;
+  letter-spacing:.5px;
+}
+
+.timer{
+  color:#7cffbd;
+  font-size:25px;
+  font-weight:bold;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:15px;
+  padding:15px;
+  margin-top:10px;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(135deg,#713cff,#00bfff);
+  box-shadow:0 8px 25px #522cff44;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.copy{
+  background:#ffffff0d;
+  border:1px solid #ffffff18;
+  box-shadow:none;
+}
+
+.status{
+  margin-top:16px;
+  color:#999;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div class="logo">FK</div>
+
+  <h1>FREE KEY</h1>
+
+  <div class="sub">
+    GET KEY • COOLDOWN 3 GIỜ
+  </div>
+
+  <div class="box">
+    <div class="label">KEY CỦA BẠN</div>
+
+    <div id="key" class="key">
+      Chưa có key
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="label">
+      THỜI GIAN GET KEY TIẾP THEO
+    </div>
+
+    <div id="timer" class="timer">
+      CÓ THỂ GET KEY
+    </div>
+  </div>
+
+  <button id="getBtn" onclick="getKey()">
+    🔑 GET KEY
+  </button>
+
+  <button class="copy" onclick="copyKey()">
+    📋 COPY KEY
+  </button>
+
+  <div id="status" class="status">
+    Mỗi lần GET KEY phải chờ 3 giờ.
+  </div>
+
+</div>
+
+<script>
+
+const PREFIX = "FREE-";
+
+/* 3 giờ */
+const COOLDOWN = 3 * 60 * 60 * 1000;
+
+
+/* Tạo chuỗi chữ + số */
+function randomPart(){
+
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  let result = "";
+
+  /*
+    Tạo chuỗi dài 20 ký tự.
+    Ví dụ:
+    8292929028181BHAHAAA
+  */
+
+  for(let i = 0; i < 20; i++){
+
+    result += chars[
+      Math.floor(
+        Math.random() * chars.length
+      )
+    ];
+
+  }
+
+  return result;
+}
+
+
+/* GET KEY */
+function getKey(){
+
+  const last =
+    Number(
+      localStorage.getItem(
+        "free_key_last_time"
+      ) || 0
+    );
+
+  const now = Date.now();
+
+  /* Kiểm tra cooldown */
+  if(now - last < COOLDOWN){
+
+    updateTimer();
+
+    document.getElementById("status")
+      .textContent =
+      "⏳ Bạn chưa thể lấy key mới.";
+
+    return;
+  }
+
+
+  /*
+    Format:
+    FREE- + 20 ký tự chữ/số
+  */
+
+  const key =
+    PREFIX + randomPart();
+
+
+  localStorage.setItem(
+    "free_key",
+    key
+  );
+
+
+  localStorage.setItem(
+    "free_key_last_time",
+    now
+  );
+
+
+  document.getElementById("key")
+    .textContent = key;
+
+
+  document.getElementById("status")
+    .textContent =
+    "✅ GET KEY thành công!";
+
+
+  updateTimer();
+}
+
+
+/* Load key cũ */
+function loadKey(){
+
+  const saved =
+    localStorage.getItem(
+      "free_key"
+    );
+
+  if(saved){
+
+    document.getElementById("key")
+      .textContent = saved;
+  }
+
+  updateTimer();
+}
+
+
+/* Đồng hồ 3 giờ */
+function updateTimer(){
+
+  const last =
+    Number(
+      localStorage.getItem(
+        "free_key_last_time"
+      ) || 0
+    );
+
+  const left =
+    last + COOLDOWN - Date.now();
+
+  const btn =
+    document.getElementById(
+      "getBtn"
+    );
+
+
+  if(left <= 0){
+
+    document.getElementById(
+      "timer"
+    ).textContent =
+      "✅ CÓ THỂ GET KEY";
+
+    btn.disabled = false;
+
+    return;
+  }
+
+
+  btn.disabled = true;
+
+
+  let total =
+    Math.ceil(left / 1000);
+
+
+  const hours =
+    Math.floor(total / 3600);
+
+  total %= 3600;
+
+
+  const minutes =
+    Math.floor(total / 60);
+
+  const seconds =
+    total % 60;
+
+
+  document.getElementById(
+    "timer"
+  ).textContent =
+    String(hours).padStart(2,"0")
+    + ":" +
+    String(minutes).padStart(2,"0")
+    + ":" +
+    String(seconds).padStart(2,"0");
+}
+
+
+/* Copy */
+async function copyKey(){
+
+  const key =
+    localStorage.getItem(
+      "free_key"
+    );
+
+  if(!key){
+
+    document.getElementById("status")
+      .textContent =
+      "⚠️ Chưa có key.";
+
+    return;
+  }
+
+
+  try{
+
+    await navigator.clipboard
+      .writeText(key);
+
+  }catch(e){
+
+    const input =
+      document.createElement(
+        "textarea"
+      );
+
+    input.value = key;
+
+    document.body.appendChild(
+      input
+    );
+
+    input.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    input.remove();
+  }
+
+
+  document.getElementById("status")
+    .textContent =
+    "📋 Đã copy key!";
+}
+
+
+/* Chạy */
+loadKey();
+
+
+/* Cập nhật đồng hồ */
+setInterval(
+  updateTimer,
+  1000
+);
+
+</script>
+
+</body>
+</html>
