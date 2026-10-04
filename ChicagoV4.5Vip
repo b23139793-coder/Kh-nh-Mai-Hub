@@ -1,0 +1,1151 @@
+-- [[ TIỀN CHICAGO LIFE V4.5 - SOFT UI KEY & COUNTER ]] --
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Lighting = game:GetService("Lighting")
+local Workspace = game:GetService("Workspace")
+local HttpService = game:GetService("HttpService")
+local Camera = Workspace.CurrentCamera
+local player = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "TienChicagoLifeV4_5"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local CUSTOM_IMAGE_ID = "rbxassetid://114880628022200"
+local GETKEY_URL = "https://b23139793-coder.github.io/Kh-nh-Mai-Hub/?utm_source=chatgpt.com"
+local KEY_CACHE_FILE = "tien_chicago_key_cache_v45.json"
+
+local function saveKeyData(keyType, expireTime)
+    pcall(function()
+        if writefile and isfolder then
+            local data = HttpService:JSONEncode({Type = keyType, Expire = expireTime})
+            writefile(KEY_CACHE_FILE, data)
+        end
+    end)
+end
+
+local function loadKeyData()
+    pcall(function()
+        if readfile and isfile and isfile(KEY_CACHE_FILE) then
+            local raw = readfile(KEY_CACHE_FILE)
+            local data = HttpService:JSONDecode(raw)
+            return data
+        end
+    end)
+    return nil
+end
+
+local function clearKeyData()
+    pcall(function()
+        if delfile and isfile and isfile(KEY_CACHE_FILE) then
+            delfile(KEY_CACHE_FILE)
+        end
+    end)
+end
+
+local function makeDraggable(topbarObject, object)
+    local dragging, dragInput, dragStart, startPos
+    
+    topbarObject.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = object.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    
+    topbarObject.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            object.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+end
+
+--==================================================
+-- AIMBOT & FOV SETUP
+--==================================================
+local fovRadius = 120
+local aimFOV = Drawing.new("Circle")
+aimFOV.Visible = false
+aimFOV.Filled = false
+aimFOV.Radius = fovRadius
+aimFOV.Color = Color3.fromRGB(220, 220, 220)
+aimFOV.Thickness = 1.2
+aimFOV.Transparency = 0.6
+
+local displayFOV360 = Drawing.new("Circle")
+displayFOV360.Visible = false
+displayFOV360.Filled = false
+displayFOV360.Radius = 250
+displayFOV360.Color = Color3.fromRGB(200, 200, 200)
+displayFOV360.Thickness = 1
+displayFOV360.Transparency = 0.4
+
+local centerDot = Drawing.new("Circle")
+centerDot.Visible = false
+centerDot.Filled = true
+centerDot.Radius = 2.5
+centerDot.Color = Color3.fromRGB(220, 220, 220)
+centerDot.Transparency = 0.8
+
+--==================================================
+-- HIỂN THỊ THỜI GIAN KEY (ĐÃ CHỈNH DỊU MẮT, KHÔNG CHÓI)
+--==================================================
+local keyTimerLabel = Instance.new("TextLabel")
+keyTimerLabel.Size = UDim2.fromOffset(200, 30)
+keyTimerLabel.Position = UDim2.new(0, 15, 0, 75)
+keyTimerLabel.BackgroundTransparency = 0.5
+keyTimerLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+keyTimerLabel.TextColor3 = Color3.fromRGB(210, 210, 220) -- Màu xám sáng dịu nhẹ, không chói
+keyTimerLabel.TextSize = 12
+keyTimerLabel.Font = Enum.Font.GothamMedium
+keyTimerLabel.Text = "🔑 Key: Đang kiểm tra..."
+keyTimerLabel.Visible = false
+keyTimerLabel.Parent = gui
+
+local ktCorner = Instance.new("UICorner")
+ktCorner.CornerRadius = UDim.new(0, 8)
+ktCorner.Parent = keyTimerLabel
+
+local ktStroke = Instance.new("UIStroke")
+ktStroke.Thickness = 1
+ktStroke.Color = Color3.fromRGB(80, 80, 90) -- Viền mềm, không rực
+ktStroke.Parent = keyTimerLabel
+
+makeDraggable(keyTimerLabel, keyTimerLabel)
+
+--==================================================
+-- COUNTER ĐẾM NGƯỜI & ROBOT / NPC (ĐÃ LÀM DỊU MẮT)
+--==================================================
+local counterLabel = Instance.new("TextLabel")
+counterLabel.Size = UDim2.fromOffset(170, 32)
+counterLabel.Position = UDim2.new(0.5, -85, 0, 45)
+counterLabel.BackgroundTransparency = 0.5
+counterLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+counterLabel.TextColor3 = Color3.fromRGB(220, 220, 220) -- Chữ trung tính không chói
+counterLabel.TextSize = 13
+counterLabel.Font = Enum.Font.GothamMedium
+counterLabel.Text = "👤 0   🤖 0"
+counterLabel.Visible = false
+counterLabel.Parent = gui
+
+local counterCorner = Instance.new("UICorner")
+counterCorner.CornerRadius = UDim.new(0, 8)
+counterCorner.Parent = counterLabel
+
+local counterStroke = Instance.new("UIStroke")
+counterStroke.Thickness = 1
+counterStroke.Color = Color3.fromRGB(80, 80, 90) -- Viền xám mờ nhẹ nhàng
+counterStroke.Parent = counterLabel
+
+--==================================================
+-- MAIN WINDOW
+--==================================================
+local main = Instance.new("ImageLabel")
+main.Size = UDim2.fromOffset(600, 420)
+main.Position = UDim2.fromScale(.5, .5)
+main.AnchorPoint = Vector2.new(.5,.5)
+main.Image = CUSTOM_IMAGE_ID
+main.ScaleType = Enum.ScaleType.Slice
+main.SliceCenter = Rect.new(40, 40, 60, 60)
+main.BackgroundColor3 = Color3.new(1, 1, 1)
+main.BorderSizePixel = 0
+main.Visible = false
+main.Parent = gui
+
+makeDraggable(main, main)
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = main
+
+local mainStroke = Instance.new("UIStroke")
+mainStroke.Thickness = 2
+mainStroke.Parent = main
+
+--==================================================
+-- HEADER
+--==================================================
+local header = Instance.new("Frame")
+header.Size = UDim2.new(1, 0, 0, 60)
+header.BackgroundColor3 = Color3.fromRGB(220, 220, 230)
+header.BackgroundTransparency = 0.4
+header.BorderSizePixel = 0
+header.Parent = main
+
+local hc = Instance.new("UICorner")
+hc.CornerRadius = UDim.new(0, 16)
+header.ClipsDescendants = true
+
+local headerImage = Instance.new("ImageLabel")
+headerImage.Size = UDim2.fromOffset(40, 40)
+headerImage.Position = UDim2.fromOffset(12, 10)
+headerImage.BackgroundTransparency = 1
+headerImage.Image = CUSTOM_IMAGE_ID
+headerImage.Parent = header
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -190, 1, 0)
+title.Position = UDim2.fromOffset(62, 0)
+title.BackgroundTransparency = 1
+title.Text = "Tiền chicago V4.5"
+title.TextColor3 = Color3.fromRGB(0, 0, 0)
+title.TextSize = 18
+title.Font = Enum.Font.GothamBold
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = header
+
+local close = Instance.new("TextButton")
+close.Size = UDim2.fromOffset(36, 36)
+close.Position = UDim2.new(1, -46, 0, 12)
+close.BackgroundColor3 = Color3.fromRGB(230, 60, 60)
+close.Text = "x"
+close.TextColor3 = Color3.fromRGB(0, 0, 0)
+close.TextSize = 24
+close.Font = Enum.Font.GothamBold
+close.Parent = header
+
+local cc = Instance.new("UICorner")
+cc.CornerRadius = UDim.new(0, 10)
+cc.Parent = close
+
+local mini = Instance.new("TextButton")
+mini.Size = UDim2.fromOffset(36, 36)
+mini.Position = UDim2.new(1, -88, 0, 12)
+mini.BackgroundColor3 = Color3.fromRGB(200, 200, 210)
+mini.Text = "-"
+mini.TextColor3 = Color3.fromRGB(0, 0, 0)
+mini.TextSize = 18
+mini.Font = Enum.Font.GothamBold
+mini.Parent = header
+
+local mc = Instance.new("UICorner")
+mc.CornerRadius = UDim.new(0, 10)
+mc.Parent = mini
+
+--==================================================
+-- KEY SYSTEM WINDOW
+--==================================================
+local keyFrame = Instance.new("ImageLabel")
+keyFrame.Size = UDim2.fromOffset(420, 280)
+keyFrame.Position = UDim2.fromScale(.5, .5)
+keyFrame.AnchorPoint = Vector2.new(.5, .5)
+keyFrame.Image = CUSTOM_IMAGE_ID
+keyFrame.ScaleType = Enum.ScaleType.Slice
+keyFrame.SliceCenter = Rect.new(40, 40, 60, 60)
+keyFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+keyFrame.Parent = gui
+
+makeDraggable(keyFrame, keyFrame)
+
+local kc = Instance.new("UICorner")
+kc.CornerRadius = UDim.new(0, 16)
+kc.Parent = keyFrame
+
+local keyStroke = Instance.new("UIStroke")
+keyStroke.Thickness = 2
+keyStroke.Parent = keyFrame
+
+local kt = Instance.new("TextLabel")
+kt.Size = UDim2.new(1, -40, 0, 30)
+kt.Position = UDim2.fromOffset(20, 15)
+kt.BackgroundTransparency = 1
+kt.Text = "🔐 HỆ THỐNG GETKEY V4.5"
+kt.TextColor3 = Color3.fromRGB(0, 0, 0)
+kt.TextSize = 15
+kt.Font = Enum.Font.GothamBold
+kt.TextXAlignment = Enum.TextXAlignment.Left
+kt.Parent = keyFrame
+
+local subText = Instance.new("TextLabel")
+subText.Size = UDim2.new(1, -40, 0, 20)
+subText.Position = UDim2.fromOffset(20, 45)
+subText.BackgroundTransparency = 1
+subText.Text = "Nhập Key hợp lệ (6 tiếng) hoặc 'tien-keyvinhvien'"
+subText.TextColor3 = Color3.fromRGB(40, 40, 40)
+subText.TextSize = 11
+subText.Font = Enum.Font.GothamBold
+subText.TextXAlignment = Enum.TextXAlignment.Left
+subText.Parent = keyFrame
+
+local input = Instance.new("TextBox")
+input.Size = UDim2.new(1, -40, 0, 40)
+input.Position = UDim2.fromOffset(20, 72)
+input.PlaceholderText = "Nhập Key của bạn..."
+input.Text = ""
+input.TextColor3 = Color3.fromRGB(0, 0, 0)
+input.PlaceholderColor3 = Color3.fromRGB(80, 80, 80)
+input.BackgroundColor3 = Color3.fromRGB(240, 240, 245)
+input.TextSize = 14
+input.Font = Enum.Font.GothamBold
+input.Parent = keyFrame
+
+local ic = Instance.new("UICorner")
+ic.CornerRadius = UDim.new(0, 10)
+ic.Parent = input
+
+local enter = Instance.new("TextButton")
+enter.Size = UDim2.new(1, -40, 0, 38)
+enter.Position = UDim2.fromOffset(20, 120)
+enter.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+enter.Text = "XÁC NHẬN KEY"
+enter.TextColor3 = Color3.fromRGB(255, 255, 255)
+enter.TextSize = 14
+enter.Font = Enum.Font.GothamBold
+enter.Parent = keyFrame
+
+local ec = Instance.new("UICorner")
+ec.CornerRadius = UDim.new(0, 10)
+ec.Parent = enter
+
+local getKeyBtn = Instance.new("TextButton")
+getKeyBtn.Size = UDim2.new(1, -40, 0, 38)
+getKeyBtn.Position = UDim2.fromOffset(20, 164)
+getKeyBtn.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
+getKeyBtn.Text = "🌐 LẤY LINK GETKEY"
+getKeyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+getKeyBtn.TextSize = 14
+getKeyBtn.Font = Enum.Font.GothamBold
+getKeyBtn.Parent = keyFrame
+
+local gkc = Instance.new("UICorner")
+gkc.CornerRadius = UDim.new(0, 10)
+gkc.Parent = getKeyBtn
+
+local keyStatusText = Instance.new("TextLabel")
+keyStatusText.Size = UDim2.new(1, -40, 0, 25)
+keyStatusText.Position = UDim2.fromOffset(20, 212)
+keyStatusText.BackgroundTransparency = 1
+keyStatusText.Text = "Trạng thái: Chưa nhập Key"
+keyStatusText.TextColor3 = Color3.fromRGB(200, 50, 50)
+keyStatusText.TextSize = 12
+keyStatusText.Font = Enum.Font.GothamBold
+keyStatusText.TextXAlignment = Enum.TextXAlignment.Center
+keyStatusText.Parent = keyFrame
+
+getKeyBtn.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(GETKEY_URL)
+        keyStatusText.TextColor3 = Color3.fromRGB(52, 152, 219)
+        keyStatusText.Text = "📋 Đã copy link GetKey!"
+    else
+        keyStatusText.TextColor3 = Color3.fromRGB(52, 152, 219)
+        keyStatusText.Text = "🔗 Link: " .. GETKEY_URL
+    end
+end)
+
+--==================================================
+-- CONTENT & TABS CONTAINER
+--==================================================
+local content = Instance.new("Frame")
+content.Size = UDim2.new(1, -20, 1, -75)
+content.Position = UDim2.fromOffset(10, 65)
+content.BackgroundTransparency = 1
+content.Parent = main
+
+local menu = Instance.new("Frame")
+menu.Size = UDim2.fromOffset(130, 335)
+menu.Position = UDim2.fromOffset(5, 5)
+menu.BackgroundTransparency = 1
+menu.Parent = content
+
+local pages = {}
+
+local function makePage(name)
+    local page = Instance.new("ScrollingFrame")
+    page.Name = name
+    page.Size = UDim2.new(1, -145, 1, -10)
+    page.Position = UDim2.fromOffset(140, 5)
+    page.BackgroundColor3 = Color3.fromRGB(240, 240, 245)
+    page.BackgroundTransparency = 0.4
+    page.BorderSizePixel = 0
+    page.ScrollBarThickness = 3
+    page.CanvasSize = UDim2.new(0, 0, 0, 720)
+    page.Visible = false
+    page.Parent = content
+
+    local pc = Instance.new("UICorner")
+    pc.CornerRadius = UDim.new(0, 12)
+    pc.Parent = page
+
+    pages[name] = page
+    return page
+end
+
+local function addButton(page, text, y, callback)
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(1, -20, 0, 46)
+    b.Position = UDim2.fromOffset(10, y)
+    b.BackgroundColor3 = Color3.fromRGB(230, 230, 240)
+    b.Text = text
+    b.TextColor3 = Color3.fromRGB(0, 0, 0)
+    b.TextSize = 14
+    b.Font = Enum.Font.GothamBold
+    b.Parent = page
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, 10)
+    c.Parent = b
+
+    local active = false
+    if callback then
+        b.MouseButton1Click:Connect(function()
+            active = not active
+            if active then
+                b.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+            else
+                b.BackgroundColor3 = Color3.fromRGB(230, 230, 240)
+            end
+            callback(active, b)
+        end)
+    end
+    return b
+end
+
+--==================================================
+-- LOGIC VARIABLES
+--==================================================
+local autoBoxDelivery = false
+local autoFarmMoney = false
+local autoFarmKill = false
+local autoStealCar = false
+local antiLagEnabled = false
+local infiniteAmmoEnabled = false
+local displayFOV360Enabled = false
+
+local espTracersEnabled = false
+local espBoxesEnabled = false
+local espHealthNameEnabled = false
+local anyEspActive = false
+
+local aimHeadEnabled = false
+local wallCheckEnabled = true
+local teamCheckEnabled = true
+
+local hitboxEnabled = false
+local hitboxSize = 10
+local noclipEnabled = false
+local spinEnabled = false
+local godmodEnabled = false
+local espCache = {}
+
+local function cleanESP(plr)
+    if espCache[plr] then
+        if espCache[plr].Box then espCache[plr].Box:Remove() end
+        if espCache[plr].Tracer then espCache[plr].Tracer:Remove() end
+        if espCache[plr].Info then espCache[plr].Info:Remove() end
+        espCache[plr] = nil
+    end
+end
+
+Players.PlayerRemoving:Connect(function(plr)
+    cleanESP(plr)
+end)
+
+--==================================================
+-- TAB: FARM & ESP
+--==================================================
+local exp = makePage("EXP")
+
+addButton(exp, "⚡ ESP TIA DÂY", 10, function(state)
+    espTracersEnabled = state
+    anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthNameEnabled
+    counterLabel.Visible = anyEspActive
+end)
+
+addButton(exp, "📦 ESP HỘP", 65, function(state)
+    espBoxesEnabled = state
+    anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthNameEnabled
+    counterLabel.Visible = anyEspActive
+end)
+
+addButton(exp, "🏷 ESP NAME VÀ MÁU", 120, function(state)
+    espHealthNameEnabled = state
+    anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthNameEnabled
+    counterLabel.Visible = anyEspActive
+end)
+
+addButton(exp, "📦 AUTO GIAO THÙNG HÀNG", 175, function(state)
+    autoBoxDelivery = state
+    task.spawn(function()
+        while autoBoxDelivery do
+            task.wait(0.15)
+            pcall(function()
+                local char = player.Character
+                if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+                
+                for _, descendant in pairs(Workspace:GetDescendants()) do
+                    if descendant:IsA("ProximityPrompt") then
+                        local promptPart = descendant.Parent
+                        if promptPart and promptPart:IsA("BasePart") then
+                            local nameLower = descendant.Name:lower()
+                            local parentNameLower = promptPart.Name:lower()
+                            
+                            if nameLower:find("box") or nameLower:find("thùng") or nameLower:find("deliver") or 
+                               parentNameLower:find("box") or parentNameLower:find("thùng") or parentNameLower:find("delivery") then
+                                
+                                descendant.HoldDuration = 0
+                                if (char.HumanoidRootPart.Position - promptPart.Position).Magnitude <= 20 then
+                                    fireproximityprompt(descendant)
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+addButton(exp, "💰 AUTO FARM MONEY", 230, function(state)
+    autoFarmMoney = state
+    task.spawn(function()
+        while autoFarmMoney do
+            task.wait(0.2)
+            pcall(function()
+                for _, descendant in pairs(Workspace:GetDescendants()) do
+                    if descendant:IsA("ProximityPrompt") then
+                        descendant.HoldDuration = 0
+                        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                            local promptPart = descendant.Parent
+                            if promptPart and promptPart:IsA("BasePart") then
+                                if (player.Character.HumanoidRootPart.Position - promptPart.Position).Magnitude <= 15 then
+                                    fireproximityprompt(descendant)
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+addButton(exp, "🔫 AUTO FARM KILL", 285, function(state)
+    autoFarmKill = state
+    task.spawn(function()
+        while autoFarmKill do
+            task.wait(0.5)
+            pcall(function()
+                local char = player.Character
+                if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+                
+                local backpack = player:FindFirstChildOfClass("Backpack")
+                if backpack then
+                    for _, tool in pairs(backpack:GetChildren()) do
+                        if tool:IsA("Tool") and (tool.Name:lower():find("gun") or tool.Name:lower():find("súng") or tool:FindFirstChild("Handle")) then
+                            tool.Parent = char
+                        end
+                    end
+                end
+
+                local target = nil
+                local shortestDist = math.huge
+                for _, plr in pairs(Players:GetPlayers()) do
+                    if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChild("Humanoid") and plr.Character.Humanoid.Health > 0 then
+                        local dist = (char.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+                        if dist < shortestDist then
+                            shortestDist = dist
+                            target = plr.Character
+                        end
+                    end
+                end
+
+                if target and target:FindFirstChild("HumanoidRootPart") then
+                    char.HumanoidRootPart.CFrame = target.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                    local activeTool = char:FindFirstChildOfClass("Tool")
+                    if activeTool then
+                        activeTool:Activate()
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+addButton(exp, "🚗 AUTO STEAL CAR", 340, function(state)
+    autoStealCar = state
+    task.spawn(function()
+        while autoStealCar do
+            task.wait(1)
+            pcall(function()
+                if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                    for _, obj in pairs(Workspace:GetDescendants()) do
+                        if obj:IsA("VehicleSeat") or (obj:IsA("Seat") and obj.Parent:FindFirstChild("Body")) then
+                            if (player.Character.HumanoidRootPart.Position - obj.Position).Magnitude < 30 then
+                                obj:Sit(player.Character.Humanoid)
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+--==================================================
+-- TAB: AIMBOT & COMBAT
+--==================================================
+local aim = makePage("AIM")
+
+addButton(aim, "🎯 BẬT AIMBOT (TÂM SÚNG)", 10, function(state)
+    aimHeadEnabled = state
+    aimFOV.Visible = state
+    centerDot.Visible = state
+end)
+
+addButton(aim, "⭕ BẬT FOV 360 TRƯNG BÀY", 65, function(state)
+    displayFOV360Enabled = state
+    displayFOV360.Visible = state
+end)
+
+addButton(aim, "🔫 VÔ HẠN ĐẠN CỰC ĐẠI", 120, function(state)
+    infiniteAmmoEnabled = state
+    task.spawn(function()
+        while infiniteAmmoEnabled do
+            task.wait(0.1)
+            pcall(function()
+                local maxInfVal = 99999999999999999999999999999999999999999999
+                if getgc and setreadonly and rawset then
+                    for _, obj in next, getgc(true) do
+                        if type(obj) == "table" then
+                            if rawget(obj, "Ammo") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "Ammo", maxInfVal)
+                            end
+                            if rawget(obj, "MaxAmmo") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "MaxAmmo", maxInfVal)
+                            end
+                            if rawget(obj, "ClipSize") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "ClipSize", maxInfVal)
+                            end
+                            if rawget(obj, "BulletsPerShot") or rawget(obj, "BulletPerShot") or rawget(obj, "Count") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "BulletsPerShot", maxInfVal)
+                                rawset(obj, "BulletPerShot", maxInfVal)
+                                rawset(obj, "Count", maxInfVal)
+                            end
+                        end
+                    end
+                end
+
+                local function forceFixAmmo(container)
+                    if not container then return end
+                    for _, obj in pairs(container:GetChildren()) do
+                        if obj:IsA("Tool") then
+                            for _, v in pairs(obj:GetDescendants()) do
+                                if v:IsA("IntValue") or v:IsA("NumberValue") then
+                                    local name = v.Name:lower()
+                                    if name:find("ammo") or name:find("clip") or name:find("bullet") or name:find("magazine") or name:find("rounds") or name:find("count") then
+                                        v.Value = 999999999
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+
+                if player.Character then
+                    forceFixAmmo(player.Character)
+                end
+                local backpack = player:FindFirstChildOfClass("Backpack")
+                if backpack then
+                    forceFixAmmo(backpack)
+                end
+            end)
+        end
+    end)
+end)
+
+addButton(aim, "🧱 WALL CHECK: ", 175, function(state)
+    wallCheckEnabled = state
+end)
+
+addButton(aim, "👥 TEAM CHECK: ", 230, function(state)
+    teamCheckEnabled = state
+end)
+
+local hitboxButton = addButton(aim, "⬡ HITBOX: OFF", 285, function(state)
+    hitboxEnabled = state
+    hitboxButton.Text = state and "⬡ HITBOX: ON" or "⬡ HITBOX: OFF"
+end)
+
+local hitboxValue = Instance.new("TextLabel")
+hitboxValue.Size = UDim2.new(1, -20, 0, 42)
+hitboxValue.Position = UDim2.fromOffset(10, 340)
+hitboxValue.BackgroundColor3 = Color3.fromRGB(230, 230, 240)
+hitboxValue.Text = "KÍCH THƯỚC HITBOX: 10"
+hitboxValue.TextColor3 = Color3.fromRGB(0, 0, 0)
+hitboxValue.TextSize = 14
+hitboxValue.Font = Enum.Font.GothamBold
+hitboxValue.Parent = aim
+
+local hbc = Instance.new("UICorner")
+hbc.CornerRadius = UDim.new(0, 10)
+hbc.Parent = hitboxValue
+
+local slider = Instance.new("TextBox")
+slider.Size = UDim2.new(1, -20, 0, 42)
+slider.Position = UDim2.fromOffset(10, 392)
+slider.Text = "10"
+slider.TextColor3 = Color3.fromRGB(0, 0, 0)
+slider.BackgroundColor3 = Color3.fromRGB(230, 230, 240)
+slider.TextSize = 14
+slider.Font = Enum.Font.GothamBold
+slider.Parent = aim
+
+local sc = Instance.new("UICorner")
+sc.CornerRadius = UDim.new(0, 10)
+sc.Parent = slider
+
+slider.FocusLost:Connect(function()
+    local val = tonumber(slider.Text)
+    if val then
+        hitboxSize = math.clamp(val, 2, 50)
+        hitboxValue.Text = "KÍCH THƯỚC HITBOX: " .. tostring(hitboxSize)
+    else
+        slider.Text = tostring(hitboxSize)
+    end
+end)
+
+--==================================================
+-- TAB: SPIN & PLAYER MODS
+--==================================================
+local spin = makePage("SPIN")
+addButton(spin, "🌀 SPIN", 10, function(state)
+    spinEnabled = state
+    task.spawn(function()
+        while spinEnabled do
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(60), 0)
+            end
+            task.wait()
+        end
+    end)
+end)
+
+addButton(spin, "🛡 BẤT TỬ (GODMODE)", 65, function(state) godmodEnabled = state end)
+addButton(spin, "👻 ĐI XUYÊN TƯỜNG (NOCLIP)", 120, function(state) noclipEnabled = state end)
+
+addButton(spin, "⚡ CHỐNG LAG (ANTI-LAG)", 175, function(state)
+    antiLagEnabled = state
+    if antiLagEnabled then
+        pcall(function()
+            Lighting.GlobalShadows = false
+            Lighting.Brightness = 2
+            Lighting.FogEnd = 999999
+            for _, v in pairs(Workspace:GetDescendants()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
+                    v.Enabled = false
+                elseif v:IsA("BasePart") then
+                    v.Material = Enum.Material.SmoothPlastic
+                    v.Reflectance = 0
+                end
+            end
+        end)
+    end
+end)
+
+--==================================================
+-- TAB: BYPASS
+--==================================================
+local bypass = makePage("BYPASS")
+addButton(bypass, "🔐 TRẠNG THÁI KEY: AN TOÀN", 10, function(state) end)
+addButton(bypass, "🌐 LẤY LẠI LINK GETKEY", 65, function(state)
+    if setclipboard then setclipboard(GETKEY_URL) end
+end)
+
+--==================================================
+-- MENU NAVIGATION BUTTONS CREATION
+--==================================================
+local names = {"EXP", "AIM", "SPIN", "BYPASS"}
+
+for i, name in ipairs(names) do
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(1, 0, 0, 48)
+    b.Position = UDim2.fromOffset(0, (i - 1) * 56)
+    b.BackgroundColor3 = Color3.fromRGB(220, 220, 230)
+    b.Text = name
+    b.TextColor3 = Color3.fromRGB(0, 0, 0)
+    b.TextSize = 14
+    b.Font = Enum.Font.GothamBold
+    b.Parent = menu
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, 10)
+    c.Parent = b
+
+    b.MouseButton1Click:Connect(function()
+        for _, p in pairs(pages) do
+            p.Visible = false
+        end
+        pages[name].Visible = true
+    end)
+end
+
+pages.EXP.Visible = true
+
+--==================================================
+-- XỬ LÝ CHECK CACHE KEY KHI KHỞI ĐỘNG
+--==================================================
+local cachedData = loadKeyData()
+if cachedData then
+    if cachedData.Type == "Permanent" then
+        keyFrame.Visible = false
+        main.Visible = true
+        keyTimerLabel.Visible = true
+        task.spawn(function()
+            while true do
+                keyTimerLabel.Text = "🔑 Key: Vĩnh Viễn (∞)"
+                task.wait(1)
+            end
+        end)
+    elseif cachedData.Type == "Temporary" and cachedData.Expire and tick() < cachedData.Expire then
+        keyFrame.Visible = false
+        main.Visible = true
+        keyTimerLabel.Visible = true
+        
+        task.spawn(function()
+            while true do
+                local timeLeft = cachedData.Expire - tick()
+                if timeLeft > 0 then
+                    local h = math.floor(timeLeft / 3600)
+                    local m = math.floor((timeLeft % 3600) / 60)
+                    local s = math.floor(timeLeft % 60)
+                    keyTimerLabel.Text = string.format("🔑 Key còn: %02d:%02d:%02d", h, m, s)
+                else
+                    clearKeyData()
+                    keyTimerLabel.Text = "❌ Key đã hết hạn!"
+                    keyTimerLabel.TextColor3 = Color3.fromRGB(230, 60, 60)
+                    main.Visible = false
+                    gui:Destroy()
+                    break
+                end
+                task.wait(1)
+            end
+        end)
+    else
+        clearKeyData()
+    end
+end
+
+--==================================================
+-- HỆ THỐNG XÁC THỰC KEY MỚI
+--==================================================
+enter.MouseButton1Click:Connect(function()
+    local enteredKey = input.Text:gsub("%s+", "")
+    
+    if enteredKey == "tien-keyvinhvien" then
+        saveKeyData("Permanent", 0)
+        keyStatusText.TextColor3 = Color3.fromRGB(46, 204, 113)
+        keyStatusText.Text = "⭐ Thành công: Key Vĩnh Viễn!"
+        task.wait(0.5)
+        keyFrame:Destroy()
+        main.Visible = true
+        keyTimerLabel.Visible = true
+        
+        task.spawn(function()
+            while true do
+                keyTimerLabel.Text = "🔑 Key: Vĩnh Viễn (∞)"
+                task.wait(1)
+            end
+        end)
+        
+    elseif enteredKey ~= "" and string.len(enteredKey) >= 4 then
+        local expireTime = tick() + 21600
+        saveKeyData("Temporary", expireTime)
+        
+        keyStatusText.TextColor3 = Color3.fromRGB(46, 204, 113)
+        keyStatusText.Text = "✅ Thành công (Hạn 6 tiếng)!"
+        task.wait(0.5)
+        keyFrame:Destroy()
+        main.Visible = true
+        keyTimerLabel.Visible = true
+        
+        task.spawn(function()
+            while true do
+                local timeLeft = expireTime - tick()
+                if timeLeft > 0 then
+                    local h = math.floor(timeLeft / 3600)
+                    local m = math.floor((timeLeft % 3600) / 60)
+                    local s = math.floor(timeLeft % 60)
+                    keyTimerLabel.Text = string.format("🔑 Key còn: %02d:%02d:%02d", h, m, s)
+                else
+                    clearKeyData()
+                    keyTimerLabel.Text = "❌ Key đã hết hạn & bị xóa!"
+                    keyTimerLabel.TextColor3 = Color3.fromRGB(230, 60, 60)
+                    main.Visible = false
+                    gui:Destroy()
+                    break
+                end
+                task.wait(1)
+            end
+        end)
+    else
+        clearKeyData()
+        keyStatusText.TextColor3 = Color3.fromRGB(230, 60, 60)
+        keyStatusText.Text = "❌ Sai Key hợp lệ! Vui lòng lấy link GetKey."
+    end
+end)
+
+--==================================================
+-- OPEN/CLOSE FLOATING BUTTON
+--==================================================
+local open = Instance.new("ImageButton")
+open.Size = UDim2.fromOffset(45, 45)
+open.Position = UDim2.new(0, 20, 0, 20)
+open.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+open.Image = CUSTOM_IMAGE_ID
+open.ScaleType = Enum.ScaleType.Fit
+open.Visible = false
+open.Parent = gui
+
+makeDraggable(open, open)
+
+local openCorner = Instance.new("UICorner")
+openCorner.CornerRadius = UDim.new(0, 10)
+openCorner.Parent = open
+
+local openStroke = Instance.new("UIStroke")
+openStroke.Color = Color3.fromRGB(255, 185, 30)
+openStroke.Thickness = 1.5
+openStroke.Parent = open
+
+close.MouseButton1Click:Connect(function()
+    main.Visible = false
+    open.Visible = true
+    aimFOV.Visible = false
+    displayFOV360.Visible = false
+    centerDot.Visible = false
+end)
+
+mini.MouseButton1Click:Connect(function()
+    content.Visible = not content.Visible
+    main.Size = content.Visible and UDim2.fromOffset(600, 420) or UDim2.fromOffset(600, 60)
+end)
+
+open.MouseButton1Click:Connect(function()
+    main.Visible = true
+    open.Visible = false
+    if aimHeadEnabled then
+        aimFOV.Visible = true
+        centerDot.Visible = true
+    end
+    if displayFOV360Enabled then
+        displayFOV360.Visible = true
+    end
+end)
+
+--==================================================
+-- RENDER LOOP & RAINBOW EFFECT
+--==================================================
+RunService.RenderStepped:Connect(function()
+    local rainbowColor = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+    mainStroke.Color = rainbowColor
+    keyStroke.Color = rainbowColor
+
+    local gameCenter = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    aimFOV.Position = gameCenter
+    displayFOV360.Position = gameCenter
+    centerDot.Position = gameCenter
+
+    if godmodEnabled and player.Character and player.Character:FindFirstChild("Humanoid") then
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+    end
+
+    if noclipEnabled and player.Character then
+        local parts = player.Character:GetDescendants()
+        for i = 1, #parts do
+            local part = parts[i]
+            if part:IsA("BasePart") then part.CanCollide = false end
+        end
+    end
+
+    -- AIMBOT LOGIC
+    if aimHeadEnabled then
+        local closestTarget = nil
+        local shortestDist = fovRadius
+
+        local allPlayers = Players:GetPlayers()
+        for i = 1, #allPlayers do
+            local plr = allPlayers[i]
+            if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChild("Humanoid") and plr.Character.Humanoid.Health > 0 then
+                
+                local isTeamMate = false
+                if teamCheckEnabled and player.Team and plr.Team and player.Team == plr.Team then
+                    isTeamMate = true
+                end
+
+                if not isTeamMate then
+                    local targetPart = plr.Character:FindFirstChild("Head") or plr.Character.HumanoidRootPart
+                    local screenPoint, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
+                    
+                    if onScreen then
+                        local mouseDist = (Vector2.new(screenPoint.X, screenPoint.Y) - gameCenter).Magnitude
+                        if mouseDist < shortestDist then
+                            
+                            local passesWallCheck = true
+                            if wallCheckEnabled then
+                                local raycastParams = RaycastParams.new()
+                                raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+                                raycastParams.IgnoreWater = true
+                                
+                                local ignoreList = {player.Character}
+                                if plr.Character then
+                                    table.insert(ignoreList, plr.Character)
+                                end
+                                raycastParams.FilterDescendantsInstances = ignoreList
+
+                                local direction = targetPart.Position - Camera.CFrame.Position
+                                local raycastResult = Workspace:Raycast(Camera.CFrame.Position, direction, raycastParams)
+                                
+                                if raycastResult then
+                                    passesWallCheck = false
+                                end
+                            end
+
+                            if passesWallCheck then
+                                shortestDist = mouseDist
+                                closestTarget = targetPart
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        if closestTarget then
+            Camera.CFrame = CFrame.new(Camera.CFrame.Position, closestTarget.Position)
+        end
+    end
+
+    -- Hitbox Logic
+    local allPlayers = Players:GetPlayers()
+    for i = 1, #allPlayers do
+        local plr = allPlayers[i]
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            local hrp = plr.Character.HumanoidRootPart
+            if hitboxEnabled then
+                hrp.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
+                hrp.Transparency = 0.6
+                hrp.CanCollide = false
+            else
+                hrp.Size = Vector3.new(2, 2, 1)
+                hrp.Transparency = 1
+            end
+        end
+    end
+
+    -- ESP & Counter Logic
+    local humanCount = 0
+    local robotCount = 0
+    local activePlayersMap = {}
+
+    for i = 1, #allPlayers do
+        local plr = allPlayers[i]
+        activePlayersMap[plr] = true
+
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChild("Humanoid") then
+            local char = plr.Character
+            local hrp = char.HumanoidRootPart
+            local humanoid = char.Humanoid
+
+            local isRobot = plr.Name:lower():find("bot") or plr.Name:lower():find("npc") or not Players:GetPlayerFromCharacter(char)
+            if isRobot then
+                robotCount = robotCount + 1
+            else
+                humanCount = humanCount + 1
+            end
+
+            if not espCache[plr] then
+                espCache[plr] = {
+                    Box = Drawing.new("Square"),
+                    Tracer = Drawing.new("Line"),
+                    Info = Drawing.new("Text")
+                }
+                espCache[plr].Box.Visible = false
+                espCache[plr].Box.Thickness = 1.5
+                espCache[plr].Box.Color = Color3.fromRGB(255, 60, 60)
+                espCache[plr].Box.Filled = false
+
+                espCache[plr].Tracer.Visible = false
+                espCache[plr].Tracer.Thickness = 1.5
+                espCache[plr].Tracer.Color = Color3.fromRGB(255, 255, 255)
+
+                espCache[plr].Info.Visible = false
+                espCache[plr].Info.Size = 13
+                espCache[plr].Info.Center = true
+                espCache[plr].Info.Outline = true
+                espCache[plr].Info.Color = Color3.fromRGB(255, 255, 255)
+            end
+
+            local cache = espCache[plr]
+            local vector, onSchool = Camera:WorldToViewportPoint(hrp.Position)
+
+            if onSchool and anyEspActive then
+                if espBoxesEnabled then
+                    cache.Box.Visible = true
+                    cache.Box.Size = Vector2.new(2500 / vector.Z, 3500 / vector.Z)
+                    cache.Box.Position = Vector2.new(vector.X - cache.Box.Size.X / 2, vector.Y - cache.Box.Size.Y / 2)
+                else
+                    cache.Box.Visible = false
+                end
+
+                if espTracersEnabled then
+                    cache.Tracer.Visible = true
+                    cache.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+                    cache.Tracer.To = Vector2.new(vector.X, vector.Y)
+                else
+                    cache.Tracer.Visible = false
+                end
+
+                if espHealthNameEnabled then
+                    cache.Info.Visible = true
+                    cache.Info.Text = string.format("%s\n[HP: %d/%d]", plr.Name, math.floor(humanoid.Health), math.floor(humanoid.MaxHealth))
+                    cache.Info.Position = Vector2.new(vector.X, vector.Y - (3500 / vector.Z) / 2 - 30)
+                else
+                    cache.Info.Visible = false
+                end
+            else
+                cache.Box.Visible = false
+                cache.Tracer.Visible = false
+                cache.Info.Visible = false
+            end
+        else
+            if espCache[plr] then
+                espCache[plr].Box.Visible = false
+                espCache[plr].Tracer.Visible = false
+                espCache[plr].Info.Visible = false
+            end
+        end
+    end
+
+    for cachedPlr, _ in pairs(espCache) do
+        if not activePlayersMap[cachedPlr] then
+            cleanESP(cachedPlr)
+        end
+    end
+
+    if anyEspActive then
+        counterLabel.Text = string.format("👤 %d   🤖 %d", humanCount, robotCount)
+    end
+end)
