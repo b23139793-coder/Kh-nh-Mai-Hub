@@ -1,0 +1,169 @@
+ -- ==================== TIỀN HUB PRO | ILLEGAL SOCCER ====================
+
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+
+local UIModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/ValueHat-Script/Valuehat-script/refs/heads/main/ValueHatGui4.lua"))()
+local Hub = UIModule.CreateWindow("Tiền Hub Pro", "TikTok: nhavuafifai")
+
+-- Tùy chỉnh giao diện kính mờ (Glassmorphism) và viền màu xanh lá cây
+task.spawn(function()
+    task.wait(0.1)
+    for _, gui in ipairs(CoreGui:GetChildren()) do
+        local mainFrame = gui:FindFirstChildWhichIsA("Frame", true)
+        if mainFrame and mainFrame.Size.X.Offset > 200 then
+            mainFrame.BackgroundColor3 = Color3.fromRGB(12, 20, 15)
+            mainFrame.BackgroundTransparency = 0.35
+            
+            local stroke = mainFrame:FindFirstChildWhichIsA("UIStroke")
+            if not stroke then
+                stroke = Instance.new("UIStroke")
+                stroke.Parent = mainFrame
+            end
+            stroke.Color = Color3.fromRGB(0, 255, 100)
+            stroke.Thickness = 2.5
+        end
+    end
+end)
+
+-- ==================== BẢNG CHÀO MỪNG (WELCOME POPUP VỚI TÍCH XANH) ====================
+task.spawn(function()
+    pcall(function()
+        local screenGui = Instance.new("ScreenGui")
+        screenGui.Name = "TienHubWelcomeGui"
+        screenGui.ResetOnSpawn = false
+        screenGui.Parent = CoreGui
+
+        local card = Instance.new("Frame")
+        card.Size = UDim2.new(0, 320, 0, 140)
+        card.Position = UDim2.new(0.5, -160, 0.4, -70)
+        card.BackgroundColor3 = Color3.fromRGB(12, 20, 15)
+        card.BackgroundTransparency = 0.2
+        card.BorderSizePixel = 0
+        card.Parent = screenGui
+
+        local uiCorner = Instance.new("UICorner")
+        uiCorner.CornerRadius = UDim.new(0, 12)
+        uiCorner.Parent = card
+
+        local stroke = Instance.new("UIStroke")
+        stroke.Color = Color3.fromRGB(0, 255, 100)
+        stroke.Thickness = 2.5
+        stroke.Parent = card
+
+        local title = Instance.new("TextLabel")
+        title.Size = UDim2.new(1, 0, 0, 45)
+        title.BackgroundTransparency = 1
+        title.Text = "Tiền Hub Pro ✔"
+        title.TextColor3 = Color3.fromRGB(0, 255, 100)
+        title.TextSize = 20
+        title.Font = Enum.Font.GothamBold
+        title.Parent = card
+
+        local message = Instance.new("TextLabel")
+        message.Size = UDim2.new(1, -20, 0, 50)
+        message.Position = UDim2.new(0, 10, 0, 45)
+        message.BackgroundTransparency = 1
+        message.Text = "Wellcome to script!\nChúc bạn chơi game vui vẻ."
+        message.TextColor3 = Color3.fromRGB(255, 255, 255)
+        message.TextSize = 14
+        message.Font = Enum.Font.Gotham
+        message.TextWrapped = true
+        message.Parent = card
+
+        local okBtn = Instance.new("TextButton")
+        okBtn.Size = UDim2.new(0, 100, 0, 30)
+        okBtn.Position = UDim2.new(0.5, -50, 1, -40)
+        okBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 100)
+        okBtn.TextColor3 = Color3.fromRGB(12, 20, 15)
+        okBtn.Text = "OK"
+        okBtn.TextSize = 14
+        okBtn.Font = Enum.Font.GothamBold
+        okBtn.Parent = card
+
+        local btnCorner = Instance.new("UICorner")
+        btnCorner.CornerRadius = UDim.new(0, 8)
+        btnCorner.Parent = okBtn
+
+        okBtn.MouseButton1Click:Connect(function()
+            screenGui:Destroy()
+        end)
+    end)
+end)
+
+local Config = {
+	InfStamina = false
+}
+
+-- ==================== Module Inf Stamina ====================
+local StaminaUtility = {
+	hookhistory = {},
+	Players = Players,
+	Initialized = false
+}
+
+function StaminaUtility:safeFilterGc(t, d, i)
+	local s, r = pcall(function(...)
+		return filtergc(t, d, i)
+	end)
+	if s and r then return r end
+	return warn('Thất bại khi filtergc, lý do: '..tostring(r))
+end
+
+function StaminaUtility:gupv(f, i)
+	local s, r = pcall(function()
+		return debug.getupvalue(f, i)
+	end)
+	if s and r then return r end
+	return warn('Thất bại khi getupvalue, lỗi: '..tostring(r))
+end
+
+function StaminaUtility:safehook(o, n)
+	local s, r = pcall(function(...)
+		local h = hookfunction(o, n)
+		self.hookhistory[h] = o
+		return h
+	end)
+	if s and r then return r end
+	return warn('Thất bại khi hookfunction, lỗi: '..tostring(r))
+end
+
+function StaminaUtility:init()
+	if self.Initialized then return end
+	
+	if not hookfunction or not filtergc or not debug.getupvalue then
+		return warn("Trình thực thi thiếu các hàm cần thiết cho tính năng Vô Hạn Thể Lực (Inf Stamina)")
+	end
+
+	self.updateSprint = self:safeFilterGc("function", {Name = "updateSprint"}, true)
+	if not self.updateSprint then return end
+
+	self.module = self:gupv(self.updateSprint, 14)
+	if not self.module then return end
+
+	self.Update = self.module.Update
+	if not self.Update then return warn("Không thể lấy hàm Update") end
+
+	self.hook = self:safehook(self.Update, function(...)
+		if Config.InfStamina then
+			local data = select(2, ...)
+			if data and rawget(data, "HasUnlimitedStamina") ~= nil then
+				rawset(data, "HasUnlimitedStamina", true)
+			end
+		end 
+		return self.hook(...)
+	end)
+
+	if self.hook then
+		self.Initialized = true
+		warn("Đã tải thành công Hook Vô Hạn Thể Lực")
+	end
+end
+
+-- Khởi tạo trước Stamina Hook
+StaminaUtility:init()
+
+-- ==================== Giao Diện Điều Khiển UI ====================
+Hub:CreateToggle("Vô Hạn Thể Lực (Inf Stamina)", false, function(isOn)
+	Config.InfStamina = isOn
+end)
