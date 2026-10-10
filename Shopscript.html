@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIỀN HUB — Script Marketplace</title>
+<style>
+:root{--bg:#111214;--side:#1c1d22;--card:#1e1f25;--line:#303138;--text:#f4f5f7;--muted:#9699a4;--blue:#2865ef;--red:#ee454d;--green:#36ca88}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:var(--side);border-right:1px solid var(--line);padding:18px 12px;z-index:5;overflow:auto}
+.brand{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:800;padding:8px 7px 28px}
+.logo{background:linear-gradient(135deg,#367dff,#7c3aed);border-radius:12px;padding:10px}
+.side-label{font-size:11px;color:#777b86;font-weight:bold;margin:15px 10px 8px}
+.nav{display:flex;align-items:center;gap:12px;width:100%;padding:12px;border:0;background:transparent;color:#aeb1bc;text-align:left;border-radius:11px;margin:3px 0}
+.nav:hover{background:#292a31;color:white}
+.nav.active{background:var(--red);color:white}
+.main{margin-left:245px;min-height:100vh;min-width:0}
+.topbar{height:55px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;gap:14px;position:sticky;top:0;background:#111214;z-index:4}
+.search{width:min(480px,75%);background:#202126;border:1px solid #34353c;border-radius:10px;padding:11px 14px;color:white;outline:none}
+.avatar{margin-left:auto;border-radius:50%;background:#292a30;width:37px;height:37px;display:grid;place-items:center;font-size:12px;font-weight:bold}
+.page-head{padding:20px 24px 22px;border-bottom:1px solid var(--line)}
+h1{font-size:32px;margin:0 0 8px;letter-spacing:-.7px}
+.subtitle{color:var(--muted);font-size:14px}
+.content{padding:24px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,215px));gap:14px;margin-bottom:48px}
+.stat{background:var(--card);border:1px solid #34353c;border-radius:18px;padding:21px;min-height:125px}
+.stat-name{color:#a4a7b1;font-size:14px}
+.stat-num{font-size:27px;font-weight:800;margin:10px 0}
+.stat-note{font-size:12px;color:var(--green)}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.section-head h2{font-size:22px;margin:0}
+.spacer{flex:1}
+.pill{background:#202126;border:1px solid #303138;color:#ddd;padding:8px 13px;border-radius:24px;font-size:12px}
+.pill.active{background:#34353c}
+.scripts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.script-card{min-width:0;background:var(--card);border:1px solid #34353c;border-radius:19px;overflow:hidden;display:flex;flex-direction:column}
+.cover{height:150px;background:#202126;display:grid;place-items:center;position:relative;border-bottom:1px solid #303138}
+.cover-icon{font-size:43px;filter:drop-shadow(0 0 12px #2865ef55)}
+.premium{position:absolute;right:10px;top:10px;background:var(--red);border-radius:20px;padding:6px 10px;font-size:10px;font-weight:bold}
+.info{padding:16px;display:flex;flex-direction:column;gap:11px;flex:1}
+.info h3{font-size:17px;margin:0;overflow-wrap:anywhere}
+.game{font-size:13px;color:var(--muted)}
+.tag{align-self:flex-start;background:#303138;color:#ddd;border-radius:20px;padding:6px 11px;font-size:12px}
+.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:bold}
+.btn-blue{background:var(--blue);color:white}
+.btn-blue:hover{background:#3975ff}
+.btn-red{background:var(--red);color:white}
+.btn-gray{background:#303138;color:white}
+.view-btn{width:100%;margin-top:auto}
+.actions{display:flex;gap:6px}
+.actions button{flex:1;font-size:11px;padding:8px 3px}
+.hidden{display:none!important}
+.empty{padding:35px;text-align:center;color:var(--muted);grid-column:1/-1}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px}
+.panel h2{margin:0 0 16px;font-size:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;color:#b7bac4}
+.field input,.field select,.field textarea{width:100%;background:#15161a;color:white;border:1px solid #3a3b44;border-radius:9px;padding:12px;outline:none}
+.field textarea{min-height:90px;resize:vertical}
+.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.notice{font-size:13px;color:var(--muted);line-height:1.6}
+.price-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.price-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:13px}
+.price{font-size:24px;font-weight:bold}
+.price-card .btn{margin-top:auto}
+.modal-backdrop{position:fixed;inset:0;background:#000b;z-index:20;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-backdrop.show{display:flex}
+.modal{width:min(430px,100%);background:#1c1d22;border:1px solid #3a3b44;border-radius:18px;padding:24px;max-height:90vh;overflow:auto}
+.modal h2{margin:0 0 8px}
+.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.close{background:transparent;border:0;color:white;font-size:24px}
+.tabs{display:flex;background:#111214;border-radius:10px;padding:4px;margin:15px 0}
+.tabs button{flex:1;background:transparent;color:#aaa;border:0;padding:10px;border-radius:8px}
+.tabs button.active{background:#303138;color:white}
+.stack{display:flex;flex-direction:column;gap:13px}
+.stack .btn{width:100%}
+footer{padding:25px;color:#777b86;text-align:center;font-size:12px}
+@media(max-width:1250px){.scripts{grid-template-columns:repeat(3,minmax(0,1fr))}.price-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.sidebar{width:190px}.main{margin-left:190px}.scripts{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:15px}.stat-num{font-size:22px}}
+@media(max-width:560px){
+ .sidebar{position:static;width:100%;height:auto;padding:8px;display:flex;align-items:center;gap:4px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
+ .brand{padding:5px;font-size:16px;white-space:nowrap;margin-right:5px}
+ .logo{padding:7px}.side-label{display:none}
+ .nav{width:auto;white-space:nowrap;padding:10px;font-size:12px}
+ .main{margin-left:0}.topbar{padding:0 12px}
+ .page-head{padding:18px 15px}h1{font-size:27px}
+ .content{padding:14px}
+ .stats{grid-template-columns:1fr;gap:10px;margin-bottom:30px}
+ .stat{min-height:0;padding:14px 17px}.stat-num{margin:7px 0}
+ .scripts{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .cover{height:105px}.info{padding:11px;gap:9px}
+ .info h3{font-size:14px}.game{font-size:11px}
+ .view-btn{font-size:11px;padding:10px 4px}
+ .section-head h2{font-size:18px}.pill{padding:7px 9px}
+ .price-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .price-card{padding:13px}.price{font-size:19px}
+ .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+ <div class="brand"><span class="logo">🔷</span> TIỀN HUB</div>
+ <div class="side-label">MENU</div>
+ <button class="nav active" data-page="marketplace">▣ Marketplace</button>
+ <button class="nav" data-page="top">↗ Top Scripts</button>
+ <button class="nav" data-page="mine">▦ My Scripts</button>
+ <button class="nav" data-page="upload">↑ Upload Script</button>
+ <button class="nav" data-page="keys">♢ Bảng giá Key</button>
+ <div class="side-label">SYSTEM</div>
+ <button class="nav" data-page="settings">⚙ Settings</button>
+</aside>
+
+<main class="main">
+ <div class="topbar">
+  <input id="search" class="search" placeholder="⌕  Search scripts..." autocomplete="off">
+  <button class="btn btn-blue" id="loginOpen">Đăng nhập</button>
+  <div class="avatar hidden" id="avatar">TH</div>
+ </div>
+ <header class="page-head">
+  <h1 id="pageTitle">Marketplace</h1>
+  <div class="subtitle" id="pageSubtitle">Khám phá các script Roblox mới nhất từ cộng đồng TIỀN HUB.</div>
+ </header>
+ <div class="content">
+  <section class="stats" id="stats">
+   <div class="stat"><div class="stat-name">Total Scripts</div><div class="stat-num" id="statScripts">0</div><div class="stat-note">↗ Scripts trong cửa hàng</div></div>
+   <div class="stat"><div class="stat-name">Registered Users</div><div class="stat-num" id="statUsers">0</div><div class="stat-note">↗ Thành viên</div></div>
+   <div class="stat"><div class="stat-name">Daily Views</div><div class="stat-num" id="statViews">—</div><div class="stat-note">↗ Thống kê demo</div></div>
+  </section>
+
+  <section id="marketSection">
+   <div class="section-head">
+    <h2 id="listTitle">⚡ Latest Scripts</h2><div class="spacer"></div>
+    <button class="pill active" data-sort="latest">Latest</button>
+    <button class="pill" data-sort="name">A–Z</button>
+   </div>
+   <div class="scripts" id="scriptGrid"></div>
+  </section>
+
+  <section id="uploadSection" class="hidden">
+   <div class="panel">
+    <h2 id="editorTitle">↑ Thêm script mới</h2>
+    <p class="notice">Chỉ tài khoản admin mới được thêm hoặc chỉnh sửa script. URL nên là đường dẫn script bạn có quyền chia sẻ.</p>
+    <form id="scriptForm">
+     <input type="hidden" id="editId">
+     <div class="form-grid">
+      <div class="field"><label for="scriptName">Tên script *</label><input id="scriptName" required maxlength="90" placeholder="Ví dụ: Chicago Life Hub"></div>
+      <div class="field"><label for="scriptGame">Tên game</label><input id="scriptGame" maxlength="90" placeholder="Ví dụ: Chicago Life"></div>
+      <div class="field"><label for="scriptCategory">Danh mục</label><select id="scriptCategory"><option>Utility</option><option>Combat</option><option>Movement</option><option>Auto-Farm</option><option>Misc</option></select></div>
+      <div class="field"><label for="scriptPremium">Loại script</label><select id="scriptPremium"><option value="false">Miễn phí</option><option value="true">Premium</option></select></div>
+      <div class="field full"><label for="scriptUrl">URL script / Raw URL</label><input id="scriptUrl" type="url" placeholder="https://..."></div>
+      <div class="field full"><label for="scriptDesc">Mô tả</label><textarea id="scriptDesc" maxlength="500" placeholder="Mô tả ngắn về script..."></textarea></div>
+     </div>
+     <div class="form-actions"><button class="btn btn-blue" type="submit">Lưu script</button><button class="btn btn-gray" type="button" id="cancelEdit">Hủy</button></div>
+    </form>
+   </div>
+   <div class="panel"><h2>Quản lý script</h2><div id="adminManage" class="notice">Đăng nhập bằng admin để quản lý script.</div></div>
+  </section>
+
+  <section id="keysSection" class="hidden">
+   <div class="section-head"><h2>♢ Bảng giá Key TIỀN HUB</h2></div>
+   <p class="subtitle" style="margin-bottom:20px">Thanh toán: liên hệ admin · Giao key thủ công sau khi xác nhận.</p>
+   <div class="price-grid">
+    <div class="price-card"><span class="tag">BASIC</span><h3>Key 1 tuần</h3><div class="price">Liên hệ</div><p class="notice">Dùng trong 7 ngày.</p><button class="btn btn-blue contactBtn">Liên hệ admin</button></div>
+    <div class="price-card"><span class="tag">POPULAR</span><h3>Key 2 tuần</h3><div class="price">40.000đ</div><p class="notice">Dùng trong 14 ngày.</p><button class="btn btn-blue contactBtn">Liên hệ admin</button></div>
+    <div class="price-card"><span class="tag">PREMIUM</span><h3>Key 1 tháng</h3><div class="price">Liên hệ</div><p class="notice">Dùng trong 30 ngày.</p><button class="btn btn-blue contactBtn">Liên hệ admin</button></div>
+    <div class="price-card"><span class="tag">LIFETIME</span><h3>Key vĩnh viễn</h3><div class="price">Liên hệ</div><p class="notice">Theo điều kiện của admin.</p><button class="btn btn-blue contactBtn">Liên hệ admin</button></div>
+   </div>
+   <div class="panel" style="margin-top:20px"><h2>Thanh toán & giao hàng</h2><p class="notice">Liên hệ admin để được hướng dẫn thanh toán. Sau khi xác nhận, admin gửi key thủ công. Hãy kiểm tra kỹ thông tin trước khi thanh toán.</p></div>
+  </section>
+
+  <section id="settingsSection" class="hidden">
+   <div class="panel"><h2>⚙ Tài khoản</h2><div id="accountInfo" class="notice">Bạn chưa đăng nhập.</div><div class="form-actions"><button class="btn btn-blue" id="settingsLogin">Đăng nhập / Đăng ký</button><button class="btn btn-red hidden" id="logoutBtn">Đăng xuất</button></div></div>
+   <div class="panel"><h2>Thông tin cửa hàng</h2><p class="notice">Tên: TIỀN HUB<br>Hosting dự kiến: GitHub Pages<br>Thanh toán: Liên hệ admin<br>Giao hàng: Thủ công</p></div>
+  </section>
+ </div>
+ <footer>© <span id="year"></span> TIỀN HUB · Roblox Script Marketplace</footer>
+</main>
+
+<div class="modal-backdrop" id="authBackdrop">
+ <div class="modal">
+  <div class="modal-top"><div><h2 id="authTitle">Chào mừng đến TIỀN HUB</h2><div class="subtitle">Đăng nhập hoặc tạo tài khoản</div></div><button class="close" id="authClose">×</button></div>
+  <div class="tabs"><button class="active" data-tab="login">Đăng nhập</button><button data-tab="register">Đăng ký</button></div>
+  <form id="authForm" class="stack">
+   <div class="field"><label for="authUser">Tên tài khoản</label><input id="authUser" required minlength="3" maxlength="32" autocomplete="username"></div>
+   <div class="field"><label for="authPass">Mật khẩu</label><input id="authPass" type="password" required minlength="6" maxlength="100" autocomplete="current-password"></div>
+   <div class="field hidden" id="confirmWrap"><label for="authConfirm">Nhập lại mật khẩu</label><input id="authConfirm" type="password" minlength="6" maxlength="100"></div>
+   <button class="btn btn-blue" type="submit" id="authSubmit">Đăng nhập</button>
+   <div class="notice" id="authNotice">Bản demo: dữ liệu tài khoản chỉ lưu trong trình duyệt này.</div>
+  </form>
+ </div>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const DB={
+ users:"tienhub_users_demo",
+ scripts:"tienhub_scripts_demo",
+ session:"tienhub_session_demo"
+};
+const ADMIN_USER="admin";
+const ADMIN_PASS="TienHub@123";
+let users=[],scripts=[],session=null,authMode="login",page="marketplace",sortMode="latest";
+
+function read(key,fallback){
+ try{const v=JSON.parse(localStorage.getItem(key));return v??fallback}catch(e){return fallback}
+}
+function write(key,value){localStorage.setItem(key,JSON.stringify(value))}
+function escapeHTML(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function safeUrl(s){
+ try{const u=new URL(s);return ["https:","http:"].includes(u.protocol)?u.href:""}catch(e){return ""}
+}
+function init(){
+ users=read(DB.users,[]);
+ scripts=read(DB.scripts,null);
+ if(!Array.isArray(users))users=[];
+ if(!Array.isArray(scripts)){
+  scripts=[
+   {id:"demo1",name:"Chicago Life Hub",game:"Chicago Life",category:"Utility",url:"",premium:true,desc:"Script mẫu cho cửa hàng.",owner:"admin",created:Date.now()},
+   {id:"demo2",name:"Fling Things Hub",game:"Fling Things and People",category:"Utility",url:"",premium:false,desc:"Script mẫu cho cửa hàng.",owner:"admin",created:Date.now()-1},
+   {id:"demo3",name:"Universal Utility",game:"Universal",category:"Utility",url:"",premium:true,desc:"Script mẫu đa dụng.",owner:"admin",created:Date.now()-2},
+   {id:"demo4",name:"Movement Tools",game:"Universal",category:"Movement",url:"",premium:false,desc:"Script mẫu.",owner:"admin",created:Date.now()-3},
+   {id:"demo5",name:"Blox Fruits Tools",game:"Blox Fruits",category:"Utility",url:"",premium:false,desc:"Script mẫu.",owner:"admin",created:Date.now()-4},
+   {id:"demo6",name:"Anti-AFK Utility",game:"Universal",category:"Misc",url:"",premium:false,desc:"Script mẫu.",owner:"admin",created:Date.now()-5}
+  ];
+  write(DB.scripts,scripts);
+ }
+ if(!users.some(u=>u.username===ADMIN_USER)){
+  users.push({username:ADMIN_USER,password:ADMIN_PASS,role:"admin"});
+  write(DB.users,users);
+ }
+ const name=localStorage.getItem(DB.session);
+ session=users.find(u=>u.username===name)||null;
+ $("year").textContent=new Date().getFullYear();
+ bindEvents();refreshAll();
+}
+function isAdmin(){return !!session&&session.role==="admin"}
+function refreshAll(){
+ $("loginOpen").classList.toggle("hidden",!!session);
+ $("avatar").classList.toggle("hidden",!session);
+ $("avatar").textContent=session?session.username.slice(0,2).toUpperCase():"TH";
+ $("accountInfo").textContent=session?"Đang đăng nhập: "+session.username+" · Vai trò: "+(isAdmin()?"Admin":"Thành viên"):"Bạn chưa đăng nhập.";
+ $("logoutBtn").classList.toggle("hidden",!session);
+ $("statScripts").textContent=scripts.length.toLocaleString();
+ $("statUsers").textContent=users.filter(u=>u.role!=="admin").length.toLocaleString();
+ $("adminManage").textContent=isAdmin()?"Bạn có quyền thêm, sửa và xóa script ở mục này.":"Đăng nhập bằng tài khoản admin để quản lý script.";
+ $("scriptForm").classList.toggle("hidden",!isAdmin());
+ renderScripts();renderManage();
+}
+function renderScripts(){
+ const q=$("search").value.toLowerCase().trim();
+ let list=[...scripts];
+ if(page==="mine")list=list.filter(s=>s.owner===session?.username);
+ if(page==="top")list.sort((a,b)=>Number(b.premium)-Number(a.premium));
+ else if(sortMode==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+ else list.sort((a,b)=>(b.created||0)-(a.created||0));
+ list=list.filter(s=>(s.name+" "+s.game+" "+s.category+" "+(s.desc||"")).toLowerCase().includes(q));
+ $("scriptGrid").innerHTML=list.length?list.map(s=>`
+ <article class="script-card">
+  <div class="cover"><span class="cover-icon">🎮</span>${s.premium?'<span class="premium">♢ PREMIUM</span>':""}</div>
+  <div class="info">
+   <h3>${escapeHTML(s.name)}</h3>
+   <div class="game">♧ ${escapeHTML(s.game||"Universal")}</div>
+   <span class="tag">${escapeHTML(s.category||"Misc")}</span>
+   ${s.desc?`<div class="notice">${escapeHTML(s.desc)}</div>`:""}
+   <button class="btn btn-blue view-btn" data-view="${escapeHTML(s.id)}">View Script ↗</button>
+  </div>
+ </article>`).join(""):'<div class="empty">Không tìm thấy script phù hợp.</div>';
+ $("listTitle").textContent=page==="top"?"↗ Top Scripts":page==="mine"?"▦ My Scripts":"⚡ Latest Scripts";
+}
+function renderManage(){
+ if(!isAdmin())return;
+ $("adminManage").innerHTML=scripts.length?scripts.map(s=>`
+ <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid #303138;padding:12px 0;flex-wrap:wrap">
+ <div><b>${escapeHTML(s.name)}</b><div class="notice">${escapeHTML(s.game||"Universal")}</div></div>
+ <div class="actions"><button class="btn btn-gray" data-edit="${escapeHTML(s.id)}">Sửa</button><button class="btn btn-red" data-delete="${escapeHTML(s.id)}">Xóa</button></div>
+ </div>`).join(""):'<p class="notice">Chưa có script.</p>';
+}
+function openAuth(mode="login"){
+ authMode=mode;updateAuthMode();
+ $("authBackdrop").classList.add("show");$("authNotice").textContent="Bản demo: dữ liệu tài khoản chỉ lưu trong trình duyệt này.";
+}
+function closeAuth(){$("authBackdrop").classList.remove("show");$("authForm").reset()}
+function updateAuthMode(){
+ const reg=authMode==="register";
+ $("authTitle").textContent=reg?"Tạo tài khoản":"Chào mừng trở lại";
+ $("authSubmit").textContent=reg?"Đăng ký":"Đăng nhập";
+ $("confirmWrap").classList.toggle("hidden",!reg);
+ $("authConfirm").required=reg;
+ document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===authMode));
+}
+function handleAuth(e){
+ e.preventDefault();
+ const username=$("authUser").value.trim();
+ const password=$("authPass").value;
+ if(!/^[a-zA-Z0-9_-]{3,32}$/.test(username)){alert("Tên tài khoản phải có 3–32 ký tự, chỉ gồm chữ, số, _ hoặc -.");return}
+ if(password.length<6){alert("Mật khẩu cần ít nhất 6 ký tự.");return}
+ if(authMode==="register"){
+  if(username.toLowerCase()===ADMIN_USER){alert("Tên tài khoản này đã được dành riêng.");return}
+  if(password!==$("authConfirm").value){alert("Mật khẩu nhập lại không khớp.");return}
+  if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){alert("Tên tài khoản đã tồn tại.");return}
+  users.push({username,password,role:"user"});write(DB.users,users);
+  session=users[users.length-1];
+ }else{
+  const user=users.find(u=>u.username.toLowerCase()===username.toLowerCase()&&u.password===password);
+  if(!user){alert("Sai tên tài khoản hoặc mật khẩu.");return}
+  session=user;
+ }
+ localStorage.setItem(DB.session,session.username);
+ closeAuth();refreshAll();showPage("marketplace");
+}
+function logout(){
+ session=null;localStorage.removeItem(DB.session);refreshAll();showPage("marketplace");
+}
+function resetScriptForm(){
+ $("scriptForm").reset();$("editId").value="";$("editorTitle").textContent="↑ Thêm script mới";
+}
+function saveScript(e){
+ e.preventDefault();
+ if(!isAdmin()){alert("Chỉ admin mới được thêm script.");return}
+ const id=$("editId").value;
+ const name=$("scriptName").value.trim();
+ if(!name)return;
+ const item={
+  id:id||"s"+Date.now(),
+  name,game:$("scriptGame").value.trim()||"Universal",
+  category:$("scriptCategory").value,
+  premium:$("scriptPremium").value==="true",
+  url:safeUrl($("scriptUrl").value.trim()),
+  desc:$("scriptDesc").value.trim(),
+  owner:id?(scripts.find(s=>s.id===id)?.owner||"admin"):"admin",
+  created:id?(scripts.find(s=>s.id===id)?.created||Date.now()):Date.now()
+ };
+ if(id){scripts=scripts.map(s=>s.id===id?item:s)}
+ else{scripts.unshift(item)}
+ write(DB.scripts,scripts);resetScriptForm();refreshAll();showPage("marketplace");
+ alert("Đã lưu script trên trình duyệt này.");
+}
+function editScript(id){
+ if(!isAdmin())return;
+ const s=scripts.find(x=>x.id===id);if(!s)return;
+ $("editId").value=s.id;$("scriptName").value=s.name;
+ $("scriptGame").value=s.game||"";$("scriptCategory").value=s.category||"Utility";
+ $("scriptPremium").value=String(!!s.premium);$("scriptUrl").value=s.url||"";
+ $("scriptDesc").value=s.desc||"";$("editorTitle").textContent="✎ Sửa script: "+s.name;
+ showPage("upload");window.scrollTo({top:0,behavior:"smooth"});
+}
+function deleteScript(id){
+ if(!isAdmin())return;
+ const s=scripts.find(x=>x.id===id);if(!s)return;
+ if(!confirm('Bạn chắc chắn muốn xóa "'+s.name+'"?'))return;
+ scripts=scripts.filter(x=>x.id!==id);write(DB.scripts,scripts);refreshAll();
+}
+function viewScript(id){
+ const s=scripts.find(x=>x.id===id);if(!s)return;
+ if(!s.url){alert("Script chưa được admin thêm URL.");return}
+ if(!confirm("Mở URL script của "+s.name+"?"))return;
+ window.open(s.url,"_blank","noopener,noreferrer");
+}
+const pageMeta={
+ marketplace:["Marketplace","Khám phá các script Roblox mới nhất từ cộng đồng TIỀN HUB."],
+ top:["Top Scripts","Các script nổi bật trong cửa hàng."],
+ mine:["My Scripts","Script do tài khoản của bạn quản lý."],
+ upload:["Upload Script","Admin có thể thêm, sửa và xóa script."],
+ keys:["Bảng giá Key","Xem các gói key và cách liên hệ admin."],
+ settings:["Settings","Cài đặt và thông tin tài khoản."]
+};
+function showPage(next){
+ if(next==="mine"&&!session){openAuth();return}
+ if(next==="upload"&&!isAdmin()){alert("Chỉ tài khoản admin mới truy cập được mục Upload Script.");openAuth();return}
+ page=next;
+ document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===next));
+ $("pageTitle").textContent=pageMeta[next][0];$("pageSubtitle").textContent=pageMeta[next][1];
+ $("marketSection").classList.toggle("hidden",!["marketplace","top","mine"].includes(next));
+ $("stats").classList.toggle("hidden",!["marketplace","top","mine"].includes(next));
+ $("uploadSection").classList.toggle("hidden",next!=="upload");
+ $("keysSection").classList.toggle("hidden",next!=="keys");
+ $("settingsSection").classList.toggle("hidden",next!=="settings");
+ renderScripts();
+}
+function bindEvents(){
+ document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+ $("loginOpen").addEventListener("click",()=>openAuth());
+ $("settingsLogin").addEventListener("click",()=>openAuth());
+ $("authClose").addEventListener("click",closeAuth);
+ $("authBackdrop").addEventListener("click",e=>{if(e.target===$("authBackdrop"))closeAuth()});
+ document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{authMode=b.dataset.tab;updateAuthMode()}));
+ $("authForm").addEventListener("submit",handleAuth);
+ $("logoutBtn").addEventListener("click",logout);
+ $("scriptForm").addEventListener("submit",saveScript);
+ $("cancelEdit").addEventListener("click",resetScriptForm);
+ $("search").addEventListener("input",renderScripts);
+ document.querySelectorAll("[data-sort]").forEach(b=>b.addEventListener("click",()=>{
+  sortMode=b.dataset.sort;
+  document.querySelectorAll("[data-sort]").forEach(x=>x.classList.toggle("active",x===b));
+  renderScripts();
+ }));
+ $("scriptGrid").addEventListener("click",e=>{
+  const b=e.target.closest("[data-view]");if(b)viewScript(b.dataset.view);
+ });
+ $("adminManage").addEventListener("click",e=>{
+  const edit=e.target.closest("[data-edit]"),del=e.target.closest("[data-delete]");
+  if(edit)editScript(edit.dataset.edit);
+  if(del)deleteScript(del.dataset.delete);
+ });
+ document.querySelectorAll(".contactBtn").forEach(b=>b.addEventListener("click",()=>{
+  alert("Bạn hãy thay phần liên hệ bằng link Discord hoặc thông tin admin thật của TIỀN HUB.");
+ }));
+}
+init();
+</script>
+</body>
+</html>
