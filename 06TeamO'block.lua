@@ -1,0 +1,1133 @@
+ --==================================================
+-- 06 TEAM | COMBAT (WITH FLING), HITBOX & GLOW SKINS
+--==================================================
+
+local Players=game:GetService("Players")
+local RunService=game:GetService("RunService")
+local TweenService=game:GetService("TweenService")
+local TeleportService=game:GetService("TeleportService")
+local HttpService=game:GetService("HttpService")
+local UIS=game:GetService("UserInputService")
+local Lighting=game:GetService("Lighting")
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.CurrentCamera
+
+local Player=Players.LocalPlayer
+local PG=Player:WaitForChild("PlayerGui")
+
+local old=PG:FindFirstChild("PANEL_06_TIEN")
+if old then old:Destroy() end
+
+local oldTP=PG:FindFirstChild("TPControlGui")
+if oldTP then oldTP:Destroy() end
+
+local Gui=Instance.new("ScreenGui")
+Gui.Name="PANEL_06_TIEN"
+Gui.ResetOnSpawn=false
+Gui.IgnoreGuiInset=true
+Gui.DisplayOrder=999999
+Gui.Parent=Gui and PG
+
+--==================================================
+-- HỆ THỐNG BYPASS & KIỂM TRA AN TOÀN (ENGLISH KICK)
+--==================================================
+local BypassEnabled = false
+
+local function checkBypass(featureName)
+    if not BypassEnabled then
+        Player:Kick("YOU HAVEN'T ENABLED BYPASS YET, HOW CAN YOU USE THIS ???")
+        error("YOU HAVEN'T ENABLED BYPASS YET - " .. featureName)
+        return false
+    end
+    return true
+end
+
+--==================================================
+-- HELPERS
+--==================================================
+
+local function Stroke(obj, color)
+    local s=Instance.new("UIStroke")
+    s.Thickness=1.5
+    s.Color=color or Color3.fromRGB(255, 0, 0)
+    s.Parent=obj
+    return s
+end
+
+--==================================================
+-- HỆ THỐNG KEY 3 GIỜ VỚI LINK MỚI VÀ FIX LỖI NHẬN DIỆN
+--==================================================
+local CorrectKey = "06TEAM_VIP"
+local KeyLink = "https://b23139793-coder.github.io/Kh-nh-Mai-Hub/06getkeyvipsite.vip.html"
+local FileName = "06Team_KeyData.json"
+local IsKeyVerified = false
+
+local function saveKeyData()
+    pcall(function()
+        if writefile then
+            local data = {
+                Key = CorrectKey,
+                Expiry = os.time() + (3 * 3600)
+            }
+            writefile(FileName, HttpService:JSONEncode(data))
+        end
+    end)
+end
+
+local function loadKeyData()
+    local success, result = pcall(function()
+        if readfile and isfile and isfile(FileName) then
+            local data = HttpService:JSONDecode(readfile(FileName))
+            if data and data.Expiry and os.time() < data.Expiry and (data.Key == CorrectKey or string.upper(tostring(data.Key)):gsub("%s+", "") == CorrectKey) then
+                return true
+            end
+        end
+    end)
+    return success and result or false
+end
+
+local function logoutKey()
+    pcall(function()
+        if delfile and isfile and isfile(FileName) then
+            delfile(FileName)
+        end
+    end)
+    IsKeyVerified = false
+    Gui:Destroy()
+    TeleportService:Teleport(game.PlaceId, Player)
+end
+
+--==================================================
+-- GIAO DIỆN NHẬP KEY VỚI ĐÔI CÁNH TO
+--==================================================
+local KeyScreen = Instance.new("Frame")
+KeyScreen.Size = UDim2.fromScale(1,1)
+KeyScreen.BackgroundColor3 = Color3.fromRGB(0,0,0)
+KeyScreen.BackgroundTransparency = 0.2
+KeyScreen.ZIndex = 2000
+KeyScreen.Parent = Gui
+
+local KeyCard = Instance.new("Frame")
+KeyCard.Size = UDim2.fromOffset(380, 280)
+KeyCard.Position = UDim2.new(0.5, -190, 0.5, -140)
+KeyCard.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+KeyCard.BackgroundTransparency = 0.2
+KeyCard.BorderSizePixel = 0
+KeyCard.ZIndex = 2005
+KeyCard.Parent = KeyScreen
+Stroke(KeyCard, Color3.fromRGB(255, 0, 0))
+
+local KeyCardStroke = KeyCard:FindFirstChildOfClass("UIStroke")
+
+local LeftWing = Instance.new("TextLabel")
+LeftWing.Size = UDim2.fromOffset(160, 220)
+LeftWing.Position = UDim2.new(0, -155, 0.5, -110)
+LeftWing.BackgroundTransparency = 1
+LeftWing.Text = "꧁༺ 🪽"
+LeftWing.TextColor3 = Color3.fromRGB(255, 0, 100)
+LeftWing.TextSize = 65
+LeftWing.Font = Enum.Font.GothamBold
+LeftWing.ZIndex = 2004
+LeftWing.Parent = KeyCard
+
+local RightWing = Instance.new("TextLabel")
+RightWing.Size = UDim2.fromOffset(160, 220)
+RightWing.Position = UDim2.new(1, -5, 0.5, -110)
+RightWing.BackgroundTransparency = 1
+RightWing.Text = "🪽 ༻꧂"
+RightWing.TextColor3 = Color3.fromRGB(255, 0, 100)
+RightWing.TextSize = 65
+RightWing.Font = Enum.Font.GothamBold
+RightWing.ZIndex = 2004
+RightWing.Parent = KeyCard
+
+local KeyTitle = Instance.new("TextLabel")
+KeyTitle.Size = UDim2.new(1, 0, 0, 40)
+KeyTitle.Position = UDim2.fromOffset(0, 12)
+KeyTitle.BackgroundTransparency = 1
+KeyTitle.Text = "🔐 06 TEAM KEY SYSTEM (3H)"
+KeyTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyTitle.TextSize = 16
+KeyTitle.Font = Enum.Font.GothamBold
+KeyTitle.ZIndex = 2006
+KeyTitle.Parent = KeyCard
+
+local KeySub = Instance.new("TextLabel")
+KeySub.Size = UDim2.new(1, 0, 0, 25)
+KeySub.Position = UDim2.fromOffset(0, 52)
+KeySub.BackgroundTransparency = 1
+KeySub.Text = "Key lasts 3 hours after activation"
+KeySub.TextColor3 = Color3.fromRGB(170, 170, 170)
+KeySub.TextSize = 11
+KeySub.Font = Enum.Font.Gotham
+KeySub.ZIndex = 2006
+KeySub.Parent = KeyCard
+
+local KeyBox = Instance.new("TextBox")
+KeyBox.Size = UDim2.new(1, -40, 0, 38)
+KeyBox.Position = UDim2.fromOffset(20, 85)
+KeyBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+KeyBox.BackgroundTransparency = 0.3
+KeyBox.BorderSizePixel = 0
+KeyBox.PlaceholderText = "Paste your key here..."
+KeyBox.Text = ""
+KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyBox.TextSize = 12
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.ClearTextOnFocus = false
+KeyBox.ZIndex = 2006
+KeyBox.Parent = KeyCard
+Stroke(KeyBox, Color3.fromRGB(100, 100, 100))
+
+local SubmitBtn = Instance.new("TextButton")
+SubmitBtn.Size = UDim2.new(1, -40, 0, 36)
+SubmitBtn.Position = UDim2.fromOffset(20, 133)
+SubmitBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+SubmitBtn.BackgroundTransparency = 0.2
+SubmitBtn.BorderSizePixel = 0
+SubmitBtn.Text = "UNLOCK SCRIPT"
+SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubmitBtn.TextSize = 12
+SubmitBtn.Font = Enum.Font.GothamBold
+SubmitBtn.ZIndex = 2006
+SubmitBtn.Parent = KeyCard
+Stroke(SubmitBtn, Color3.fromRGB(255, 255, 255))
+
+local GetKeyBtn = Instance.new("TextButton")
+GetKeyBtn.Size = UDim2.new(1, -40, 0, 36)
+GetKeyBtn.Position = UDim2.fromOffset(20, 178)
+GetKeyBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+GetKeyBtn.BackgroundTransparency = 0.2
+GetKeyBtn.BorderSizePixel = 0
+GetKeyBtn.Text = "🔑 GET KEY (CLICK TO COPY LINK)"
+GetKeyBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
+GetKeyBtn.TextSize = 12
+GetKeyBtn.Font = Enum.Font.GothamBold
+GetKeyBtn.ZIndex = 2006
+GetKeyBtn.Parent = KeyCard
+Stroke(GetKeyBtn, Color3.fromRGB(0, 255, 100))
+
+task.spawn(function()
+    while KeyScreen.Parent do
+        local hue = (os.clock() * 0.4) % 1
+        local col = Color3.fromHSV(hue, 1, 1)
+        if KeyCardStroke then KeyCardStroke.Color = col end
+        LeftWing.TextColor3 = col
+        RightWing.TextColor3 = col
+        task.wait(0.05)
+    end
+end)
+
+GetKeyBtn.MouseButton1Click:Connect(function()
+    pcall(function()
+        if setclipboard then
+            setclipboard(KeyLink)
+        end
+    end)
+    GetKeyBtn.Text = "✅ LINK COPIED TO CLIPBOARD!"
+    task.delay(2, function()
+        GetKeyBtn.Text = "🔑 GET KEY (CLICK TO COPY LINK)"
+    end)
+end)
+
+--==================================================
+-- MAIN HUB & UI KHỞI TẠO
+--==================================================
+
+local ToggleBtn=Instance.new("TextButton")
+ToggleBtn.Size=UDim2.fromOffset(100,32)
+ToggleBtn.Position=UDim2.new(0.5,-110,0,5)
+ToggleBtn.BackgroundColor3=Color3.fromRGB(0,0,0)
+ToggleBtn.BackgroundTransparency=0.3
+ToggleBtn.BorderSizePixel=0
+ToggleBtn.ZIndex=999
+ToggleBtn.Text="06 team"
+ToggleBtn.TextColor3=Color3.fromRGB(255,255,255)
+ToggleBtn.TextSize=11
+ToggleBtn.Font=Enum.Font.Gotham
+ToggleBtn.Visible = false
+ToggleBtn.Parent=Gui
+Stroke(ToggleBtn, Color3.fromRGB(255,0,0))
+
+local FpsLabel=Instance.new("TextLabel")
+FpsLabel.Size=UDim2.fromOffset(90,32)
+FpsLabel.Position=UDim2.new(0.5, -5, 0, 5)
+FpsLabel.BackgroundColor3=Color3.fromRGB(0,0,0)
+FpsLabel.BackgroundTransparency=0.3
+FpsLabel.BorderSizePixel=0
+FpsLabel.ZIndex=999
+FpsLabel.Text="fps: 60"
+FpsLabel.TextColor3=Color3.fromRGB(0,255,100)
+FpsLabel.TextSize=12
+FpsLabel.Font=Enum.Font.Gotham
+FpsLabel.Visible = false
+FpsLabel.Parent=Gui
+Stroke(FpsLabel, Color3.fromRGB(255,0,0))
+
+local frameCount, lastTick = 0, tick()
+RunService.RenderStepped:Connect(function()
+    frameCount = frameCount + 1
+    if tick() - lastTick >= 1 then
+        FpsLabel.Text = "fps: " .. frameCount
+        frameCount = 0
+        lastTick = tick()
+    end
+end)
+
+local Main=Instance.new("Frame")
+Main.Size=UDim2.fromOffset(300,420)
+Main.Position=UDim2.new(1,-320,0.5,-210)
+Main.BackgroundColor3=Color3.fromRGB(0,0,0)
+Main.BackgroundTransparency=0.4
+Main.BorderSizePixel=0
+Main.Visible=false
+Main.Active=true
+Main.Parent=Gui
+
+local ThemeImageBg = Instance.new("ImageLabel")
+ThemeImageBg.Size = UDim2.fromScale(1, 1)
+ThemeImageBg.BackgroundTransparency = 1
+ThemeImageBg.ImageTransparency = 0.25
+ThemeImageBg.Image = ""
+ThemeImageBg.ZIndex = 2
+ThemeImageBg.Parent = Main
+
+local MainStroke=Stroke(Main, Color3.fromRGB(255,0,0))
+
+ToggleBtn.MouseButton1Click:Connect(function()
+    Main.Visible = not Main.Visible
+end)
+
+Player.Chatted:Connect(function(msg)
+    if string.lower(msg) == "/menu" and IsKeyVerified then
+        Main.Visible = not Main.Visible
+    end
+end)
+
+--==================================================
+-- HEADER & TABS
+--==================================================
+
+local Header=Instance.new("Frame")
+Header.Size=UDim2.new(1,0,0,38)
+Header.BackgroundColor3=Color3.fromRGB(15,15,15)
+Header.BackgroundTransparency=0.3
+Header.BorderSizePixel=0
+Header.ZIndex=5
+Header.Parent=Main
+
+local Title=Instance.new("TextLabel")
+Title.Size=UDim2.new(1,-80,1,0)
+Title.Position=UDim2.fromOffset(8,0)
+Title.BackgroundTransparency=1
+Title.ZIndex=6
+Title.Text="06 team"
+Title.TextColor3=Color3.fromRGB(255,255,255)
+Title.TextSize=14
+Title.Font=Enum.Font.GothamBold
+Title.TextXAlignment=Enum.TextXAlignment.Left
+Title.Parent=Header
+
+local LaserLine=Instance.new("Frame")
+LaserLine.Size=UDim2.new(0,25,1,0)
+LaserLine.Position=UDim2.new(0,-30,0,0)
+LaserLine.BackgroundColor3=Color3.fromRGB(255,255,255)
+LaserLine.BackgroundTransparency=0.3
+LaserLine.BorderSizePixel=0
+LaserLine.ZIndex=7
+LaserLine.Parent=Header
+
+task.spawn(function()
+    while true do
+        LaserLine.Position = UDim2.new(0, -30, 0, 0)
+        TweenService:Create(LaserLine, TweenInfo.new(1.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, 150, 0, 0)}):Play()
+        task.wait(3)
+    end
+end)
+
+local LangBtn=Instance.new("TextLabel")
+LangBtn.Size=UDim2.fromOffset(70,26)
+LangBtn.Position=UDim2.new(1,-75,0.5,-13)
+LangBtn.BackgroundColor3=Color3.fromRGB(25,25,25)
+LangBtn.BackgroundTransparency=0.3
+LangBtn.BorderSizePixel=0
+LangBtn.ZIndex=10
+LangBtn.Text="ENG VIP"
+LangBtn.TextColor3=Color3.fromRGB(0,255,100)
+LangBtn.TextSize=10
+LangBtn.Font=Enum.Font.GothamBold
+LangBtn.Parent=Header
+Stroke(LangBtn, Color3.fromRGB(100,100,100))
+
+local TabFrame=Instance.new("ScrollingFrame")
+TabFrame.Size=UDim2.new(1,-16,0,32)
+TabFrame.Position=UDim2.fromOffset(8,44)
+TabFrame.BackgroundTransparency=1
+TabFrame.BorderSizePixel=0
+TabFrame.ZIndex=3
+TabFrame.CanvasSize=UDim2.new(0,400,0,0)
+TabFrame.ScrollBarThickness=2
+TabFrame.Parent=Main
+
+local Tabs={}
+local Pages={}
+local Names={"main","combat","esp","visual","themes","lag"}
+local DisplayNames={"main","combat","esp","visual","themes","lag"}
+
+for i,name in ipairs(Names) do
+    local B=Instance.new("TextButton")
+    B.Size=UDim2.fromOffset(52,28)
+    B.Position=UDim2.fromOffset((i-1)*56,2)
+    B.BackgroundColor3=Color3.fromRGB(20,20,20)
+    B.BackgroundTransparency=0.4
+    B.BorderSizePixel=0
+    B.ZIndex=4
+    B.Text=DisplayNames[i]
+    B.TextColor3=Color3.fromRGB(255,255,255)
+    B.TextSize=9
+    B.Font=Enum.Font.Gotham
+    B.AutoButtonColor=false
+    B.Parent=TabFrame
+    Stroke(B, Color3.fromRGB(100,100,100))
+    Tabs[name]=B
+
+    local P=Instance.new("ScrollingFrame")
+    P.Size=UDim2.new(1,-16,1,-90)
+    P.Position=UDim2.fromOffset(8,82)
+    P.BackgroundColor3=Color3.fromRGB(10,10,10)
+    P.BackgroundTransparency=0.5
+    P.BorderSizePixel=0
+    P.ZIndex=3
+    P.Visible=false
+    P.CanvasSize=UDim2.new(0,0,0,450)
+    P.ScrollBarThickness=3
+    P.Parent=Main
+    Stroke(P, Color3.fromRGB(50,50,50))
+    Pages[name]=P
+end
+
+local function MakeButton(parent,text,y)
+    local B=Instance.new("TextButton")
+    B.Size=UDim2.new(1,-12,0,36)
+    B.Position=UDim2.fromOffset(6,y)
+    B.BackgroundColor3=Color3.fromRGB(20,20,20)
+    B.BackgroundTransparency=0.35
+    B.BorderSizePixel=0
+    B.ZIndex=4
+    B.Text=text
+    B.TextColor3=Color3.fromRGB(255,255,255)
+    B.TextSize=11
+    B.Font=Enum.Font.Gotham
+    B.AutoButtonColor=false
+    B.Parent=parent
+    Stroke(B, Color3.fromRGB(100,100,100))
+    return B
+end
+
+--==================================================
+-- LOGIC TÍNH NĂNG (COMBAT, FLING, HITBOX, WEAPON GLOW)
+--==================================================
+local speedRunEnabled = false
+local noclipEnabled = false
+local autoFarmPromptEnabled = false
+local infiniteAmmoEnabled = false
+local espBoxesEnabled = false
+local espTracersEnabled = false
+local espNameHpEnabled = false
+local hitboxEnabled = false
+local hitboxSize = 5
+local aimHeadEnabled = false
+local fovSize = 100
+local spinEnabled = false
+local godmodEnabled = false
+local flingEnabled = false -- Biến tính năng Fling
+
+local currentWeaponSkin = nil
+
+local originalCanCollide = {}
+local espCache = {}
+local playerConnections = {}
+
+local function cleanESP(plr)
+    if espCache[plr] then
+        if espCache[plr].Box then pcall(function() espCache[plr].Box:Remove() end) end
+        if espCache[plr].Tracer then pcall(function() espCache[plr].Tracer:Remove() end) end
+        if espCache[plr].Billboard then pcall(function() espCache[plr].Billboard:Destroy() end) end
+        espCache[plr] = nil
+    end
+end
+
+-- 1. SpeedRun & Noclip
+RunService.Heartbeat:Connect(function()
+    if not IsKeyVerified then return end
+    local char = Player.Character
+    if char then
+        local humanoid = char:FindFirstChildOfClass("Humanoid")
+        local root = char:FindFirstChild("HumanoidRootPart")
+        if humanoid and root and speedRunEnabled and BypassEnabled then
+            if humanoid.MoveDirection.Magnitude > 0 then
+                root.CFrame = root.CFrame + (humanoid.MoveDirection * (20 * 0.05))
+            end
+        end
+        for _, part in ipairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                if noclipEnabled and BypassEnabled then
+                    if originalCanCollide[part] == nil then originalCanCollide[part] = part.CanCollide end
+                    part.CanCollide = false
+                else
+                    if originalCanCollide[part] ~= nil then
+                        part.CanCollide = originalCanCollide[part]
+                        originalCanCollide[part] = nil
+                    end
+                end
+            end
+        end
+    end
+end)
+
+-- 2. Auto Farm Prompt
+task.spawn(function()
+    while true do
+        if autoFarmPromptEnabled and BypassEnabled then
+            pcall(function()
+                local char = Player.Character
+                local root = char and char:FindFirstChild("HumanoidRootPart")
+                if root then
+                    for _, descendant in pairs(Workspace:GetDescendants()) do
+                        if descendant:IsA("ProximityPrompt") then
+                            descendant.HoldDuration = 0
+                            local promptPart = descendant.Parent
+                            if promptPart and promptPart:IsA("BasePart") then
+                                if (root.Position - promptPart.Position).Magnitude <= 15 then
+                                    fireproximityprompt(descendant)
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+        task.wait(0.2)
+    end
+end)
+
+-- 3. Vô Hạn Đạn
+task.spawn(function()
+    while true do
+        if infiniteAmmoEnabled and BypassEnabled then
+            task.wait(0.1)
+            pcall(function()
+                local maxInfVal = 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+                if getgc and setreadonly and rawset then
+                    for _, obj in next, getgc(true) do
+                        if type(obj) == "table" then
+                            if rawget(obj, "Ammo") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "Ammo", maxInfVal)
+                            end
+                            if rawget(obj, "ReloadTime") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "ReloadTime", 0)
+                            end
+                            if rawget(obj, "Cooldown") then
+                                if isreadonly(obj) then setreadonly(obj, false) end
+                                rawset(obj, "Cooldown", 0)
+                            end
+                        end
+                    end
+                end
+            end)
+        else
+            task.wait(0.5)
+        end
+    end
+end)
+
+-- 4. ESP Setup
+local function setupPlayerESP(p)
+    if playerConnections[p] then return end
+    playerConnections[p] = {}
+    local function onCharacterAdded(char)
+        cleanESP(p)
+        local humanoid = char:WaitForChild("Humanoid", 5)
+        if humanoid then
+            table.insert(playerConnections[p], humanoid.Died:Connect(function() cleanESP(p) end))
+        end
+    end
+    table.insert(playerConnections[p], p.CharacterAdded:Connect(onCharacterAdded))
+    if p.Character then task.spawn(function() onCharacterAdded(p.Character) end) end
+end
+
+for _, p in ipairs(Players:GetPlayers()) do
+    if p ~= Player then setupPlayerESP(p) end
+end
+table.insert(playerConnections, Players.PlayerAdded:Connect(function(p)
+    if p ~= Player then setupPlayerESP(p) end
+end))
+
+RunService.RenderStepped:Connect(function()
+    if not IsKeyVerified then return end
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= Player then
+            pcall(function()
+                local char = p.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                local humanoid = char and char:FindFirstChildOfClass("Humanoid")
+                if hrp and humanoid and humanoid.Health > 0 and char.Parent ~= nil and BypassEnabled then
+                    if not espCache[p] then
+                        espCache[p] = { Box = Drawing.new("Square"), Tracer = Drawing.new("Line"), Billboard = nil }
+                        espCache[p].Box.Visible = false
+                        espCache[p].Box.Thickness = 1.5
+                        espCache[p].Box.Color = Color3.fromRGB(255, 50, 50)
+                        espCache[p].Box.Filled = false
+                        espCache[p].Tracer.Visible = false
+                        espCache[p].Tracer.Thickness = 1.5
+                        espCache[p].Tracer.Color = Color3.fromRGB(255, 255, 255)
+                    end
+                    local cache = espCache[p]
+                    local vector, onScreen = Camera:WorldToViewportPoint(hrp.Position)
+                    if onScreen and espBoxesEnabled then
+                        cache.Box.Visible = true
+                        cache.Box.Size = Vector2.new(2500 / vector.Z, 3500 / vector.Z)
+                        cache.Box.Position = Vector2.new(vector.X - cache.Box.Size.X / 2, vector.Y - cache.Box.Size.Y / 2)
+                    else
+                        cache.Box.Visible = false
+                    end
+                    if onScreen and espTracersEnabled then
+                        cache.Tracer.Visible = true
+                        cache.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+                        cache.Tracer.To = Vector2.new(vector.X, vector.Y)
+                    else
+                        cache.Tracer.Visible = false
+                    end
+                    if espNameHpEnabled then
+                        if not cache.Billboard or not cache.Billboard.Parent then
+                            local billboard = Instance.new("BillboardGui")
+                            billboard.Name = "TiềnHubESP_NameHP"
+                            billboard.Size = UDim2.new(0, 150, 0, 50)
+                            billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+                            billboard.AlwaysOnTop = true
+                            billboard.Parent = char
+                            local textLbl = Instance.new("TextLabel")
+                            textLbl.Name = "InfoText"
+                            textLbl.Size = UDim2.new(1, 0, 1, 0)
+                            textLbl.BackgroundTransparency = 1
+                            textLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+                            textLbl.TextStrokeTransparency = 0
+                            textLbl.TextSize = 13
+                            textLbl.Font = Enum.Font.GothamBold
+                            textLbl.Parent = billboard
+                            cache.Billboard = billboard
+                        end
+                        local textLbl = cache.Billboard:FindFirstChild("InfoText")
+                        if textLbl then
+                            textLbl.Text = string.format("%s\nHP: %d / %d", p.Name, math.floor(humanoid.Health), math.floor(humanoid.MaxHealth))
+                        end
+                    else
+                        if cache.Billboard then cache.Billboard:Destroy() cache.Billboard = nil end
+                    end
+                else
+                    cleanESP(p)
+                end
+            end)
+        end
+    end
+end)
+
+-- 5. Hitbox Thân Người
+RunService.RenderStepped:Connect(function()
+    if not IsKeyVerified then return end
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= Player and p.Character then
+            pcall(function()
+                local root = p.Character:FindFirstChild("HumanoidRootPart")
+                local humanoid = p.Character:FindFirstChildOfClass("Humanoid")
+                if root and humanoid and humanoid.Health > 0 and BypassEnabled then
+                    if hitboxEnabled then
+                        root.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
+                        root.Color = Color3.fromRGB(0, 255, 100)
+                        root.Material = Enum.Material.Neon
+                        root.Transparency = 0.5
+                        root.CanCollide = false
+                    else
+                        root.Size = Vector3.new(2, 2, 1)
+                        root.Transparency = 1
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- 6. Aimbot & FOV
+local FOVCircle = Drawing.new("Circle")
+FOVCircle.Visible = false
+FOVCircle.Filled = false
+FOVCircle.Thickness = 1.5
+FOVCircle.Color = Color3.fromRGB(255, 255, 255)
+FOVCircle.Transparency = 0.8
+
+RunService.RenderStepped:Connect(function()
+    if not IsKeyVerified then return end
+    if aimHeadEnabled and BypassEnabled then
+        FOVCircle.Visible = true
+        FOVCircle.Radius = fovSize
+        FOVCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+        local closestTarget = nil
+        local shortestDist = fovSize
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= Player and plr.Character and plr.Character:FindFirstChild("Head") and plr.Character:FindFirstChildOfClass("Humanoid") and plr.Character.Humanoid.Health > 0 then
+                local head = plr.Character.Head
+                local screenPoint, onScreen = Camera:WorldToViewportPoint(head.Position)
+                if onScreen then
+                    local mouseDist = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)).Magnitude
+                    if mouseDist < shortestDist then
+                        shortestDist = mouseDist
+                        closestTarget = head
+                    end
+                end
+            end
+        end
+        if closestTarget then
+            Camera.CFrame = CFrame.new(Camera.CFrame.Position, closestTarget.Position)
+        end
+    else
+        FOVCircle.Visible = false
+    end
+end)
+
+-- 7. Spin, Godmod & Fling Logic
+task.spawn(function()
+    while true do
+        if spinEnabled and BypassEnabled then
+            pcall(function()
+                local char = Player.Character
+                local root = char and char:FindFirstChild("HumanoidRootPart")
+                if root then root.CFrame = root.CFrame * CFrame.Angles(0, math.rad(60), 0) end
+            end)
+        end
+        task.wait()
+    end
+end)
+
+RunService.Stepped:Connect(function()
+    if not IsKeyVerified then return end
+    if godmodEnabled and BypassEnabled then
+        pcall(function()
+            local char = Player.Character
+            local humanoid = char and char:FindFirstChildOfClass("Humanoid")
+            if humanoid then humanoid.Health = humanoid.MaxHealth end
+        end)
+    end
+    
+    -- Logic Fling (Tạo lực quay cực mạnh khiến ai chạm vào văng ra khỏi map)
+    if flingEnabled and BypassEnabled then
+        pcall(function()
+            local char = Player.Character
+            local root = char and char:FindFirstChild("HumanoidRootPart")
+            if root then
+                local vel = root.AssemblyLinearVelocity
+                root.AssemblyLinearVelocity = Vector3.new(99999, 99999, 99999) + Vector3.new(0, 5000, 0)
+                root.CFrame = root.CFrame * CFrame.Angles(math.random(-50, 50), math.random(-50, 50), math.random(-50, 50))
+            end
+        end)
+    end
+end)
+
+-- 8. Weapon Glow Skin Logic
+local function applyWeaponGlowSkin(skinType)
+    currentWeaponSkin = skinType
+    pcall(function()
+        local char = Player.Character
+        if not char then return end
+        local tool = char:FindFirstChildOfClass("Tool")
+        if tool then
+            for _, part in ipairs(tool:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Material = Enum.Material.Neon
+                    if skinType == "hellokitty" then
+                        part.Color = Color3.fromRGB(255, 150, 200)
+                    elseif skinType == "doraemon" then
+                        part.Color = Color3.fromRGB(0, 150, 255)
+                    elseif skinType == "spiderman" then
+                        part.Color = Color3.fromRGB(255, 0, 0)
+                    end
+                end
+            end
+        end
+    end)
+end
+
+RunService.Heartbeat:Connect(function()
+    if currentWeaponSkin and BypassEnabled and IsKeyVerified then
+        pcall(function()
+            local char = Player.Character
+            if char then
+                local tool = char:FindFirstChildOfClass("Tool")
+                if tool then
+                    for _, part in ipairs(tool:GetDescendants()) do
+                        if part:IsA("BasePart") and part.Material ~= Enum.Material.Neon then
+                            part.Material = Enum.Material.Neon
+                            if currentWeaponSkin == "hellokitty" then
+                                part.Color = Color3.fromRGB(255, 150, 200)
+                            elseif currentWeaponSkin == "doraemon" then
+                                part.Color = Color3.fromRGB(0, 150, 255)
+                            elseif currentWeaponSkin == "spiderman" then
+                                part.Color = Color3.fromRGB(255, 0, 0)
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+--==================================================
+-- GIAO DIỆN TỪNG TAB TRONG MENU
+--==================================================
+
+-- TAB: MAIN (Bypass & Logout)
+local MainInfo=Instance.new("TextLabel")
+MainInfo.Size=UDim2.new(1,0,0,50)
+MainInfo.Position=UDim2.fromOffset(0,120)
+MainInfo.BackgroundTransparency=1
+MainInfo.ZIndex=4
+MainInfo.Text="06 team VIP Hub\n- chat /menu to toggle\n- bypass protection required"
+MainInfo.TextColor3=Color3.fromRGB(255,255,255)
+MainInfo.TextSize=11
+MainInfo.Font=Enum.Font.Gotham
+MainInfo.Parent=Pages["main"]
+
+local BypassBtn = MakeButton(Pages["main"], "🛡️ Bypass Protection: Off (Required)", 10)
+BypassBtn.MouseButton1Click:Connect(function()
+    BypassEnabled = not BypassEnabled
+    BypassBtn.Text = BypassEnabled and "🛡️ Bypass Protection: On (Safe)" or "🛡️ Bypass Protection: Off (Required)"
+    BypassBtn.BackgroundColor3 = BypassEnabled and Color3.fromRGB(0,150,50) or Color3.fromRGB(20,20,20)
+end)
+
+local LogoutKeyBtn = MakeButton(Pages["main"], "🚪 Logout Key (Reset)", 65)
+LogoutKeyBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+LogoutKeyBtn.MouseButton1Click:Connect(function()
+    logoutKey()
+end)
+
+-- TAB: COMBAT (SpeedRun, Noclip, Godmod, Fling, Ammo, Aimbot, Spin)
+local SpdBtn = MakeButton(Pages["combat"], "⚡ SpeedRun (Speed 20): Off", 10)
+local NoclipBtn = MakeButton(Pages["combat"], "👻 Noclip: Off", 52)
+local GodBtn = MakeButton(Pages["combat"], "🛡️ Godmod (Bất tử): Off", 94)
+local FlingBtn = MakeButton(Pages["combat"], "💥 Fling (Chạm là bay): Off", 136)
+local AmmoBtn = MakeButton(Pages["combat"], "🔫 Vô Hạn Đạn & Nạp Đạn 0.0s: Off", 178)
+local AimBtn = MakeButton(Pages["combat"], "🎯 Aimbot Head: Off", 220)
+local SpinBtn = MakeButton(Pages["combat"], "🌀 Spin Siêu Nhanh: Off", 262)
+
+SpdBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("SpeedRun") then return end
+    speedRunEnabled = not speedRunEnabled
+    SpdBtn.Text = speedRunEnabled and "⚡ SpeedRun (Speed 20): On" or "⚡ SpeedRun (Speed 20): Off"
+    SpdBtn.BackgroundColor3 = speedRunEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+NoclipBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Noclip") then return end
+    noclipEnabled = not noclipEnabled
+    NoclipBtn.Text = noclipEnabled and "👻 Noclip: On" or "👻 Noclip: Off"
+    NoclipBtn.BackgroundColor3 = noclipEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+GodBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Godmod") then return end
+    godmodEnabled = not godmodEnabled
+    GodBtn.Text = godmodEnabled and "🛡️ Godmod (Bất tử): On" or "🛡️ Godmod (Bất tử): Off"
+    GodBtn.BackgroundColor3 = godmodEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+FlingBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Fling") then return end
+    flingEnabled = not flingEnabled
+    FlingBtn.Text = flingEnabled and "💥 Fling (Chạm là bay): On" or "💥 Fling (Chạm là bay): Off"
+    FlingBtn.BackgroundColor3 = flingEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+AmmoBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Infinite Ammo") then return end
+    infiniteAmmoEnabled = not infiniteAmmoEnabled
+    AmmoBtn.Text = infiniteAmmoEnabled and "🔫 Vô Hạn Đạn: On" or "🔫 Vô Hạn Đạn: Off"
+    AmmoBtn.BackgroundColor3 = infiniteAmmoEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+AimBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Aimbot") then return end
+    aimHeadEnabled = not aimHeadEnabled
+    AimBtn.Text = aimHeadEnabled and "🎯 Aimbot Head: On" or "🎯 Aimbot Head: Off"
+    AimBtn.BackgroundColor3 = aimHeadEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+SpinBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Spin") then return end
+    spinEnabled = not spinEnabled
+    SpinBtn.Text = spinEnabled and "🌀 Spin Siêu Nhanh: On" or "🌀 Spin Siêu Nhanh: Off"
+    SpinBtn.BackgroundColor3 = spinEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+-- TAB: ESP (Box, Tracer, NameHP, Hitbox, Auto Prompt & Nút [- / +] Hitbox Size chuẩn)
+local BoxBtn = MakeButton(Pages["esp"], "📦 ESP Box: Off", 10)
+local TracerBtn = MakeButton(Pages["esp"], "📏 ESP Tracer: Off", 52)
+local NameHpBtn = MakeButton(Pages["esp"], "🏷️ ESP Máu & Tên: Off", 94)
+local HitboxBtn = MakeButton(Pages["esp"], "🟢 Hitbox Thân Người (Xanh Lá): Off", 136)
+local PromptBtn = MakeButton(Pages["esp"], "⚡ Auto Farm Prompt: Off", 178)
+
+local HitboxControlFrame = Instance.new("Frame")
+HitboxControlFrame.Size = UDim2.new(1, -12, 0, 36)
+HitboxControlFrame.Position = UDim2.fromOffset(6, 220)
+HitboxControlFrame.BackgroundTransparency = 1
+HitboxControlFrame.ZIndex = 5
+HitboxControlFrame.Parent = Pages["esp"]
+
+local SubHitboxBtn = Instance.new("TextButton")
+SubHitboxBtn.Size = UDim2.new(0.3, 0, 1, 0)
+SubHitboxBtn.Position = UDim2.fromScale(0, 0)
+SubHitboxBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+SubHitboxBtn.BackgroundTransparency = 0.3
+SubHitboxBtn.Text = "[-]"
+SubHitboxBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubHitboxBtn.TextSize = 14
+SubHitboxBtn.Font = Enum.Font.GothamBold
+SubHitboxBtn.ZIndex = 6
+SubHitboxBtn.Parent = HitboxControlFrame
+Stroke(SubHitboxBtn, Color3.fromRGB(100, 100, 100))
+
+local HitboxValLabel = Instance.new("TextLabel")
+HitboxValLabel.Size = UDim2.new(0.4, 0, 1, 0)
+HitboxValLabel.Position = UDim2.fromScale(0.3, 0)
+HitboxValLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+HitboxValLabel.BackgroundTransparency = 0.4
+HitboxValLabel.Text = "Size: 5"
+HitboxValLabel.TextColor3 = Color3.fromRGB(0, 255, 100)
+HitboxValLabel.TextSize = 11
+HitboxValLabel.Font = Enum.Font.GothamBold
+HitboxValLabel.ZIndex = 6
+HitboxValLabel.Parent = HitboxControlFrame
+Stroke(HitboxValLabel, Color3.fromRGB(80, 80, 80))
+
+local AddHitboxBtn = Instance.new("TextButton")
+AddHitboxBtn.Size = UDim2.new(0.3, 0, 1, 0)
+AddHitboxBtn.Position = UDim2.fromScale(0.7, 0)
+AddHitboxBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 50)
+AddHitboxBtn.BackgroundTransparency = 0.3
+AddHitboxBtn.Text = "[+]"
+AddHitboxBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+AddHitboxBtn.TextSize = 14
+AddHitboxBtn.Font = Enum.Font.GothamBold
+AddHitboxBtn.ZIndex = 6
+AddHitboxBtn.Parent = HitboxControlFrame
+Stroke(AddHitboxBtn, Color3.fromRGB(100, 100, 100))
+
+SubHitboxBtn.MouseButton1Click:Connect(function()
+    hitboxSize = math.clamp(hitboxSize - 1, 2, 25)
+    HitboxValLabel.Text = "Size: " .. hitboxSize
+end)
+
+AddHitboxBtn.MouseButton1Click:Connect(function()
+    hitboxSize = math.clamp(hitboxSize + 1, 2, 25)
+    HitboxValLabel.Text = "Size: " .. hitboxSize
+end)
+
+BoxBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("ESP Box") then return end
+    espBoxesEnabled = not espBoxesEnabled
+    BoxBtn.Text = espBoxesEnabled and "📦 ESP Box: On" or "📦 ESP Box: Off"
+    BoxBtn.BackgroundColor3 = espBoxesEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+    if not espBoxesEnabled then for _, p in ipairs(Players:GetPlayers()) do cleanESP(p) end end
+end)
+
+TracerBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("ESP Tracer") then return end
+    espTracersEnabled = not espTracersEnabled
+    TracerBtn.Text = espTracersEnabled and "📏 ESP Tracer: On" or "📏 ESP Tracer: Off"
+    TracerBtn.BackgroundColor3 = espTracersEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+    if not espTracersEnabled then for _, p in ipairs(Players:GetPlayers()) do cleanESP(p) end end
+end)
+
+NameHpBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("ESP NameHP") then return end
+    espNameHpEnabled = not espNameHpEnabled
+    NameHpBtn.Text = espNameHpEnabled and "🏷️ ESP Máu & Tên: On" or "🏷️ ESP Máu & Tên: Off"
+    NameHpBtn.BackgroundColor3 = espNameHpEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+    if not espNameHpEnabled then for _, p in ipairs(Players:GetPlayers()) do cleanESP(p) end end
+end)
+
+HitboxBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Hitbox") then return end
+    hitboxEnabled = not hitboxEnabled
+    HitboxBtn.Text = hitboxEnabled and "🟢 Hitbox Thân Người: On" or "🟢 Hitbox Thân Người: Off"
+    HitboxBtn.BackgroundColor3 = hitboxEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+PromptBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("Auto Prompt") then return end
+    autoFarmPromptEnabled = not autoFarmPromptEnabled
+    PromptBtn.Text = autoFarmPromptEnabled and "⚡ Auto Farm Prompt: On" or "⚡ Auto Farm Prompt: Off"
+    PromptBtn.BackgroundColor3 = autoFarmPromptEnabled and Color3.fromRGB(150,0,0) or Color3.fromRGB(20,20,20)
+end)
+
+-- TAB: VISUAL (Skins & Sáng Súng Skin: Hello Kitty, Doraemon, Spider-Man)
+local ThemeFolder = Instance.new("Folder")
+ThemeFolder.Name = "ThemeEffectsFolder"
+ThemeFolder.Parent = Gui
+
+local function clearThemeEffects()
+    for _, c in ipairs(ThemeFolder:GetChildren()) do c:Destroy() end
+    ThemeImageBg.Image = ""
+end
+
+local function applyCharacterSkin(shirtId, pantsId)
+    pcall(function()
+        local char = Player.Character
+        if not char then return end
+        for _, v in ipairs(char:GetChildren()) do
+            if v:IsA("Shirt") or v:IsA("Pants") then v:Destroy() end
+        end
+        if shirtId and shirtId ~= "" then
+            local shirt = Instance.new("Shirt")
+            shirt.ShirtTemplate = "rbxassetid://" .. shirtId
+            shirt.Parent = char
+        end
+        if pantsId and pantsId ~= "" then
+            local pants = Instance.new("Pants")
+            pants.PantsTemplate = "rbxassetid://" .. pantsId
+            pants.Parent = char
+        end
+    end)
+end
+
+local ThemeBtn01 = MakeButton(Pages["visual"],"🐱 Hello Kitty (Skin + Glowing Gun)",10)
+local ThemeBtn02 = MakeButton(Pages["visual"],"🔵 Doraemon (Skin + Glowing Gun)",52)
+local ThemeBtn03 = MakeButton(Pages["visual"],"🕷️ Spider-Man (Skin + Glowing Gun)",94)
+local ThemeBtn1  = MakeButton(Pages["visual"],"🌠 Shooting Stars Effect",136)
+
+ThemeBtn01.MouseButton1Click:Connect(function()
+    if not checkBypass("Hello Kitty Theme") then return end
+    clearThemeEffects()
+    ThemeImageBg.Image = "rbxassetid://119072686618634"
+    Main.BackgroundColor3 = Color3.fromRGB(40, 10, 25)
+    MainStroke.Color = Color3.fromRGB(255, 150, 200)
+    applyCharacterSkin("119072686618634", "119072686618634")
+    applyWeaponGlowSkin("hellokitty")
+end)
+
+ThemeBtn02.MouseButton1Click:Connect(function()
+    if not checkBypass("Doraemon Theme") then return end
+    clearThemeEffects()
+    ThemeImageBg.Image = "rbxassetid://109072134997341"
+    Main.BackgroundColor3 = Color3.fromRGB(15, 75, 145)
+    MainStroke.Color = Color3.fromRGB(255, 255, 255)
+    applyCharacterSkin("109072134997341", "109072134997341")
+    applyWeaponGlowSkin("doraemon")
+end)
+
+ThemeBtn03.MouseButton1Click:Connect(function()
+    if not checkBypass("Spider-Man Theme") then return end
+    clearThemeEffects()
+    ThemeImageBg.Image = "rbxassetid://74808228033329"
+    Main.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
+    MainStroke.Color = Color3.fromRGB(255, 0, 0)
+    applyCharacterSkin("74808228033329", "74808228033329")
+    applyWeaponGlowSkin("spiderman")
+end)
+
+ThemeBtn1.MouseButton1Click:Connect(function()
+    if not checkBypass("Shooting Star Theme") then return end
+    clearThemeEffects()
+    Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    MainStroke.Color = Color3.fromRGB(255, 0, 0)
+    task.spawn(function()
+        while ThemeFolder.Parent and ThemeImageBg.Image == "" do
+            local star = Instance.new("Frame")
+            star.Size = UDim2.fromOffset(3, math.random(30, 80))
+            star.Position = UDim2.new(math.random(), 0, -0.1, 0)
+            star.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            star.BackgroundTransparency = 0.3
+            star.BorderSizePixel = 0
+            star.Rotation = 45
+            star.Parent = ThemeFolder
+            TweenService:Create(star, TweenInfo.new(math.random(1, 2), Enum.EasingStyle.Linear), {Position = UDim2.new(star.Position.X.Scale - 0.3, 0, 1.1, 0)}):Play()
+            task.delay(2, function() star:Destroy() end)
+            task.wait(0.2)
+        end
+    end)
+end)
+
+-- TAB: LAG (FPS Boost)
+local BoostBtn=MakeButton(Pages["lag"], "⚡ Enable FPS Boost & Fix Lag", 10)
+BoostBtn.MouseButton1Click:Connect(function()
+    if not checkBypass("FPS Boost") then return end
+    BoostBtn.Text = "⚡ Optimized Smoothly"
+    BoostBtn.BackgroundColor3 = Color3.fromRGB(150,0,0)
+    pcall(function()
+        Lighting.GlobalShadows = false
+        Lighting.FogEnd = 999999
+        if Lighting:FindFirstChildOfClass("Sky") then Lighting:FindFirstChildOfClass("Sky"):Destroy() end
+        for _, v in ipairs(Workspace:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.Material = Enum.Material.SmoothPlastic
+                v.Reflectance = 0
+            elseif v:IsA("Decal") or v:IsA("Texture") then
+                v.Transparency = 1
+            elseif v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
+                v.Enabled = false
+            end
+        end
+    end)
+end)
+
+--==================================================
+-- KIỂM TRA ĐĂNG NHẬP & KHỞI CHẠY UI
+--==================================================
+local function unlockScriptUI()
+    IsKeyVerified = true
+    KeyScreen:Destroy()
+    Main.Visible = true
+    ToggleBtn.Visible = true
+    FpsLabel.Visible = true
+end
+
+if loadKeyData() then
+    unlockScriptUI()
+else
+    KeyScreen.Visible = true
+end
+
+SubmitBtn.MouseButton1Click:Connect(function()
+    local userKey = string.upper(tostring(KeyBox.Text)):gsub("%s+", "")
+    local targetKey = string.upper(tostring(CorrectKey)):gsub("%s+", "")
+    
+    if userKey == targetKey then
+        saveKeyData()
+        unlockScriptUI()
+    else
+        KeyBox.Text = ""
+        KeyBox.PlaceholderText = "❌ Invalid Key! Try Again"
+    end
+end)
+
+local function ShowPage(name)
+    for n,p in pairs(Pages) do p.Visible=(n==name) end
+    for n,b in pairs(Tabs) do
+        b.BackgroundColor3=(n==name) and Color3.fromRGB(100,0,0) or Color3.fromRGB(20,20,20)
+    end
+end
+for name,b in pairs(Tabs) do
+    b.MouseButton1Click:Connect(function() ShowPage(name) end)
+end
+ShowPage("main")
+
+RunService.RenderStepped:Connect(function()
+    if not IsKeyVerified then return end
+    local hue = (os.clock() * 0.5) % 1
+    local color = Color3.fromHSV(hue, 1, 1)
+    MainStroke.Color = color
+    ToggleBtn.TextColor3 = color
+end)
+
+print("06 team loaded successfully with Fling, Hitbox [- +] and glowing weapon skins")
