@@ -2,177 +2,278 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TIỀN HUB - GET KEY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080516">
+<title>06 TEAM | GET KEY</title>
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+:root {
+  --bg:#080516; --panel:#100b28; --purple:#9b43ff;
+  --pink:#ed38ff; --blue:#328aff; --text:#f7f0ff;
+  --muted:#aaa0c9; --line:#42266e;
 }
-body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: radial-gradient(circle at top, #241044, #080812 65%);
-    color: white;
-    font-family: Arial, sans-serif;
+*{box-sizing:border-box}
+body{
+  margin:0;background:
+  radial-gradient(ellipse at 50% 0%,#32105e 0,transparent 48%),
+  var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;min-height:100vh;
 }
-.container {
-    width: 100%;
-    max-width: 390px;
-    padding: 28px 22px;
-    background: rgba(19, 16, 37, 0.96);
-    border: 1px solid #9b4dff;
-    border-radius: 20px;
-    box-shadow: 0 0 28px #792bff40;
-    text-align: center;
+button{font:inherit;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+header{
+  padding:25px 18px;text-align:center;
+  border-bottom:1px solid #49266e;
+  background:#090517bb;
 }
-.logo {
-    font-size: 31px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: #c58bff;
-    text-shadow: 0 0 18px #a34cff;
+.logo{
+  font-size:clamp(35px,8vw,58px);font-weight:1000;
+  font-style:italic;letter-spacing:3px;
+  background:linear-gradient(90deg,#5ca5ff,#df5aff,#fff);
+  color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 15px #9b43ff);
 }
-.subtitle {
-    color: #aaa2c4;
-    margin-top: 9px;
-    font-size: 13px;
+.tag{font-size:12px;letter-spacing:5px;color:#d8b8ff;margin-top:7px}
+.online{color:#46ffc0;font-size:12px;margin-top:15px}
+.layout{
+  width:min(1050px,94%);margin:28px auto;
+  display:grid;grid-template-columns:1fr 280px;gap:20px;
 }
-.badge {
-    display: inline-block;
-    margin: 22px 0;
-    padding: 7px 16px;
-    border: 1px solid #35e8ae;
-    border-radius: 30px;
-    color: #35e8ae;
-    font-size: 12px;
-    font-weight: bold;
+.panel{
+  background:linear-gradient(145deg,#160d31ed,#0c0920f5);
+  border:1px solid var(--line);border-radius:19px;
+  padding:24px;box-shadow:0 0 30px #7400ff13;
 }
-h3 {
-    font-size: 16px;
-    margin-bottom: 12px;
+h1{font-size:25px;margin:0 0 9px}
+h2{font-size:15px;color:#d7b0ff;margin:0 0 18px}
+p{color:var(--muted);font-size:14px;line-height:1.7}
+.pill{
+  display:inline-block;border:1px solid #25cda0;
+  color:#49f3bf;border-radius:30px;padding:7px 12px;
+  font-size:11px;margin:15px 0 23px;
 }
-.keybox {
-    min-height: 57px;
-    padding: 16px 10px;
-    border-radius: 10px;
-    background: #0b0a16;
-    border: 1px solid #49356c;
-    color: #c9a4ff;
-    overflow-wrap: anywhere;
-    font-size: 13px;
-    line-height: 1.5;
-    margin-bottom: 15px;
+.keybox{
+  background:#080616;border:1px solid #57308e;
+  border-radius:12px;padding:17px 12px;
+  overflow-wrap:anywhere;color:#dcb5ff;
+  font-size:13px;min-height:55px;line-height:1.6;
 }
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(100deg, #792bff, #bd49ff);
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
+.label{font-size:12px;color:#bba5e5;margin-bottom:10px}
+button{
+  border:0;border-radius:11px;padding:14px 12px;
+  color:white;font-weight:bold;transition:.2s;
 }
-button:active {
-    transform: scale(.98);
+button:active{transform:scale(.98)}
+.primary{
+  width:100%;margin-top:15px;
+  background:linear-gradient(100deg,#7028ff,#d12cff);
+  box-shadow:0 0 22px #9d32ff3d;
 }
-button.secondary {
-    background: #242037;
-    border: 1px solid #584475;
+.secondary{background:#19142d;border:1px solid #51377f}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.actions button{font-size:12px}
+.timerbox{
+  margin-top:23px;padding:18px;
+  border:1px solid #326bce;border-radius:13px;
+  background:#10112b;
 }
-button.confirm {
-    background: linear-gradient(100deg, #087c58, #20c997);
+.timer-label{font-size:12px;color:#b9b9ed}
+.timer{font-size:30px;font-weight:900;color:#d8a4ff;margin-top:8px}
+.status{font-size:12px;color:#80c8ff;margin-top:8px}
+.notice{
+  margin-top:18px;padding:15px;
+  border:1px solid #61318a;border-radius:12px;
+  background:#190e2b;font-size:12px;line-height:1.9;
+  color:#c9b8e6;
 }
-#message {
-    min-height: 20px;
-    margin-top: 14px;
-    font-size: 12px;
-    color: #48e9b4;
+.side{display:flex;flex-direction:column;gap:14px}
+.info{padding:19px}
+.info h2{margin-bottom:12px}
+.info p{margin:7px 0;font-size:12px}
+.bigicon{font-size:25px;margin-bottom:10px;color:#d35aff}
+footer{text-align:center;color:#786a9f;font-size:11px;padding:15px 10px 30px}
+#msg{font-size:12px;color:#54efbc;min-height:20px;margin-top:12px}
+@media(max-width:700px){
+ .layout{grid-template-columns:1fr;margin:18px auto}
+ .panel{padding:20px}
+ .side{display:grid;grid-template-columns:1fr 1fr}
+ h1{font-size:22px}
+ .timer{font-size:27px}
 }
-.footer {
-    color: #716b88;
-    font-size: 11px;
-    margin-top: 23px;
+@media(max-width:380px){
+ .side{grid-template-columns:1fr}
+ .actions{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="container">
-    <div class="logo">TIỀN HUB</div>
-    <div class="subtitle">FREE KEY SYSTEM • GET YOUR KEY</div>
 
-    <div class="badge">● FREE ACCESS</div>
+<header>
+  <div class="logo">06 TEAM</div>
+  <div class="tag">GET KEY · FREE ACCESS</div>
+  <div class="online">● SYSTEM ONLINE</div>
+</header>
 
-    <h3>KEY CỦA BẠN</h3>
-    <div class="keybox" id="key">Nhấn nút bên dưới để nhận key</div>
+<main class="layout">
+  <section class="panel">
+    <h1>🔑 LẤY KEY MIỄN PHÍ</h1>
+    <p>Chào mừng bạn đến với hệ thống GETKEY của 06 TEAM.</p>
+    <span class="pill">✦ FREE KEY SYSTEM</span>
 
-    <button onclick="getKey()">🎁 NHẬN KEY MIỄN PHÍ</button>
-    <button class="secondary" onclick="copyKey()">📋 SAO CHÉP KEY</button>
-    <button class="confirm" onclick="confirmKey()">✓ XÁC NHẬN</button>
+    <div class="label">KEY CỦA BẠN</div>
+    <div class="keybox" id="key">Nhấn NHẬN KEY để bắt đầu</div>
 
-    <div id="message"></div>
-    <div class="footer">© 2026 TIỀN HUB • KEY SYSTEM</div>
-</div>
+    <button class="primary" id="getBtn" onclick="getKey()">
+      🎁 NHẬN KEY
+    </button>
+
+    <div class="actions">
+      <button class="secondary" onclick="copyKey()">▣ SAO CHÉP</button>
+      <button class="secondary" onclick="confirmKey()">✓ XÁC NHẬN</button>
+    </div>
+
+    <div id="msg"></div>
+
+    <div class="timerbox">
+      <div class="timer-label">⏳ THỜI GIAN ĐẾN LẦN NHẬN KEY TIẾP</div>
+      <div class="timer" id="timer">03:00:00</div>
+      <div class="status" id="status">Bạn có thể nhận key ngay bây giờ.</div>
+    </div>
+
+    <div class="notice">
+      <b style="color:#e6a8ff">♛ LƯU Ý</b><br>
+      • Mỗi lần nhận key phải chờ đủ 3 giờ mới nhận tiếp.<br>
+      • Thoát trình duyệt rồi vào lại, thời gian vẫn tiếp tục đếm.<br>
+      • Key có định dạng FREE_ + 32 ký tự.<br>
+      • Không xóa dữ liệu trang web nếu muốn giữ thời gian chờ.
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="panel info">
+      <h2>🎁 THÔNG TIN KEY</h2>
+      <p>✦ Loại key: <b>Miễn phí</b></p>
+      <p>✦ Thời gian chờ: <b>3 giờ</b></p>
+      <p>✦ Định dạng: <b>FREE_...</b></p>
+    </div>
+    <div class="panel info">
+      <div class="bigicon">◈</div>
+      <h2>HỆ THỐNG GETKEY</h2>
+      <p>Giao diện tối ưu cho điện thoại và máy tính.</p>
+    </div>
+    <div class="panel info">
+      <div class="bigicon">⚡</div>
+      <h2>NHANH CHÓNG</h2>
+      <p>Nhấn nhận key và sao chép để sử dụng.</p>
+    </div>
+    <div class="panel info">
+      <div class="bigicon">♡</div>
+      <h2>06 TEAM FOREVER</h2>
+      <p>Cảm ơn bạn đã ủng hộ 06 TEAM!</p>
+    </div>
+  </aside>
+</main>
+
+<footer>© 2026 06 TEAM · FREE KEY SYSTEM</footer>
 
 <script>
-let currentKey = "";
+const WAIT = 3 * 60 * 60 * 1000;
+const KEY_STORE = "06team_saved_key";
+const TIME_STORE = "06team_next_key_time";
 
-function generateKey() {
-    const chars = "0123456789abcdef";
-    let result = "";
-    for (let i = 0; i < 32; i++) {
-        result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return "FREE_" + result;
+let currentKey = localStorage.getItem(KEY_STORE) || "";
+let nextTime = Number(localStorage.getItem(TIME_STORE) || 0);
+
+function randomKey(){
+  const bytes = new Uint8Array(16);
+  if (window.crypto && crypto.getRandomValues) {
+    crypto.getRandomValues(bytes);
+  } else {
+    for(let i=0;i<16;i++) bytes[i]=Math.floor(Math.random()*256);
+  }
+  return "FREE_" +
+    Array.from(bytes).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
 
-function getKey() {
-    currentKey = generateKey();
-    document.getElementById("key").textContent = currentKey;
-    document.getElementById("message").textContent =
-        "✓ Đã tạo key! Hãy sao chép để sử dụng.";
+function renderKey(){
+  document.getElementById("key").textContent =
+    currentKey || "Nhấn NHẬN KEY để bắt đầu";
 }
 
-async function copyKey() {
-    if (!currentKey) {
-        document.getElementById("message").textContent =
-            "⚠️ Bạn cần nhận key trước!";
-        return;
-    }
+function getKey(){
+  const now = Date.now();
 
-    try {
-        await navigator.clipboard.writeText(currentKey);
-        document.getElementById("message").textContent =
-            "✓ Đã sao chép key!";
-    } catch (e) {
-        const area = document.createElement("textarea");
-        area.value = currentKey;
-        document.body.appendChild(area);
-        area.select();
-        document.execCommand("copy");
-        area.remove();
-        document.getElementById("message").textContent =
-            "✓ Đã sao chép key!";
-    }
+  if(now < nextTime){
+    message("Bạn cần chờ hết thời gian đếm ngược!", true);
+    return;
+  }
+
+  currentKey = randomKey();
+  nextTime = now + WAIT;
+
+  localStorage.setItem(KEY_STORE,currentKey);
+  localStorage.setItem(TIME_STORE,String(nextTime));
+
+  renderKey();
+  updateTimer();
+  message("✓ Đã tạo key mới thành công!");
 }
 
-function confirmKey() {
-    if (!currentKey) {
-        document.getElementById("message").textContent =
-            "⚠️ Vui lòng nhận key trước khi xác nhận.";
-        return;
-    }
+async function copyKey(){
+  if(!currentKey){
+    message("Bạn hãy nhận key trước!",true);
+    return;
+  }
 
-    document.getElementById("message").textContent =
-        "✓ Đã xác nhận key: " + currentKey;
+  try{
+    await navigator.clipboard.writeText(currentKey);
+  }catch(e){
+    const el=document.createElement("textarea");
+    el.value=currentKey;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    el.remove();
+  }
+  message("✓ Đã sao chép key!");
 }
+
+function confirmKey(){
+  if(!currentKey){
+    message("Bạn chưa có key để xác nhận!",true);
+    return;
+  }
+  message("Key đã hiển thị và sẵn sàng để sao chép.");
+}
+
+function message(text,error=false){
+  const el=document.getElementById("msg");
+  el.textContent=text;
+  el.style.color=error?"#ff8da9":"#54efbc";
+}
+
+function updateTimer(){
+  const left=Math.max(0,nextTime-Date.now());
+  const h=Math.floor(left/3600000);
+  const m=Math.floor((left%3600000)/60000);
+  const s=Math.floor((left%60000)/1000);
+
+  document.getElementById("timer").textContent =
+    [h,m,s].map(v=>String(v).padStart(2,"0")).join(":");
+
+  const ready=left===0;
+  document.getElementById("getBtn").disabled=!ready;
+  document.getElementById("getBtn").textContent =
+    ready?"🎁 NHẬN KEY":"🔒 ĐANG TRONG THỜI GIAN CHỜ";
+
+  document.getElementById("status").textContent =
+    ready
+      ? "Bạn có thể nhận key ngay bây giờ."
+      : "Hãy quay lại khi bộ đếm về 00:00:00.";
+}
+
+renderKey();
+updateTimer();
+setInterval(updateTimer,1000);
 </script>
 </body>
-</html>
+</html> 
