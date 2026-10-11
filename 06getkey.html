@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIỀN HUB - GET KEY</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(circle at top, #241044, #080812 65%);
+    color: white;
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 100%;
+    max-width: 390px;
+    padding: 28px 22px;
+    background: rgba(19, 16, 37, 0.96);
+    border: 1px solid #9b4dff;
+    border-radius: 20px;
+    box-shadow: 0 0 28px #792bff40;
+    text-align: center;
+}
+.logo {
+    font-size: 31px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #c58bff;
+    text-shadow: 0 0 18px #a34cff;
+}
+.subtitle {
+    color: #aaa2c4;
+    margin-top: 9px;
+    font-size: 13px;
+}
+.badge {
+    display: inline-block;
+    margin: 22px 0;
+    padding: 7px 16px;
+    border: 1px solid #35e8ae;
+    border-radius: 30px;
+    color: #35e8ae;
+    font-size: 12px;
+    font-weight: bold;
+}
+h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+.keybox {
+    min-height: 57px;
+    padding: 16px 10px;
+    border-radius: 10px;
+    background: #0b0a16;
+    border: 1px solid #49356c;
+    color: #c9a4ff;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(100deg, #792bff, #bd49ff);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+button:active {
+    transform: scale(.98);
+}
+button.secondary {
+    background: #242037;
+    border: 1px solid #584475;
+}
+button.confirm {
+    background: linear-gradient(100deg, #087c58, #20c997);
+}
+#message {
+    min-height: 20px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: #48e9b4;
+}
+.footer {
+    color: #716b88;
+    font-size: 11px;
+    margin-top: 23px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">TIỀN HUB</div>
+    <div class="subtitle">FREE KEY SYSTEM • GET YOUR KEY</div>
+
+    <div class="badge">● FREE ACCESS</div>
+
+    <h3>KEY CỦA BẠN</h3>
+    <div class="keybox" id="key">Nhấn nút bên dưới để nhận key</div>
+
+    <button onclick="getKey()">🎁 NHẬN KEY MIỄN PHÍ</button>
+    <button class="secondary" onclick="copyKey()">📋 SAO CHÉP KEY</button>
+    <button class="confirm" onclick="confirmKey()">✓ XÁC NHẬN</button>
+
+    <div id="message"></div>
+    <div class="footer">© 2026 TIỀN HUB • KEY SYSTEM</div>
+</div>
+
+<script>
+let currentKey = "";
+
+function generateKey() {
+    const chars = "0123456789abcdef";
+    let result = "";
+    for (let i = 0; i < 32; i++) {
+        result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return "FREE_" + result;
+}
+
+function getKey() {
+    currentKey = generateKey();
+    document.getElementById("key").textContent = currentKey;
+    document.getElementById("message").textContent =
+        "✓ Đã tạo key! Hãy sao chép để sử dụng.";
+}
+
+async function copyKey() {
+    if (!currentKey) {
+        document.getElementById("message").textContent =
+            "⚠️ Bạn cần nhận key trước!";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(currentKey);
+        document.getElementById("message").textContent =
+            "✓ Đã sao chép key!";
+    } catch (e) {
+        const area = document.createElement("textarea");
+        area.value = currentKey;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+        document.getElementById("message").textContent =
+            "✓ Đã sao chép key!";
+    }
+}
+
+function confirmKey() {
+    if (!currentKey) {
+        document.getElementById("message").textContent =
+            "⚠️ Vui lòng nhận key trước khi xác nhận.";
+        return;
+    }
+
+    document.getElementById("message").textContent =
+        "✓ Đã xác nhận key: " + currentKey;
+}
+</script>
+</body>
+</html>
