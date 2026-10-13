@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080611">
+<title>06 TEAM GETKEY PRO</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080611;color:#fff;font-family:Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at top,#49136d70,transparent 60%),radial-gradient(ellipse at bottom right,#063a7940,transparent 55%)}
+.wrap{max-width:520px;width:calc(100% - 26px);margin:auto;padding:24px 0 40px}
+header{text-align:center;padding:15px 0 26px}
+.crown{font-size:32px;color:#c99aff;text-shadow:0 0 20px #a855ff}
+.logo{font-size:39px;font-weight:1000;font-style:italic;letter-spacing:3px;background:linear-gradient(100deg,#fff,#c27bff,#58d5ff);color:transparent;background-clip:text}
+.tag{font-size:10px;letter-spacing:4px;color:#a7a0bf;margin-top:8px}
+.panel{padding:21px;margin-bottom:15px;border:1px solid #52357b;border-radius:17px;background:linear-gradient(145deg,#151127f5,#0b0a18f5);box-shadow:0 0 22px #761fff13}
+h2{font-size:18px;margin:0 0 9px}
+p{font-size:13px;color:#aaa4bd;line-height:1.65}
+label{display:block;font-size:12px;color:#c6bfdc;margin:12px 0 7px}
+input,textarea,select{width:100%;border:1px solid #39304f;border-radius:10px;padding:13px;background:#090815;color:white;outline:none}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus{border-color:#a855ff}
+.btn{width:100%;border:0;border-radius:10px;padding:14px;margin-top:10px;color:white;font-weight:800;background:linear-gradient(100deg,#9235f4,#365aff);cursor:pointer}
+.alt{background:#191529;border:1px solid #44355d}
+.danger{background:#762b40}
+.btn:disabled{opacity:.5}
+.tabs,.row{display:flex;gap:9px}
+.tabs{margin-bottom:15px}
+.tabs button{flex:1;background:#151126;color:#aaa;border:1px solid #34274c;border-radius:10px;padding:12px;cursor:pointer}
+.tabs button.active{color:white;border-color:#a855ff;background:#281440}
+.row>*{flex:1;min-width:0}
+.hidden{display:none!important}
+.notice{padding:11px;border-radius:9px;background:#171329;color:#c7b8ed;font-size:12px;line-height:1.6;margin:10px 0}
+.status{display:inline-block;font-size:11px;padding:6px 9px;border-radius:20px;background:#292039;color:#d8bcff}
+.item{padding:13px 0;border-bottom:1px solid #2a243b;overflow-wrap:anywhere}
+.small{font-size:11px;color:#9991af;line-height:1.7}
+.key{padding:14px;background:#070c1c;border:1px solid #3269cb;border-radius:10px;color:#8be4ff;text-align:center;overflow-wrap:anywhere;font-weight:bold;margin:12px 0}
+.switchrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0}
+.switchrow input{width:20px;height:20px;accent-color:#a855ff}
+footer{text-align:center;color:#6f6785;font-size:10px;letter-spacing:2px;padding:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div class="crown">♛</div>
+ <div class="logo">06 TEAM</div>
+ <div class="tag">PREMIUM KEY SYSTEM</div>
+</header>
+
+<section class="panel" id="auth">
+ <h2>✦ GETKEY SYSTEM</h2>
+ <p>Đăng nhập để gửi đơn xét duyệt và truy cập trang lấy key.</p>
+ <div class="tabs">
+  <button id="loginTab" class="active">ĐĂNG NHẬP</button>
+  <button id="registerTab">ĐĂNG KÝ</button>
+ </div>
+ <form id="authForm">
+  <label for="email">EMAIL</label>
+  <input id="email" type="email" placeholder="name@gmail.com" required>
+  <label for="password">MẬT KHẨU</label>
+  <input id="password" type="password" minlength="8" placeholder="Tối thiểu 8 ký tự" required>
+  <div id="robotBox" class="hidden">
+   <label style="display:flex;align-items:center;gap:9px">
+    <input type="checkbox" id="robot" style="width:19px;height:19px">
+    Tôi không phải là người máy (demo)
+   </label>
+  </div>
+  <button class="btn" id="submitAuth">ĐĂNG NHẬP</button>
+ </form>
+ <div class="notice">Email được chấp nhận: @gmail.com hoặc @pasRus.json. Xác nhận robot trong bản này chỉ là demo.</div>
+ <div id="authMsg" class="small"></div>
+</section>
+
+<section id="app" class="hidden">
+ <div class="panel">
+  <div class="small">TÀI KHOẢN ĐANG ĐĂNG NHẬP</div>
+  <strong id="who"></strong>
+  <span class="status" id="role"></span>
+  <button class="btn alt" id="logout">ĐĂNG XUẤT</button>
+ </div>
+
+ <section class="panel" id="member">
+  <h2>⌁ KHU VỰC THÀNH VIÊN</h2>
+  <p>Viết lý do xin quyền truy cập trang lấy key.</p>
+  <div id="applicationArea">
+   <label for="reason">LÝ DO XIN CẤP QUYỀN</label>
+   <textarea id="reason" maxlength="600" placeholder="Nhập lý do của bạn..."></textarea>
+   <button class="btn" id="sendApplication">GỬI ĐƠN XÉT DUYỆT</button>
+  </div>
+  <div id="myApplication"></div>
+  <div id="claimArea" class="hidden">
+   <h2>✦ TRANG LẤY KEY</h2>
+   <p>Tài khoản của bạn có quyền nhận key.</p>
+   <div class="key" id="myKey"></div>
+   <button class="btn" id="copyKey">SAO CHÉP KEY</button>
+  </div>
+ </section>
+
+ <section class="panel hidden" id="admin">
+  <h2>♛ ADMIN CONTROL PANEL</h2>
+  <p>Quản lý đơn xét duyệt và cấp key.</p>
+  <div class="notice">Bản HTML lưu dữ liệu trên trình duyệt, không an toàn cho website công khai.</div>
+  <div class="switchrow">
+   <div><strong style="font-size:13px">TỰ ĐỘNG DUYỆT TẤT CẢ ĐƠN</strong><div class="small">Áp dụng cho đơn mới và đơn chờ</div></div>
+   <input type="checkbox" id="auto">
+  </div>
+  <button class="btn alt" id="refresh">↻ LÀM MỚI DANH SÁCH</button>
+  <h2 style="margin-top:23px">ĐƠN XÉT DUYỆT</h2>
+  <div id="appsList"></div>
+  <h2 style="margin-top:23px">TẠO KEY</h2>
+  <label for="target">EMAIL TÀI KHOẢN NHẬN KEY</label>
+  <input id="target" type="email" placeholder="user@gmail.com">
+  <label for="days">THỜI HẠN KEY</label>
+  <select id="days">
+   <option value="1">1 ngày</option>
+   <option value="7">7 ngày</option>
+   <option value="30">30 ngày</option>
+   <option value="0">Vĩnh viễn (demo)</option>
+  </select>
+  <button class="btn" id="makeKey">TẠO KEY VÀ CẤP QUYỀN</button>
+  <div id="adminMsg" class="small"></div>
+  <h2 style="margin-top:23px">DANH SÁCH TÀI KHOẢN</h2>
+  <div id="usersList"></div>
+ </section>
+</section>
+<footer>06 TEAM • GETKEY PRO</footer>
+</div>
+
+<script>
+/*
+ DEMO ONLY — KHÔNG DÙNG LÀM XÁC THỰC BẢO MẬT.
+ Đổi mật khẩu demo trước khi thử.
+*/
+const ADMIN_EMAIL = "admin@russon.json";
+const ADMIN_PASSWORD = "Demo06Team_123";
+const DBKEY = "06TEAM_DATABASE_V2";
+const SKEY = "06TEAM_SESSION_V2";
+let mode="login",current=null;
+
+const $=id=>document.getElementById(id);
+const load=()=>{
+ try{return JSON.parse(localStorage.getItem(DBKEY))||{users:[],apps:[],keys:[],auto:false}}
+ catch(e){return {users:[],apps:[],keys:[],auto:false}}
+};
+const save=db=>localStorage.setItem(DBKEY,JSON.stringify(db));
+const validEmail=e=>e.endsWith("@gmail.com")||e.endsWith("@pasrus.json");
+const hash=s=>{
+ let h=2166136261;
+ for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
+ return (h>>>0).toString(16);
+};
+const randomKey=()=>{
+ const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+ const b=new Uint8Array(16);crypto.getRandomValues(b);
+ return "FREE_06TEAM_"+Array.from(b,x=>chars[x%chars.length]).join("");
+};
+const say=(id,s)=>$(id).textContent=s;
+const admin=()=>current&&current.email===ADMIN_EMAIL;
+const activeKey=(db,email)=>db.keys.find(k=>k.email===email&&(!k.expires||k.expires>Date.now()));
+
+$("loginTab").onclick=()=>setMode("login");
+$("registerTab").onclick=()=>setMode("register");
+function setMode(m){
+ mode=m;
+ $("loginTab").classList.toggle("active",m==="login");
+ $("registerTab").classList.toggle("active",m==="register");
+ $("robotBox").classList.toggle("hidden",m!=="register");
+ $("submitAuth").textContent=m==="login"?"ĐĂNG NHẬP":"TẠO TÀI KHOẢN";
+ say("authMsg","");
+}
+
+$("authForm").onsubmit=e=>{
+ e.preventDefault();
+ const email=$("email").value.trim().toLowerCase();
+ const password=$("password").value;
+ if(mode==="login"){
+  // Admin demo có sẵn, không cần đăng ký trước.
+  if(email===ADMIN_EMAIL&&password===ADMIN_PASSWORD){
+   current={email,role:"admin"};
+   sessionStorage.setItem(SKEY,email);
+   render();return;
+  }
+  if(!validEmail(email)){say("authMsg","Email phải kết thúc bằng @gmail.com hoặc @pasRus.json.");return}
+  const db=load();
+  const u=db.users.find(x=>x.email===email&&x.pass===hash(password));
+  if(!u){say("authMsg","Email hoặc mật khẩu không đúng.");return}
+  current={email,role:"member"};
+  sessionStorage.setItem(SKEY,email);render();return;
+ }
+ if(!validEmail(email)){say("authMsg","Email không đúng định dạng.");return}
+ if(password.length<8){say("authMsg","Mật khẩu cần ít nhất 8 ký tự.");return}
+ if(!$("robot").checked){say("authMsg","Hãy tích xác nhận robot demo.");return}
+ const db=load();
+ if(email===ADMIN_EMAIL){say("authMsg","Email admin dành riêng cho đăng nhập quản trị.");return}
+ if(db.users.some(x=>x.email===email)){say("authMsg","Email này đã đăng ký.");return}
+ db.users.push({email,pass:hash(password),created:Date.now()});
+ save(db);say("authMsg","Đăng ký thành công! Hãy đăng nhập.");
+ setMode("login");
+};
+
+function render(){
+ const db=load();
+ $("auth").classList.toggle("hidden",!!current);
+ $("app").classList.toggle("hidden",!current);
+ if(!current)return;
+ $("who").textContent=current.email;
+ $("role").textContent=admin()?"ADMIN":"MEMBER";
+ $("admin").classList.toggle("hidden",!admin());
+ $("member").classList.toggle("hidden",admin());
+ if(admin())renderAdmin(db);else renderMember(db);
+}
+function renderMember(db){
+ const a=db.apps.find(x=>x.email===current.email);
+ $("applicationArea").classList.toggle("hidden",!!a&&a.status==="pending");
+ $("myApplication").innerHTML="";
+ if(a){
+  const d=document.createElement("div");d.className="notice";
+  d.textContent="Trạng thái: "+({pending:"Đang chờ duyệt",approved:"Đã duyệt",rejected:"Bị từ chối"}[a.status])+" · Lý do: "+a.reason;
+  $("myApplication").append(d);
+ }
+ const k=activeKey(db,current.email);
+ $("claimArea").classList.toggle("hidden",!k);
+ if(k)$("myKey").textContent=k.value;
+}
+$("sendApplication").onclick=()=>{
+ const reason=$("reason").value.trim();
+ if(reason.length<10){alert("Lý do cần ít nhất 10 ký tự.");return}
+ const db=load();
+ if(db.apps.some(a=>a.email===current.email&&a.status==="pending")){alert("Bạn đang có đơn chờ.");return}
+ const a={id:crypto.randomUUID(),email:current.email,reason,time:Date.now(),status:db.auto?"approved":"pending"};
+ db.apps.push(a);
+ if(db.auto&&!activeKey(db,current.email)){
+  db.keys.push({email:current.email,value:randomKey(),expires:Date.now()+7*86400000});
+ }
+ save(db);$("reason").value="";render();
+ alert(db.auto?"Đơn đã được tự động duyệt.":"Đã gửi đơn thành công.");
+};
+$("copyKey").onclick=async()=>{
+ try{await navigator.clipboard.writeText($("myKey").textContent);alert("Đã sao chép key!")}
+ catch(e){prompt("Sao chép key:",$("myKey").textContent)}
+};
+function renderAdmin(db){
+ $("auto").checked=db.auto;
+ $("appsList").innerHTML="";
+ const apps=[...db.apps].reverse();
+ if(!apps.length)$("appsList").textContent="Chưa có đơn nào.";
+ apps.forEach(a=>{
+  const d=document.createElement("div");d.className="item";
+  const title=document.createElement("strong");title.textContent=a.email;
+  const reason=document.createElement("p");reason.textContent="Lý do: "+a.reason;
+  const st=document.createElement("div");st.className="small";
+  st.textContent="Trạng thái: "+a.status+" · "+new Date(a.time).toLocaleString();
+  d.append(title,reason,st);
+  if(a.status==="pending"){
+   const row=document.createElement("div");row.className="row";
+   const yes=document.createElement("button");yes.className="btn";yes.textContent="DUYỆT";
+   const no=document.createElement("button");no.className="btn danger";no.textContent="TỪ CHỐI";
+   yes.onclick=()=>review(a.id,"approved");no.onclick=()=>review(a.id,"rejected");
+   row.append(yes,no);d.append(row);
+  }
+  $("appsList").append(d);
+ });
+ $("usersList").innerHTML="";
+ db.users.forEach(u=>{
+  const d=document.createElement("div");d.className="item";
+  const t=document.createElement("strong");t.textContent=u.email;
+  const b=document.createElement("button");b.className="btn alt";b.textContent="CHỌN TÀI KHOẢN";
+  b.onclick=()=>{$("target").value=u.email;$("target").scrollIntoView({behavior:"smooth",block:"center"})};
+  d.append(t,b);$("usersList").append(d);
+ });
+}
+function review(id,status){
+ const db=load(),a=db.apps.find(x=>x.id===id);
+ if(!a)return;
+ a.status=status;
+ if(status==="approved"&&!activeKey(db,a.email)){
+  db.keys.push({email:a.email,value:randomKey(),expires:Date.now()+7*86400000});
+ }
+ save(db);render();
+}
+$("auto").onchange=()=>{
+ const db=load();db.auto=$("auto").checked;
+ if(db.auto)db.apps.forEach(a=>{
+  if(a.status==="pending"){
+   a.status="approved";
+   if(!activeKey(db,a.email))db.keys.push({email:a.email,value:randomKey(),expires:Date.now()+7*86400000});
+  }
+ });
+ save(db);render();
+};
+$("refresh").onclick=render;
+$("makeKey").onclick=()=>{
+ const email=$("target").value.trim().toLowerCase();
+ if(!validEmail(email)){say("adminMsg","Email không hợp lệ.");return}
+ const db=load();
+ if(!db.users.some(u=>u.email===email)){say("adminMsg","Tài khoản chưa đăng ký trên trình duyệt này.");return}
+ const days=Number($("days").value);
+ const k={email,value:randomKey(),expires:days===0?0:Date.now()+days*86400000};
+ db.keys=db.keys.filter(x=>x.email!==email);db.keys.push(k);
+ let a=db.apps.find(x=>x.email===email);
+ if(a)a.status="approved";
+ save(db);say("adminMsg","Đã tạo key: "+k.value);render();
+};
+$("logout").onclick=()=>{current=null;sessionStorage.removeItem(SKEY);render()};
+
+// Khôi phục phiên demo sau khi tải lại trang.
+const old=sessionStorage.getItem(SKEY);
+if(old){
+ if(old===ADMIN_EMAIL)current={email:old,role:"admin"};
+ else if(load().users.some(u=>u.email===old))current={email:old,role:"member"};
+}
+render();
+</script>
+</body>
+</html>
