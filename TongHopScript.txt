@@ -1,0 +1,11 @@
+local url = "https://gist.githubusercontent.com/robotgamev7-lang/ff0e666a76772814f671e43d5dc1ba12/raw/46588422c75c4d889acb912152bf79a53ba75fb3/tonghopscripttxt.lua"
+
+local success, err = pcall(function()
+    local source = game:HttpGet(url)
+    local func = assert(loadstring(source))
+    func()
+end)
+
+if not success then
+    warn("Lỗi tải hoặc chạy script: " .. tostring(err))
+end
