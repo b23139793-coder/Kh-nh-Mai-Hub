@@ -1,20 +1,64 @@
--- [[ TIỀN CHICAGO LIFE V5.1 - EXTRA LARGE PUMPKIN ICON ]] --
+-- [[ TIỀN CHICAGO LIFE V5.1 - CONFIG & FULL MULTI-LANGUAGE SYSTEM ]] --
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Lighting = game:GetService("Lighting")
 local Workspace = game:GetService("Workspace")
+local HttpService = game:GetService("HttpService")
 local Camera = Workspace.CurrentCamera
 local player = Players.LocalPlayer
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "TienChicagoLifeV5_1"
+gui.Name = "TienChicagoLifeV5_2"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local CONTACT_ADMIN_URL = "https://www.tiktok.com/@nhavuafifai?_r=1&_t=ZS-9AGeg2erzvd"
+local currentLang = "VI" -- Mặc định là Tiếng Việt
+
+-- Hệ thống Config File (Auto Save & Load)
+local CONFIG_FILE_NAME = "TienChicagoLife_Config.json"
+local configData = {
+    AutoBox = false,
+    AutoMoney = false,
+    AutoKill = false,
+    AutoCar = false,
+    InfiniteAmmo = false,
+    NoReload = false,
+    HeadHitbox = false,
+    BodyHitbox = false,
+    Spin = false,
+    Godmod = false,
+    Noclip = false,
+    Walkspeed23 = false,
+    AntiLag = false,
+    EspTracers = false,
+    EspBoxes = false,
+    EspHealth = false
+}
+
+local function saveConfig()
+    pcall(function()
+        if writefile then
+            writefile(CONFIG_FILE_NAME, HttpService:JSONEncode(configData))
+        end
+    end)
+end
+
+local function loadConfig()
+    pcall(function()
+        if readfile and isfile and isfile(CONFIG_FILE_NAME) then
+            local decoded = HttpService:JSONDecode(readfile(CONFIG_FILE_NAME))
+            for k, v in pairs(decoded) do
+                configData[k] = v
+            end
+        end
+    end)
+end
+
+loadConfig()
 
 local function makeDraggable(topbarObject, object)
     local dragging, dragInput, dragStart, startPos
@@ -48,7 +92,7 @@ local function makeDraggable(topbarObject, object)
 end
 
 --==================================================
--- THÔNG BÁO CHÀO MỪNG V5.1
+-- THÔNG BÁO CHÀO MỪNG
 --==================================================
 local function showWelcomeNotification()
     local notif = Instance.new("Frame")
@@ -71,7 +115,7 @@ local function showWelcomeNotification()
     titleNotif.Size = UDim2.new(1, -25, 0, 22)
     titleNotif.Position = UDim2.fromOffset(20, 10)
     titleNotif.BackgroundTransparency = 1
-    titleNotif.Text = "🎃 TIỀN HUB PC ORANGE V5.1"
+    titleNotif.Text = "🎃 wellcome player
     titleNotif.TextColor3 = Color3.fromRGB(255, 165, 0)
     titleNotif.TextSize = 12
     titleNotif.Font = Enum.Font.Code
@@ -81,7 +125,7 @@ local function showWelcomeNotification()
     subNotif.Size = UDim2.new(1, -25, 0, 30)
     subNotif.Position = UDim2.fromOffset(20, 32)
     subNotif.BackgroundTransparency = 1
-    subNotif.Text = "Extra Large Pumpkin Icon Loaded."
+    subNotif.Text = "Config & Multi-Language Loaded."
     subNotif.TextColor3 = Color3.fromRGB(255, 200, 150)
     subNotif.TextSize = 10
     subNotif.Font = Enum.Font.Code
@@ -142,7 +186,7 @@ counterLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
 counterLabel.TextColor3 = Color3.fromRGB(255, 200, 100)
 counterLabel.TextSize = 11
 counterLabel.Font = Enum.Font.Code
-counterLabel.Text = "👤 0   ♞ 0"
+counterLabel.Text = "♛ 0   ♞ 0"
 counterLabel.Visible = false
 
 local counterStroke = Instance.new("UIStroke", counterLabel)
@@ -206,7 +250,7 @@ tagLabel.Font = Enum.Font.Code
 tagLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 --==================================================
--- HEADER
+-- HEADER & LANGUAGE SWITCHER
 --==================================================
 local header = Instance.new("Frame", main)
 header.Size = UDim2.new(1, 0, 0, 36)
@@ -238,14 +282,25 @@ greenDot.BackgroundColor3 = Color3.fromRGB(39, 201, 63)
 greenDot.Text = ""
 
 local title = Instance.new("TextLabel", header)
-title.Size = UDim2.new(1, -140, 1, 0)
+title.Size = UDim2.new(1, -170, 1, 0)
 title.Position = UDim2.fromOffset(70, 0)
 title.BackgroundTransparency = 1
-title.Text = "★ ⓣⓘⓔⓝ Ⓧ ⓪⓺ ⓗⓊⓑ ⓥⓘⓟ★"
+title.Text = "★ 𝕥𝕚𝕖𝕟 𝕩 ⓪⓺ 𝕙𝕌𝕓 𝕧𝕚𝕡 ★"
 title.TextColor3 = Color3.fromRGB(255, 165, 0)
 title.TextSize = 11
 title.Font = Enum.Font.Code
 title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Nút đổi ngôn ngữ VI / EN
+local langBtn = Instance.new("TextButton", header)
+langBtn.Size = UDim2.fromOffset(32, 22)
+langBtn.Position = UDim2.new(1, -94, 0, 7)
+langBtn.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+langBtn.Text = "VI"
+langBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+langBtn.TextSize = 9
+langBtn.Font = Enum.Font.Code
+langBtn.BorderSizePixel = 0
 
 local close = Instance.new("TextButton", header)
 close.Size = UDim2.fromOffset(24, 24)
@@ -279,6 +334,7 @@ menu.Position = UDim2.fromOffset(2, 2)
 menu.BackgroundTransparency = 1
 
 local pages = {}
+local toggleRegistry = {}
 
 local function makePage(name)
     local page = Instance.new("ScrollingFrame", content)
@@ -296,7 +352,7 @@ local function makePage(name)
     return page
 end
 
-local function addToggle(page, text, y, callback)
+local function addToggle(page, textVI, textEN, y, configKey, callback)
     local frame = Instance.new("TextButton", page)
     frame.Size = UDim2.new(1, -10, 0, 30)
     frame.Position = UDim2.fromOffset(5, y)
@@ -313,7 +369,7 @@ local function addToggle(page, text, y, callback)
     lbl.Size = UDim2.new(1, -45, 1, 0)
     lbl.Position = UDim2.fromOffset(6, 0)
     lbl.BackgroundTransparency = 1
-    lbl.Text = text
+    lbl.Text = (currentLang == "VI") and textVI or textEN
     lbl.TextColor3 = Color3.fromRGB(230, 230, 240)
     lbl.TextSize = 10
     lbl.Font = Enum.Font.Code
@@ -331,10 +387,10 @@ local function addToggle(page, text, y, callback)
     switchDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     switchDot.BorderSizePixel = 0
 
-    local active = false
+    -- Lấy trạng thái từ config đã lưu sẵn
+    local active = (configKey and configData[configKey]) or false
     
-    local function triggerToggle()
-        active = not active
+    local function updateVisual()
         if active then
             switchBg.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
             switchDot.Position = UDim2.new(1, -16, 0.5, -7)
@@ -344,15 +400,41 @@ local function addToggle(page, text, y, callback)
             switchDot.Position = UDim2.new(0, 2, 0.5, -7)
             stroke.Color = Color3.fromRGB(255, 140, 0)
         end
+    end
+
+    updateVisual()
+
+    local function triggerToggle()
+        active = not active
+        updateVisual()
+        if configKey then
+            configData[configKey] = active
+            saveConfig()
+        end
         if callback then callback(active, frame) end
     end
 
     frame.MouseButton1Click:Connect(triggerToggle)
+
+    table.insert(toggleRegistry, {
+        Label = lbl,
+        TextVI = textVI,
+        TextEN = textEN
+    })
+
+    -- Kích hoạt callback ngay lập tức nếu trạng thái config là true từ trước
+    if active and callback then
+        task.spawn(function()
+            task.wait(0.2)
+            callback(true, frame)
+        end)
+    end
+
     return frame
 end
 
 --==================================================
--- LOGIC VARIABLES
+-- LOGIC VARIABLES & CONFIG BINDINGS
 --==================================================
 local autoBoxDelivery = false
 local autoFarmMoney = false
@@ -368,7 +450,6 @@ local espHealthEnabled = false
 local anyEspActive = false
 
 local teamCheckEnabled = true
-
 local hitboxEnabled = false
 local hitboxSize = 10
 
@@ -405,25 +486,25 @@ end)
 --==================================================
 local exp = makePage("EXP")
 
-addToggle(exp, "⚡ ESP TIA DÂY", 5, function(state)
+addToggle(exp, "⚡ ESP TIA DÂY", "⚡ ESP TRACERS", 5, "EspTracers", function(state)
     espTracersEnabled = state
     anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthEnabled
     counterLabel.Visible = anyEspActive
 end)
 
-addToggle(exp, "📦 ESP HỘP CAM", 40, function(state)
+addToggle(exp, "📦 ESP HỘP CAM", "📦 ESP CAM BOX", 40, "EspBoxes", function(state)
     espBoxesEnabled = state
     anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthEnabled
     counterLabel.Visible = anyEspActive
 end)
 
-addToggle(exp, "🔋 ESP THANH MÁU", 75, function(state)
+addToggle(exp, "🔋 ESP THANH MÁU", "🔋 HEALTH BAR ESP", 75, "EspHealth", function(state)
     espHealthEnabled = state
     anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthEnabled
     counterLabel.Visible = anyEspActive
 end)
 
-addToggle(exp, "📦 AUTO GIAO THÙNG", 110, function(state)
+addToggle(exp, "📦 AUTO GIAO THÙNG", "📦 AUTO BOX DELIVERY", 110, "AutoBox", function(state)
     autoBoxDelivery = state
     task.spawn(function()
         while autoBoxDelivery do
@@ -452,7 +533,7 @@ addToggle(exp, "📦 AUTO GIAO THÙNG", 110, function(state)
     end)
 end)
 
-addToggle(exp, "💰 AUTO FARM MONEY", 145, function(state)
+addToggle(exp, "💰 AUTO FARM MONEY", "💰 AUTO FARM MONEY", 145, "AutoMoney", function(state)
     autoFarmMoney = state
     task.spawn(function()
         while autoFarmMoney do
@@ -476,7 +557,7 @@ addToggle(exp, "💰 AUTO FARM MONEY", 145, function(state)
     end)
 end)
 
-addToggle(exp, "🔫 AUTO FARM KILL", 180, function(state)
+addToggle(exp, "🔫 AUTO FARM KILL", "🔫 AUTO FARM KILL", 180, "AutoKill", function(state)
     autoFarmKill = state
     task.spawn(function()
         while autoFarmKill do
@@ -513,7 +594,7 @@ addToggle(exp, "🔫 AUTO FARM KILL", 180, function(state)
     end)
 end)
 
-addToggle(exp, "🚗 AUTO STEAL CAR", 215, function(state)
+addToggle(exp, "🚗 AUTO STEAL CAR", "🚗 AUTO STEAL CAR", 215, "AutoCar", function(state)
     autoStealCar = state
     task.spawn(function()
         while autoStealCar do
@@ -538,7 +619,7 @@ end)
 --==================================================
 local aim = makePage("AIM")
 
-addToggle(aim, "🔫 VÔ HẠN ĐẠN CỰC ĐẠI", 5, function(state)
+addToggle(aim, "🔫 VÔ HẠN ĐẠN CỰC ĐẠI", "🔫 INFINITE AMMO", 5, "InfiniteAmmo", function(state)
     infiniteAmmoEnabled = state
     task.spawn(function()
         while infiniteAmmoEnabled do
@@ -568,7 +649,7 @@ addToggle(aim, "🔫 VÔ HẠN ĐẠN CỰC ĐẠI", 5, function(state)
     end)
 end)
 
-addToggle(aim, "⚡ NO RELOAD & NẠP 0.1S", 40, function(state)
+addToggle(aim, "⚡ NO RELOAD & NẠP 0.1S", "⚡ NO RELOAD 0.1S", 40, "NoReload", function(state)
     noReloadEnabled = state
     task.spawn(function()
         while noReloadEnabled do
@@ -596,8 +677,8 @@ addToggle(aim, "⚡ NO RELOAD & NẠP 0.1S", 40, function(state)
     end)
 end)
 
-addToggle(aim, "👥 TEAM CHECK", 75, function(state) teamCheckEnabled = state end)
-addToggle(aim, "🗣 HITBOX ĐẦU (HEAD)", 110, function(state) headHitboxEnabled = state end)
+addToggle(aim, "👥 TEAM CHECK", "👥 TEAM CHECK", 75, nil, function(state) teamCheckEnabled = state end)
+addToggle(aim, "🗣 HITBOX ĐẦU (HEAD)", "🗣 HEAD HITBOX", 110, "HeadHitbox", function(state) headHitboxEnabled = state end)
 
 local headHitboxValueLabel = Instance.new("TextLabel", aim)
 headHitboxValueLabel.Size = UDim2.new(1, -10, 0, 24)
@@ -624,13 +705,13 @@ headSlider.FocusLost:Connect(function()
     if val then
         headHitboxSize = math.clamp(val, 1, 50)
         headSlider.Text = tostring(headHitboxSize)
-        headHitboxValueLabel.Text = "KÍCH THƯỚC ĐẦU (1-50): " .. tostring(headHitboxSize)
+        headHitboxValueLabel.Text = (currentLang == "VI") and ("KÍCH THƯỚC ĐẦU (1-50): " .. tostring(headHitboxSize)) or ("HEAD SIZE (1-50): " .. tostring(headHitboxSize))
     else
         headSlider.Text = tostring(headHitboxSize)
     end
 end)
 
-addToggle(aim, "⬡ HITBOX THÂN TO", 205, function(state) hitboxEnabled = state end)
+addToggle(aim, "⬡ HITBOX THÂN TO", "⬡ BODY HITBOX", 205, "BodyHitbox", function(state) hitboxEnabled = state end)
 
 local hitboxValue = Instance.new("TextLabel", aim)
 hitboxValue.Size = UDim2.new(1, -10, 0, 24)
@@ -657,7 +738,7 @@ slider.FocusLost:Connect(function()
     if val then
         hitboxSize = math.clamp(val, 0, 100)
         slider.Text = tostring(hitboxSize)
-        hitboxValue.Text = "KÍCH THƯỚC THÂN (0-100): " .. tostring(hitboxSize)
+        hitboxValue.Text = (currentLang == "VI") and ("KÍCH THƯỚC THÂN (0-100): " .. tostring(hitboxSize)) or ("BODY SIZE (0-100): " .. tostring(hitboxSize))
     else
         slider.Text = tostring(hitboxSize)
     end
@@ -667,7 +748,7 @@ end)
 -- TAB: SPIN & PLAYER MODS
 --==================================================
 local spin = makePage("SPIN")
-addToggle(spin, "🌀 SPIN", 5, function(state)
+addToggle(spin, "🌀 SPIN", "🌀 SPIN", 5, "Spin", function(state)
     spinEnabled = state
     task.spawn(function()
         while spinEnabled do
@@ -679,10 +760,10 @@ addToggle(spin, "🌀 SPIN", 5, function(state)
     end)
 end)
 
-addToggle(spin, "🛡 BẤT TỬ (GODMODE)", 40, function(state) godmodEnabled = state end)
-addToggle(spin, "👻 XUYÊN TƯỜNG (NOCLIP)", 75, function(state) noclipEnabled = state end)
+addToggle(spin, "🛡 BẤT TỬ (GODMODE)", "🛡 GODMODE", 40, "Godmod", function(state) godmodEnabled = state end)
+addToggle(spin, "👻 XUYÊN TƯỜNG (NOCLIP)", "👻 NOCLIP", 75, "Noclip", function(state) noclipEnabled = state end)
 
-addToggle(spin, "⚡ TỐC ĐỘ CHẠY WALKSPEED 23", 110, function(state)
+addToggle(spin, "⚡ TỐC ĐỘ CHẠY WALKSPEED 23", "⚡ WALKSPEED 23", 110, "Walkspeed23", function(state)
     walkspeed23Enabled = state
     task.spawn(function()
         while walkspeed23Enabled do
@@ -699,7 +780,7 @@ addToggle(spin, "⚡ TỐC ĐỘ CHẠY WALKSPEED 23", 110, function(state)
     end)
 end)
 
-addToggle(spin, "⚡ CHỐNG LAG & TỐI ƯU", 145, function(state)
+addToggle(spin, "⚡ CHỐNG LAG & TỐI ƯU", "⚡ ANTI LAG & OPTIMIZE", 145, "AntiLag", function(state)
     antiLagEnabled = state
     if antiLagEnabled then
         pcall(function()
@@ -725,22 +806,22 @@ end)
 --==================================================
 local gunMod = makePage("GUN")
 
-addToggle(gunMod, "🩸 ĐỎ MÁU (BLOOD RED)", 5, function(state)
+addToggle(gunMod, "🩸 ĐỎ MÁU (BLOOD RED)", "🩸 BLOOD RED LASER", 5, nil, function(state)
     bloodLaserEnabled = state
     if state then greenLaserEnabled = false; rainbowLaserEnabled = false end
 end)
 
-addToggle(gunMod, "🟢 XANH LÁ LASER SÁNG", 40, function(state)
+addToggle(gunMod, "🟢 XANH LÁ LASER SÁNG", "🟢 GREEN LASER", 40, nil, function(state)
     greenLaserEnabled = state
     if state then bloodLaserEnabled = false; rainbowLaserEnabled = false end
 end)
 
-addToggle(gunMod, "🌈 CẦU VỒNG LASER SÁNG", 75, function(state)
+addToggle(gunMod, "🌈 CẦU VỒNG LASER SÁNG", "🌈 RAINBOW LASER", 75, nil, function(state)
     rainbowLaserEnabled = state
     if state then bloodLaserEnabled = false; greenLaserEnabled = false end
 end)
 
-addToggle(gunMod, "💨 KHÓI LỚN KHI BẮN", 110, function(state)
+addToggle(gunMod, "💨 KHÓI LỚN KHI BẮN", "💨 HEAVY SMOKE", 110, nil, function(state)
     heavySmokeEnabled = state
 end)
 
@@ -840,7 +921,7 @@ infoTitle.Size = UDim2.new(1, -10, 0, 30)
 infoTitle.Position = UDim2.fromOffset(5, 5)
 infoTitle.BackgroundTransparency = 0.4
 infoTitle.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
-infoTitle.Text = "★bản siêu vip của admin 06team hiện đang share freee★"
+infoTitle.Text = "★ bản vip của admin 06 team hiện đang shareee freee★"
 infoTitle.TextColor3 = Color3.fromRGB(255, 140, 0)
 infoTitle.TextSize = 10
 infoTitle.Font = Enum.Font.Code
@@ -859,7 +940,7 @@ tiktokBtn.MouseButton1Click:Connect(function()
     pcall(function()
         if setclipboard then
             setclipboard(CONTACT_ADMIN_URL)
-            infoTitle.Text = "📋 Đã copy link TikTok!"
+            infoTitle.Text = (currentLang == "VI") and "📋 Đã copy link TikTok!" or "📋 Copied TikTok link!"
         else
             infoTitle.Text = "🔗 TikTok: " .. CONTACT_ADMIN_URL
         end
@@ -895,35 +976,51 @@ for i, name in ipairs(names) do
 end
 pages.EXP.Visible = true
 
+-- Xử lý chuyển đổi ngôn ngữ toàn bộ giao diện khi bấm nút VI/EN
+langBtn.MouseButton1Click:Connect(function()
+    if currentLang == "VI" then
+        currentLang = "EN"
+        langBtn.Text = "EN"
+        carTpInfo.Text = "🚗 SELECT PLAYER TO SIT & TP"
+        tiktokBtn.Text = "💬 CONTACT ADMIN TIKTOK"
+    else
+        currentLang = "VI"
+        langBtn.Text = "VI"
+        carTpInfo.Text = "🚗 CHỌN PLAYER ĐỂ NGỒI XE & TP"
+        tiktokBtn.Text = "💬 LIÊN HỆ TIKTOK ADMIN"
+    end
+
+    for _, item in ipairs(toggleRegistry) do
+        item.Label.Text = (currentLang == "VI") and item.TextVI or item.TextEN
+    end
+end)
+
 --==================================================
--- NÚT MỞ SCRIPT HÌNH BÍ NGÔ (TO HƠN, KHÔNG NỀN ĐEN)
+-- NÚT MỞ SCRIPT HÌNH BÍ NGÔ (TO, KHÔNG NỀN ĐEN)
 --==================================================
 local open = Instance.new("TextButton", gui)
-open.Size = UDim2.fromOffset(60, 60) -- Tăng kích thước nút to hơn nữa (60x60)
+open.Size = UDim2.fromOffset(60, 60)
 open.Position = UDim2.new(0, 15, 0, 65)
-open.BackgroundTransparency = 1    -- Hoàn toàn trong suốt, không viền/nền đen
-open.Text = "🎃"
-open.TextSize = 32                 -- Tăng cỡ icon bí ngô to rõ
+open.BackgroundTransparency = 1
+open.Text = "👻"
+open.TextSize = 32
 open.Visible = false
 open.BorderSizePixel = 0
 
 makeDraggable(open, open)
 
--- Khi bấm nút X (Đóng): Ẩn toàn bộ bảng menu và profile, chỉ hiện icon quả bí ngô
 close.MouseButton1Click:Connect(function()
     main.Visible = false
     profileFrame.Visible = false
     open.Visible = true
 end)
 
--- Nút thu nhỏ (-) truyền thống
 mini.MouseButton1Click:Connect(function()
     content.Visible = not content.Visible
     profileFrame.Visible = content.Visible
     main.Size = content.Visible and UDim2.fromOffset(460, 300) or UDim2.fromOffset(460, 36)
 end)
 
--- Khi bấm vào quả bí ngô: Hiện lại bảng menu và ẩn quả bí ngô đi
 open.MouseButton1Click:Connect(function()
     main.Visible = true
     profileFrame.Visible = true
