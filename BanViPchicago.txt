@@ -1,12 +1,2283 @@
-local url = "https://raw.githubusercontent.com/b23139793-coder/Kh-nh-Mai-Hub/refs/heads/main/Vip.txt"
+-- [[ TIỀN CHICAGO LIFE V5.1 - EXTRA LARGE PUMPKIN ICON ]] --
 
-local success, result = pcall(function()
-    return game:HttpGet(url)
+
+
+local Players = game:GetService("Players")
+
+local RunService = game:GetService("RunService")
+
+local UserInputService = game:GetService("UserInputService")
+
+local Lighting = game:GetService("Lighting")
+
+local Workspace = game:GetService("Workspace")
+
+local Camera = Workspace.CurrentCamera
+
+local player = Players.LocalPlayer
+
+
+
+local gui = Instance.new("ScreenGui")
+
+gui.Name = "TienChicagoLifeV5_1"
+
+gui.ResetOnSpawn = false
+
+gui.IgnoreGuiInset = true
+
+gui.Parent = player:WaitForChild("PlayerGui")
+
+
+
+local CONTACT_ADMIN_URL = "https://www.tiktok.com/@nhavuafifai?_r=1&_t=ZS-9AGeg2erzvd"
+
+
+
+local function makeDraggable(topbarObject, object)
+
+    local dragging, dragInput, dragStart, startPos
+
+    
+
+    topbarObject.InputBegan:Connect(function(input)
+
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+
+            dragging = true
+
+            dragStart = input.Position
+
+            startPos = object.Position
+
+            
+
+            input.Changed:Connect(function()
+
+                if input.UserInputState == Enum.UserInputState.End then
+
+                    dragging = false
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+    
+
+    topbarObject.InputChanged:Connect(function(input)
+
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+
+            dragInput = input
+
+        end
+
+    end)
+
+    
+
+    UserInputService.InputChanged:Connect(function(input)
+
+        if input == dragInput and dragging then
+
+            local delta = input.Position - dragStart
+
+            object.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+
+        end
+
+    end)
+
+end
+
+
+
+--==================================================
+
+-- THÔNG BÁO CHÀO MỪNG V5.1
+
+--==================================================
+
+local function showWelcomeNotification()
+
+    local notif = Instance.new("Frame")
+
+    notif.Size = UDim2.fromOffset(260, 70)
+
+    notif.Position = UDim2.new(1, 300, 0, 20)
+
+    notif.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
+
+    notif.BackgroundTransparency = 0.1
+
+    notif.Parent = gui
+
+
+
+    local ns = Instance.new("UIStroke", notif)
+
+    ns.Thickness = 2
+
+    ns.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+    local bar = Instance.new("Frame", notif)
+
+    bar.Size = UDim2.new(0, 4, 0, 45)
+
+    bar.Position = UDim2.fromOffset(8, 12)
+
+    bar.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+
+
+
+    local titleNotif = Instance.new("TextLabel", notif)
+
+    titleNotif.Size = UDim2.new(1, -25, 0, 22)
+
+    titleNotif.Position = UDim2.fromOffset(20, 10)
+
+    titleNotif.BackgroundTransparency = 1
+
+    titleNotif.Text = "🎃 TIỀN HUB PC ORANGE V5.1"
+
+    titleNotif.TextColor3 = Color3.fromRGB(255, 165, 0)
+
+    titleNotif.TextSize = 12
+
+    titleNotif.Font = Enum.Font.Code
+
+    titleNotif.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+    local subNotif = Instance.new("TextLabel", notif)
+
+    subNotif.Size = UDim2.new(1, -25, 0, 30)
+
+    subNotif.Position = UDim2.fromOffset(20, 32)
+
+    subNotif.BackgroundTransparency = 1
+
+    subNotif.Text = "Extra Large Pumpkin Icon Loaded."
+
+    subNotif.TextColor3 = Color3.fromRGB(255, 200, 150)
+
+    subNotif.TextSize = 10
+
+    subNotif.Font = Enum.Font.Code
+
+    subNotif.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+    task.spawn(function()
+
+        notif:TweenPosition(UDim2.new(1, -280, 0, 20), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.4, true)
+
+        task.wait(3.5)
+
+        notif:TweenPosition(UDim2.new(1, 300, 0, 20), Enum.EasingDirection.In, Enum.EasingStyle.Quad, 0.4, true)
+
+        task.wait(0.5)
+
+        notif:Destroy()
+
+    end)
+
+end
+
+
+
+--==================================================
+
+-- HIỂN THỊ FPS & NGÀY THÁNG NĂM
+
+--==================================================
+
+local infoTopLabel = Instance.new("TextLabel", gui)
+
+infoTopLabel.Size = UDim2.fromOffset(190, 24)
+
+infoTopLabel.Position = UDim2.new(0.5, -95, 0, 6)
+
+infoTopLabel.BackgroundTransparency = 0.2
+
+infoTopLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
+
+infoTopLabel.TextColor3 = Color3.fromRGB(255, 165, 0)
+
+infoTopLabel.TextSize = 11
+
+infoTopLabel.Font = Enum.Font.Code
+
+infoTopLabel.Text = "FPS: 60 | 24/10/2026"
+
+
+
+local itStroke = Instance.new("UIStroke", infoTopLabel)
+
+itStroke.Thickness = 1
+
+itStroke.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+makeDraggable(infoTopLabel, infoTopLabel)
+
+
+
+task.spawn(function()
+
+    local lastUpdate = 0
+
+    local frameCount = 0
+
+    local currentFps = 60
+
+    
+
+    RunService.RenderStepped:Connect(function(dt)
+
+        frameCount = frameCount + 1
+
+        if tick() - lastUpdate >= 1 then
+
+            currentFps = math.floor(frameCount / (tick() - lastUpdate))
+
+            frameCount = 0
+
+            lastUpdate = tick()
+
+        end
+
+        infoTopLabel.Text = string.format("FPS: %d | %s", currentFps, os.date("%d/%m/%Y"))
+
+    end)
+
 end)
 
-if success then
-    print("Đã tải nội dung Vip.txt")
-    print(result)
-else
-    warn("Không thể tải Vip.txt: " .. tostring(result))
+
+
+--==================================================
+
+-- COUNTER ĐẾM NGƯỜI & ROBOT
+
+--==================================================
+
+local counterLabel = Instance.new("TextLabel", gui)
+
+counterLabel.Size = UDim2.fromOffset(140, 24)
+
+counterLabel.Position = UDim2.new(0.5, -70, 0, 34)
+
+counterLabel.BackgroundTransparency = 0.3
+
+counterLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
+
+counterLabel.TextColor3 = Color3.fromRGB(255, 200, 100)
+
+counterLabel.TextSize = 11
+
+counterLabel.Font = Enum.Font.Code
+
+counterLabel.Text = "👤 0   ♞ 0"
+
+counterLabel.Visible = false
+
+
+
+local counterStroke = Instance.new("UIStroke", counterLabel)
+
+counterStroke.Thickness = 1
+
+counterStroke.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+--==================================================
+
+-- MAIN WINDOW (GIAO DIỆN PC, KHÔNG BO GÓC)
+
+--==================================================
+
+local main = Instance.new("Frame", gui)
+
+main.Size = UDim2.fromOffset(460, 300)
+
+main.Position = UDim2.fromScale(.5, .5)
+
+main.AnchorPoint = Vector2.new(.5,.5)
+
+main.BackgroundColor3 = Color3.fromRGB(12, 12, 18)
+
+main.BackgroundTransparency = 0.05
+
+main.BorderSizePixel = 0
+
+main.Visible = true
+
+
+
+makeDraggable(main, main)
+
+local mainStroke = Instance.new("UIStroke", main)
+
+mainStroke.Thickness = 1.5
+
+mainStroke.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+--==================================================
+
+-- PROFILE GÓC DƯỚI TRÁI
+
+--==================================================
+
+local profileFrame = Instance.new("Frame", main)
+
+profileFrame.Size = UDim2.fromOffset(200, 38)
+
+profileFrame.Position = UDim2.new(0, 6, 1, -44)
+
+profileFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+
+profileFrame.BackgroundTransparency = 0.2
+
+
+
+local pfStroke = Instance.new("UIStroke", profileFrame)
+
+pfStroke.Thickness = 1
+
+pfStroke.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+local avatarImg = Instance.new("ImageLabel", profileFrame)
+
+avatarImg.Size = UDim2.fromOffset(28, 28)
+
+avatarImg.Position = UDim2.fromOffset(5, 5)
+
+avatarImg.BackgroundTransparency = 1
+
+avatarImg.Image = Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
+
+
+
+local nameLabel = Instance.new("TextLabel", profileFrame)
+
+nameLabel.Size = UDim2.new(1, -40, 0, 14)
+
+nameLabel.Position = UDim2.fromOffset(38, 5)
+
+nameLabel.BackgroundTransparency = 1
+
+nameLabel.Text = player.DisplayName or player.Name
+
+nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+nameLabel.TextSize = 10
+
+nameLabel.Font = Enum.Font.Code
+
+nameLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+local tagLabel = Instance.new("TextLabel", profileFrame)
+
+tagLabel.Size = UDim2.new(1, -40, 0, 14)
+
+tagLabel.Position = UDim2.fromOffset(38, 19)
+
+tagLabel.BackgroundTransparency = 1
+
+tagLabel.Text = "@" .. player.Name
+
+tagLabel.TextColor3 = Color3.fromRGB(255, 140, 0)
+
+tagLabel.TextSize = 9
+
+tagLabel.Font = Enum.Font.Code
+
+tagLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+--==================================================
+
+-- HEADER
+
+--==================================================
+
+local header = Instance.new("Frame", main)
+
+header.Size = UDim2.new(1, 0, 0, 36)
+
+header.BackgroundColor3 = Color3.fromRGB(35, 18, 0)
+
+header.BackgroundTransparency = 0.1
+
+header.BorderSizePixel = 0
+
+
+
+local dotsContainer = Instance.new("Frame", header)
+
+dotsContainer.Size = UDim2.fromOffset(55, 20)
+
+dotsContainer.Position = UDim2.fromOffset(8, 8)
+
+dotsContainer.BackgroundTransparency = 1
+
+
+
+local redDot = Instance.new("TextButton", dotsContainer)
+
+redDot.Size = UDim2.fromOffset(12, 12)
+
+redDot.Position = UDim2.fromOffset(0, 4)
+
+redDot.BackgroundColor3 = Color3.fromRGB(255, 95, 86)
+
+redDot.Text = ""
+
+
+
+local yellowDot = Instance.new("TextButton", dotsContainer)
+
+yellowDot.Size = UDim2.fromOffset(12, 12)
+
+yellowDot.Position = UDim2.fromOffset(18, 4)
+
+yellowDot.BackgroundColor3 = Color3.fromRGB(255, 189, 46)
+
+yellowDot.Text = ""
+
+
+
+local greenDot = Instance.new("TextButton", dotsContainer)
+
+greenDot.Size = UDim2.fromOffset(12, 12)
+
+greenDot.Position = UDim2.fromOffset(36, 4)
+
+greenDot.BackgroundColor3 = Color3.fromRGB(39, 201, 63)
+
+greenDot.Text = ""
+
+
+
+local title = Instance.new("TextLabel", header)
+
+title.Size = UDim2.new(1, -140, 1, 0)
+
+title.Position = UDim2.fromOffset(70, 0)
+
+title.BackgroundTransparency = 1
+
+title.Text = "★ ⓣⓘⓔⓝ Ⓧ ⓪⓺ ⓗⓊⓑ ⓥⓘⓟ★"
+
+title.TextColor3 = Color3.fromRGB(255, 165, 0)
+
+title.TextSize = 11
+
+title.Font = Enum.Font.Code
+
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+local close = Instance.new("TextButton", header)
+
+close.Size = UDim2.fromOffset(24, 24)
+
+close.Position = UDim2.new(1, -30, 0, 6)
+
+close.BackgroundColor3 = Color3.fromRGB(255, 100, 0)
+
+close.Text = "X"
+
+close.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+close.TextSize = 11
+
+close.Font = Enum.Font.Code
+
+
+
+local mini = Instance.new("TextButton", header)
+
+mini.Size = UDim2.fromOffset(24, 24)
+
+mini.Position = UDim2.new(1, -58, 0, 6)
+
+mini.BackgroundColor3 = Color3.fromRGB(200, 100, 0)
+
+mini.Text = "-"
+
+mini.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+mini.TextSize = 13
+
+mini.Font = Enum.Font.Code
+
+
+
+--==================================================
+
+-- CONTENT & TABS CONTAINER
+
+--==================================================
+
+local content = Instance.new("Frame", main)
+
+content.Size = UDim2.new(1, -12, 1, -90)
+
+content.Position = UDim2.fromOffset(6, 42)
+
+content.BackgroundTransparency = 1
+
+
+
+local menu = Instance.new("Frame", content)
+
+menu.Size = UDim2.fromOffset(100, 190)
+
+menu.Position = UDim2.fromOffset(2, 2)
+
+menu.BackgroundTransparency = 1
+
+
+
+local pages = {}
+
+
+
+local function makePage(name)
+
+    local page = Instance.new("ScrollingFrame", content)
+
+    page.Name = name
+
+    page.Size = UDim2.new(1, -106, 1, -4)
+
+    page.Position = UDim2.fromOffset(104, 2)
+
+    page.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
+
+    page.BackgroundTransparency = 0.4
+
+    page.BorderSizePixel = 0
+
+    page.ScrollBarThickness = 2
+
+    page.CanvasSize = UDim2.new(0, 0, 0, 950)
+
+    page.Visible = false
+
+
+
+    pages[name] = page
+
+    return page
+
 end
+
+
+
+local function addToggle(page, text, y, callback)
+
+    local frame = Instance.new("TextButton", page)
+
+    frame.Size = UDim2.new(1, -10, 0, 30)
+
+    frame.Position = UDim2.fromOffset(5, y)
+
+    frame.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+
+    frame.BackgroundTransparency = 0.2
+
+    frame.Text = ""
+
+    frame.BorderSizePixel = 0
+
+    
+
+    local stroke = Instance.new("UIStroke", frame)
+
+    stroke.Thickness = 1
+
+    stroke.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+    local lbl = Instance.new("TextLabel", frame)
+
+    lbl.Size = UDim2.new(1, -45, 1, 0)
+
+    lbl.Position = UDim2.fromOffset(6, 0)
+
+    lbl.BackgroundTransparency = 1
+
+    lbl.Text = text
+
+    lbl.TextColor3 = Color3.fromRGB(230, 230, 240)
+
+    lbl.TextSize = 10
+
+    lbl.Font = Enum.Font.Code
+
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+
+
+
+    local switchBg = Instance.new("Frame", frame)
+
+    switchBg.Size = UDim2.fromOffset(36, 18)
+
+    switchBg.Position = UDim2.new(1, -40, 0.5, -9)
+
+    switchBg.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+
+    switchBg.BorderSizePixel = 0
+
+
+
+    local switchDot = Instance.new("Frame", switchBg)
+
+    switchDot.Size = UDim2.new(0, 14, 0, 14)
+
+    switchDot.Position = UDim2.new(0, 2, 0.5, -7)
+
+    switchDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+    switchDot.BorderSizePixel = 0
+
+
+
+    local active = false
+
+    
+
+    local function triggerToggle()
+
+        active = not active
+
+        if active then
+
+            switchBg.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+
+            switchDot.Position = UDim2.new(1, -16, 0.5, -7)
+
+            stroke.Color = Color3.fromRGB(255, 140, 0)
+
+        else
+
+            switchBg.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+
+            switchDot.Position = UDim2.new(0, 2, 0.5, -7)
+
+            stroke.Color = Color3.fromRGB(255, 140, 0)
+
+        end
+
+        if callback then callback(active, frame) end
+
+    end
+
+
+
+    frame.MouseButton1Click:Connect(triggerToggle)
+
+    return frame
+
+end
+
+
+
+--==================================================
+
+-- LOGIC VARIABLES
+
+--==================================================
+
+local autoBoxDelivery = false
+
+local autoFarmMoney = false
+
+local autoFarmKill = false
+
+local autoStealCar = false
+
+local antiLagEnabled = false
+
+local infiniteAmmoEnabled = false
+
+local noReloadEnabled = false
+
+
+
+local espTracersEnabled = false
+
+local espBoxesEnabled = false
+
+local espHealthEnabled = false
+
+local anyEspActive = false
+
+
+
+local teamCheckEnabled = true
+
+
+
+local hitboxEnabled = false
+
+local hitboxSize = 10
+
+
+
+local headHitboxEnabled = false
+
+local headHitboxSize = 4
+
+
+
+local noclipEnabled = false
+
+local spinEnabled = false
+
+local godmodEnabled = false
+
+local walkspeed23Enabled = false
+
+local espCache = {}
+
+
+
+local bloodLaserEnabled = false
+
+local greenLaserEnabled = false
+
+local rainbowLaserEnabled = false
+
+local heavySmokeEnabled = false
+
+
+
+local function cleanESP(plr)
+
+    if espCache[plr] then
+
+        if espCache[plr].Box then espCache[plr].Box:Remove() end
+
+        if espCache[plr].Tracer then espCache[plr].Tracer:Remove() end
+
+        if espCache[plr].HealthBarBg then espCache[plr].HealthBarBg:Remove() end
+
+        if espCache[plr].HealthBarFill then espCache[plr].HealthBarFill:Remove() end
+
+        espCache[plr] = nil
+
+    end
+
+end
+
+
+
+Players.PlayerRemoving:Connect(function(plr)
+
+    cleanESP(plr)
+
+end)
+
+
+
+--==================================================
+
+-- TAB: FARM & ESP
+
+--==================================================
+
+local exp = makePage("EXP")
+
+
+
+addToggle(exp, "⚡ ESP TIA DÂY", 5, function(state)
+
+    espTracersEnabled = state
+
+    anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthEnabled
+
+    counterLabel.Visible = anyEspActive
+
+end)
+
+
+
+addToggle(exp, "📦 ESP HỘP CAM", 40, function(state)
+
+    espBoxesEnabled = state
+
+    anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthEnabled
+
+    counterLabel.Visible = anyEspActive
+
+end)
+
+
+
+addToggle(exp, "🔋 ESP THANH MÁU", 75, function(state)
+
+    espHealthEnabled = state
+
+    anyEspActive = espTracersEnabled or espBoxesEnabled or espHealthEnabled
+
+    counterLabel.Visible = anyEspActive
+
+end)
+
+
+
+addToggle(exp, "📦 AUTO GIAO THÙNG", 110, function(state)
+
+    autoBoxDelivery = state
+
+    task.spawn(function()
+
+        while autoBoxDelivery do
+
+            task.wait(0.4)
+
+            pcall(function()
+
+                local char = player.Character
+
+                if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+
+                for _, descendant in pairs(Workspace:GetDescendants()) do
+
+                    if descendant:IsA("ProximityPrompt") then
+
+                        local promptPart = descendant.Parent
+
+                        if promptPart and promptPart:IsA("BasePart") then
+
+                            local nameLower = descendant.Name:lower()
+
+                            local parentNameLower = promptPart.Name:lower()
+
+                            if nameLower:find("box") or nameLower:find("thùng") or nameLower:find("deliver") or 
+
+                               parentNameLower:find("box") or parentNameLower:find("thùng") or parentNameLower:find("delivery") then
+
+                                descendant.HoldDuration = 0
+
+                                if (char.HumanoidRootPart.Position - promptPart.Position).Magnitude <= 20 then
+
+                                    fireproximityprompt(descendant)
+
+                                end
+
+                            end
+
+                        end
+
+                    end
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(exp, "💰 AUTO FARM MONEY", 145, function(state)
+
+    autoFarmMoney = state
+
+    task.spawn(function()
+
+        while autoFarmMoney do
+
+            task.wait(0.4)
+
+            pcall(function()
+
+                for _, descendant in pairs(Workspace:GetDescendants()) do
+
+                    if descendant:IsA("ProximityPrompt") then
+
+                        descendant.HoldDuration = 0
+
+                        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+
+                            local promptPart = descendant.Parent
+
+                            if promptPart and promptPart:IsA("BasePart") then
+
+                                if (player.Character.HumanoidRootPart.Position - promptPart.Position).Magnitude <= 15 then
+
+                                    fireproximityprompt(descendant)
+
+                                end
+
+                            end
+
+                        end
+
+                    end
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(exp, "🔫 AUTO FARM KILL", 180, function(state)
+
+    autoFarmKill = state
+
+    task.spawn(function()
+
+        while autoFarmKill do
+
+            task.wait(0.6)
+
+            pcall(function()
+
+                local char = player.Character
+
+                if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+
+                local backpack = player:FindFirstChildOfClass("Backpack")
+
+                if backpack then
+
+                    for _, tool in pairs(backpack:GetChildren()) do
+
+                        if tool:IsA("Tool") and (tool.Name:lower():find("gun") or tool.Name:lower():find("súng") or tool:FindFirstChild("Handle")) then
+
+                            tool.Parent = char
+
+                        end
+
+                    end
+
+                end
+
+                local target = nil
+
+                local shortestDist = math.huge
+
+                for _, plr in pairs(Players:GetPlayers()) do
+
+                    if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChild("Humanoid") and plr.Character.Humanoid.Health > 0 then
+
+                        local dist = (char.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+
+                        if dist < shortestDist then
+
+                            shortestDist = dist
+
+                            target = plr.Character
+
+                        end
+
+                    end
+
+                end
+
+                if target and target:FindFirstChild("HumanoidRootPart") then
+
+                    char.HumanoidRootPart.CFrame = target.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+
+                    local activeTool = char:FindFirstChildOfClass("Tool")
+
+                    if activeTool then activeTool:Activate() end
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(exp, "🚗 AUTO STEAL CAR", 215, function(state)
+
+    autoStealCar = state
+
+    task.spawn(function()
+
+        while autoStealCar do
+
+            task.wait(1.2)
+
+            pcall(function()
+
+                if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+
+                    for _, obj in pairs(Workspace:GetDescendants()) do
+
+                        if obj:IsA("VehicleSeat") or (obj:IsA("Seat") and obj.Parent:FindFirstChild("Body")) then
+
+                            if (player.Character.HumanoidRootPart.Position - obj.Position).Magnitude < 30 then
+
+                                obj:Sit(player.Character.Humanoid)
+
+                            end
+
+                        end
+
+                    end
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+end)
+
+
+
+--==================================================
+
+-- TAB: COMBAT & HITBOX
+
+--==================================================
+
+local aim = makePage("AIM")
+
+
+
+addToggle(aim, "🔫 VÔ HẠN ĐẠN CỰC ĐẠI", 5, function(state)
+
+    infiniteAmmoEnabled = state
+
+    task.spawn(function()
+
+        while infiniteAmmoEnabled do
+
+            task.wait(0.6)
+
+            pcall(function()
+
+                local maxInfVal = 99999999999999999999999999999999999999999999
+
+                if getgc and setreadonly and rawset then
+
+                    for _, obj in next, getgc(true) do
+
+                        if type(obj) == "table" then
+
+                            if rawget(obj, "Ammo") then
+
+                                if isreadonly(obj) then setreadonly(obj, false) end
+
+                                rawset(obj, "Ammo", maxInfVal)
+
+                            end
+
+                            if rawget(obj, "MaxAmmo") then
+
+                                if isreadonly(obj) then setreadonly(obj, false) end
+
+                                rawset(obj, "MaxAmmo", maxInfVal)
+
+                            end
+
+                            if rawget(obj, "ClipSize") then
+
+                                if isreadonly(obj) then setreadonly(obj, false) end
+
+                                rawset(obj, "ClipSize", maxInfVal)
+
+                            end
+
+                        end
+
+                    end
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(aim, "⚡ NO RELOAD & NẠP 0.1S", 40, function(state)
+
+    noReloadEnabled = state
+
+    task.spawn(function()
+
+        while noReloadEnabled do
+
+            task.wait(0.2)
+
+            pcall(function()
+
+                if getgc and setreadonly and rawset then
+
+                    for _, obj in next, getgc(true) do
+
+                        if type(obj) == "table" then
+
+                            if rawget(obj, "ReloadTime") or rawget(obj, "ReloadSpeed") then
+
+                                if isreadonly(obj) then setreadonly(obj, false) end
+
+                                if rawget(obj, "ReloadTime") then rawset(obj, "ReloadTime", 0.1) end
+
+                                if rawget(obj, "ReloadSpeed") then rawset(obj, "ReloadSpeed", 10) end
+
+                            end
+
+                            if rawget(obj, "Ammo") and rawget(obj, "ClipSize") then
+
+                                if isreadonly(obj) then setreadonly(obj, false) end
+
+                                if obj.Ammo <= 0 then
+
+                                    rawset(obj, "Ammo", obj.ClipSize)
+
+                                end
+
+                            end
+
+                        end
+
+                    end
+
+                end
+
+            end)
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(aim, "👥 TEAM CHECK", 75, function(state) teamCheckEnabled = state end)
+
+addToggle(aim, "🗣 HITBOX ĐẦU (HEAD)", 110, function(state) headHitboxEnabled = state end)
+
+
+
+local headHitboxValueLabel = Instance.new("TextLabel", aim)
+
+headHitboxValueLabel.Size = UDim2.new(1, -10, 0, 24)
+
+headHitboxValueLabel.Position = UDim2.fromOffset(5, 145)
+
+headHitboxValueLabel.BackgroundTransparency = 0.5
+
+headHitboxValueLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+
+headHitboxValueLabel.Text = "KÍCH THƯỚC ĐẦU (1-50): 4"
+
+headHitboxValueLabel.TextColor3 = Color3.fromRGB(255, 140, 0)
+
+headHitboxValueLabel.TextSize = 10
+
+headHitboxValueLabel.Font = Enum.Font.Code
+
+
+
+local headSlider = Instance.new("TextBox", aim)
+
+headSlider.Size = UDim2.new(1, -10, 0, 26)
+
+headSlider.Position = UDim2.fromOffset(5, 172)
+
+headSlider.Text = "4"
+
+headSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+headSlider.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+
+headSlider.TextSize = 11
+
+headSlider.Font = Enum.Font.Code
+
+headSlider.ClearTextOnFocus = false
+
+
+
+headSlider.FocusLost:Connect(function()
+
+    local val = tonumber(headSlider.Text)
+
+    if val then
+
+        headHitboxSize = math.clamp(val, 1, 50)
+
+        headSlider.Text = tostring(headHitboxSize)
+
+        headHitboxValueLabel.Text = "KÍCH THƯỚC ĐẦU (1-50): " .. tostring(headHitboxSize)
+
+    else
+
+        headSlider.Text = tostring(headHitboxSize)
+
+    end
+
+end)
+
+
+
+addToggle(aim, "⬡ HITBOX THÂN TO", 205, function(state) hitboxEnabled = state end)
+
+
+
+local hitboxValue = Instance.new("TextLabel", aim)
+
+hitboxValue.Size = UDim2.new(1, -10, 0, 24)
+
+hitboxValue.Position = UDim2.fromOffset(5, 240)
+
+hitboxValue.BackgroundTransparency = 0.5
+
+hitboxValue.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+
+hitboxValue.Text = "KÍCH THƯỚC THÂN (0-100): 10"
+
+hitboxValue.TextColor3 = Color3.fromRGB(255, 140, 0)
+
+hitboxValue.TextSize = 10
+
+hitboxValue.Font = Enum.Font.Code
+
+
+
+local slider = Instance.new("TextBox", aim)
+
+slider.Size = UDim2.new(1, -10, 0, 26)
+
+slider.Position = UDim2.fromOffset(5, 267)
+
+slider.Text = "10"
+
+slider.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+slider.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+
+slider.TextSize = 11
+
+slider.Font = Enum.Font.Code
+
+slider.ClearTextOnFocus = false
+
+
+
+slider.FocusLost:Connect(function()
+
+    local val = tonumber(slider.Text)
+
+    if val then
+
+        hitboxSize = math.clamp(val, 0, 100)
+
+        slider.Text = tostring(hitboxSize)
+
+        hitboxValue.Text = "KÍCH THƯỚC THÂN (0-100): " .. tostring(hitboxSize)
+
+    else
+
+        slider.Text = tostring(hitboxSize)
+
+    end
+
+end)
+
+
+
+--==================================================
+
+-- TAB: SPIN & PLAYER MODS
+
+--==================================================
+
+local spin = makePage("SPIN")
+
+addToggle(spin, "🌀 SPIN", 5, function(state)
+
+    spinEnabled = state
+
+    task.spawn(function()
+
+        while spinEnabled do
+
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+
+                player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(60), 0)
+
+            end
+
+            task.wait()
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(spin, "🛡 BẤT TỬ (GODMODE)", 40, function(state) godmodEnabled = state end)
+
+addToggle(spin, "👻 XUYÊN TƯỜNG (NOCLIP)", 75, function(state) noclipEnabled = state end)
+
+
+
+addToggle(spin, "⚡ TỐC ĐỘ CHẠY WALKSPEED 23", 110, function(state)
+
+    walkspeed23Enabled = state
+
+    task.spawn(function()
+
+        while walkspeed23Enabled do
+
+            task.wait(0.2)
+
+            pcall(function()
+
+                if player.Character and player.Character:FindFirstChild("Humanoid") then
+
+                    player.Character.Humanoid.WalkSpeed = 23
+
+                end
+
+            end)
+
+        end
+
+        if not walkspeed23Enabled and player.Character and player.Character:FindFirstChild("Humanoid") then
+
+            player.Character.Humanoid.WalkSpeed = 16
+
+        end
+
+    end)
+
+end)
+
+
+
+addToggle(spin, "⚡ CHỐNG LAG & TỐI ƯU", 145, function(state)
+
+    antiLagEnabled = state
+
+    if antiLagEnabled then
+
+        pcall(function()
+
+            Lighting.GlobalShadows = false
+
+            Lighting.Brightness = 1
+
+            Lighting.FogEnd = 999999
+
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+
+            for _, v in pairs(Workspace:GetDescendants()) do
+
+                if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Fire") or v:IsA("Sparkles") or v:IsA("Smoke") then
+
+                    v.Enabled = false
+
+                end
+
+                if v:IsA("BasePart") then
+
+                    v.Material = Enum.Material.SmoothPlastic
+
+                    v.Reflectance = 0
+
+                end
+
+            end
+
+        end)
+
+    end
+
+end)
+
+
+
+--==================================================
+
+-- TAB: GUN CUSTOMIZATION
+
+--==================================================
+
+local gunMod = makePage("GUN")
+
+
+
+addToggle(gunMod, "🩸 ĐỎ MÁU (BLOOD RED)", 5, function(state)
+
+    bloodLaserEnabled = state
+
+    if state then greenLaserEnabled = false; rainbowLaserEnabled = false end
+
+end)
+
+
+
+addToggle(gunMod, "🟢 XANH LÁ LASER SÁNG", 40, function(state)
+
+    greenLaserEnabled = state
+
+    if state then bloodLaserEnabled = false; rainbowLaserEnabled = false end
+
+end)
+
+
+
+addToggle(gunMod, "🌈 CẦU VỒNG LASER SÁNG", 75, function(state)
+
+    rainbowLaserEnabled = state
+
+    if state then bloodLaserEnabled = false; greenLaserEnabled = false end
+
+end)
+
+
+
+addToggle(gunMod, "💨 KHÓI LỚN KHI BẮN", 110, function(state)
+
+    heavySmokeEnabled = state
+
+end)
+
+
+
+--==================================================
+
+-- TAB: CAR TELEPORT MENU
+
+--==================================================
+
+local cartp = makePage("CAR TP")
+
+
+
+local carTpInfo = Instance.new("TextLabel", cartp)
+
+carTpInfo.Size = UDim2.new(1, -10, 0, 30)
+
+carTpInfo.Position = UDim2.fromOffset(5, 5)
+
+carTpInfo.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+
+carTpInfo.Text = "🚗 CHỌN PLAYER ĐỂ NGỒI XE & TP"
+
+carTpInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+carTpInfo.TextSize = 9
+
+carTpInfo.Font = Enum.Font.Code
+
+
+
+local playerListContainer = Instance.new("ScrollingFrame", cartp)
+
+playerListContainer.Size = UDim2.new(1, -10, 1, -42)
+
+playerListContainer.Position = UDim2.fromOffset(5, 38)
+
+playerListContainer.BackgroundTransparency = 1
+
+playerListContainer.BorderSizePixel = 0
+
+playerListContainer.ScrollBarThickness = 2
+
+playerListContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+
+
+local function refreshCarTpList()
+
+    for _, child in pairs(playerListContainer:GetChildren()) do
+
+        if child:IsA("TextButton") then child:Destroy() end
+
+    end
+
+    
+
+    local yOffset = 0
+
+    local activePlayers = Players:GetPlayers()
+
+    playerListContainer.CanvasSize = UDim2.new(0, 0, 0, #activePlayers * 32)
+
+    
+
+    for _, plr in ipairs(activePlayers) do
+
+        if plr ~= player then
+
+            local btn = Instance.new("TextButton", playerListContainer)
+
+            btn.Size = UDim2.new(1, 0, 0, 28)
+
+            btn.Position = UDim2.fromOffset(0, yOffset)
+
+            btn.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+
+            btn.Text = "👤 " .. (plr.DisplayName or plr.Name) .. " (@" .. plr.Name .. ")"
+
+            btn.TextColor3 = Color3.fromRGB(255, 165, 0)
+
+            btn.TextSize = 10
+
+            btn.Font = Enum.Font.Code
+
+            btn.BorderSizePixel = 0
+
+            
+
+            btn.MouseButton1Click:Connect(function()
+
+                pcall(function()
+
+                    local char = player.Character
+
+                    if not char or not char:FindFirstChild("HumanoidRootPart") or not char:FindFirstChild("Humanoid") then return end
+
+                    local targetChar = plr.Character
+
+                    if not targetChar or not targetChar:FindFirstChild("HumanoidRootPart") then return end
+
+                    
+
+                    local nearestSeat = nil
+
+                    local shortestDist = math.huge
+
+                    
+
+                    for _, obj in pairs(Workspace:GetDescendants()) do
+
+                        if obj:IsA("VehicleSeat") or (obj:IsA("Seat") and obj.Parent:FindFirstChild("Body")) then
+
+                            local dist = (char.HumanoidRootPart.Position - obj.Position).Magnitude
+
+                            if dist < shortestDist then
+
+                                shortestDist = dist
+
+                                nearestSeat = obj
+
+                            end
+
+                        end
+
+                    end
+
+                    
+
+                    if nearestSeat then
+
+                        nearestSeat:Sit(char.Humanoid)
+
+                        task.wait(0.15)
+
+                        local carModel = nearestSeat.Parent
+
+                        if carModel and carModel:IsA("Model") and carModel.PrimaryPart then
+
+                            carModel:SetPrimaryPartCFrame(targetChar.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+
+                        else
+
+                            nearestSeat.CFrame = targetChar.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0)
+
+                        end
+
+                    else
+
+                        char.HumanoidRootPart.CFrame = targetChar.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0)
+
+                    end
+
+                end)
+
+            end)
+
+            yOffset = yOffset + 32
+
+        end
+
+    end
+
+end
+
+
+
+Players.PlayerAdded:Connect(refreshCarTpList)
+
+Players.PlayerRemoving:Connect(refreshCarTpList)
+
+task.spawn(refreshCarTpList)
+
+
+
+--==================================================
+
+-- TAB: INFO / CONTACT ADMIN
+
+--==================================================
+
+local infoTab = makePage("INFO")
+
+
+
+local infoTitle = Instance.new("TextLabel", infoTab)
+
+infoTitle.Size = UDim2.new(1, -10, 0, 30)
+
+infoTitle.Position = UDim2.fromOffset(5, 5)
+
+infoTitle.BackgroundTransparency = 0.4
+
+infoTitle.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+
+infoTitle.Text = "★bản siêu vip của admin 06team hiện đang share freee★"
+
+infoTitle.TextColor3 = Color3.fromRGB(255, 140, 0)
+
+infoTitle.TextSize = 10
+
+infoTitle.Font = Enum.Font.Code
+
+
+
+local tiktokBtn = Instance.new("TextButton", infoTab)
+
+tiktokBtn.Size = UDim2.new(1, -10, 0, 32)
+
+tiktokBtn.Position = UDim2.fromOffset(5, 40)
+
+tiktokBtn.BackgroundColor3 = Color3.fromRGB(155, 89, 182)
+
+tiktokBtn.Text = "💬 LIÊN HỆ TIKTOK ADMIN"
+
+tiktokBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+tiktokBtn.TextSize = 10
+
+tiktokBtn.Font = Enum.Font.Code
+
+tiktokBtn.BorderSizePixel = 0
+
+
+
+tiktokBtn.MouseButton1Click:Connect(function()
+
+    pcall(function()
+
+        if setclipboard then
+
+            setclipboard(CONTACT_ADMIN_URL)
+
+            infoTitle.Text = "📋 Đã copy link TikTok!"
+
+        else
+
+            infoTitle.Text = "🔗 TikTok: " .. CONTACT_ADMIN_URL
+
+        end
+
+    end)
+
+end)
+
+
+
+--==================================================
+
+-- MENU NAVIGATION BUTTONS
+
+--==================================================
+
+local names = {"EXP", "AIM", "SPIN", "GUN", "CAR TP", "INFO"}
+
+for i, name in ipairs(names) do
+
+    local b = Instance.new("TextButton", menu)
+
+    b.Size = UDim2.new(1, 0, 0, 26)
+
+    b.Position = UDim2.fromOffset(0, (i - 1) * 28)
+
+    b.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+
+    b.Text = name
+
+    b.TextColor3 = Color3.fromRGB(220, 220, 230)
+
+    b.TextSize = 10
+
+    b.Font = Enum.Font.Code
+
+    b.BorderSizePixel = 0
+
+    
+
+    local bStroke = Instance.new("UIStroke", b)
+
+    bStroke.Thickness = 1
+
+    bStroke.Color = Color3.fromRGB(255, 140, 0)
+
+
+
+    b.MouseButton1Click:Connect(function()
+
+        for _, p in pairs(pages) do p.Visible = false end
+
+        if pages[name] then
+
+            pages[name].Visible = true
+
+            if name == "CAR TP" then refreshCarTpList() end
+
+        end
+
+    end)
+
+end
+
+pages.EXP.Visible = true
+
+
+
+--==================================================
+
+-- NÚT MỞ SCRIPT HÌNH BÍ NGÔ (TO HƠN, KHÔNG NỀN ĐEN)
+
+--==================================================
+
+local open = Instance.new("TextButton", gui)
+
+open.Size = UDim2.fromOffset(60, 60) -- Tăng kích thước nút to hơn nữa (60x60)
+
+open.Position = UDim2.new(0, 15, 0, 65)
+
+open.BackgroundTransparency = 1    -- Hoàn toàn trong suốt, không viền/nền đen
+
+open.Text = "🎃"
+
+open.TextSize = 32                 -- Tăng cỡ icon bí ngô to rõ
+
+open.Visible = false
+
+open.BorderSizePixel = 0
+
+
+
+makeDraggable(open, open)
+
+
+
+-- Khi bấm nút X (Đóng): Ẩn toàn bộ bảng menu và profile, chỉ hiện icon quả bí ngô
+
+close.MouseButton1Click:Connect(function()
+
+    main.Visible = false
+
+    profileFrame.Visible = false
+
+    open.Visible = true
+
+end)
+
+
+
+-- Nút thu nhỏ (-) truyền thống
+
+mini.MouseButton1Click:Connect(function()
+
+    content.Visible = not content.Visible
+
+    profileFrame.Visible = content.Visible
+
+    main.Size = content.Visible and UDim2.fromOffset(460, 300) or UDim2.fromOffset(460, 36)
+
+end)
+
+
+
+-- Khi bấm vào quả bí ngô: Hiện lại bảng menu và ẩn quả bí ngô đi
+
+open.MouseButton1Click:Connect(function()
+
+    main.Visible = true
+
+    profileFrame.Visible = true
+
+    content.Visible = true
+
+    main.Size = UDim2.fromOffset(460, 300)
+
+    open.Visible = false
+
+end)
+
+
+
+showWelcomeNotification()
+
+
+
+--==================================================
+
+-- OPTIMIZED RENDER LOOP
+
+--==================================================
+
+RunService.RenderStepped:Connect(function()
+
+    local orangePulse = Color3.fromRGB(255, 140, 0)
+
+    mainStroke.Color = orangePulse
+
+    pfStroke.Color = orangePulse
+
+    title.TextColor3 = orangePulse
+
+
+
+    local currentLaserColor = nil
+
+    local transparencyVal = 0.4
+
+    if bloodLaserEnabled then 
+
+        currentLaserColor = Color3.fromRGB(150, 0, 0)
+
+    elseif greenLaserEnabled then 
+
+        currentLaserColor = Color3.fromRGB(0, 255, 0)
+
+        transparencyVal = 0
+
+    elseif rainbowLaserEnabled then 
+
+        currentLaserColor = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+
+        transparencyVal = 0
+
+    end
+
+
+
+    if player.Character then
+
+        pcall(function()
+
+            local tool = player.Character:FindFirstChildOfClass("Tool")
+
+            if tool then
+
+                local handle = tool:FindFirstChild("Handle")
+
+                for _, obj in pairs(tool:GetDescendants()) do
+
+                    if obj:IsA("BasePart") then
+
+                        if currentLaserColor then
+
+                            obj.Color = currentLaserColor
+
+                            obj.Material = Enum.Material.Neon
+
+                            obj.Transparency = transparencyVal
+
+                        else
+
+                            obj.Transparency = 0
+
+                        end
+
+                    elseif obj:IsA("Beam") or obj:IsA("Trail") then
+
+                        if currentLaserColor then
+
+                            obj.Color = ColorSequence.new(currentLaserColor)
+
+                        end
+
+                    end
+
+                end
+
+
+
+                if heavySmokeEnabled and handle then
+
+                    if not handle:FindFirstChild("TienHeavySmoke") then
+
+                        local smoke = Instance.new("Smoke", handle)
+
+                        smoke.Name = "TienHeavySmoke"
+
+                        smoke.Color = Color3.fromRGB(20, 20, 20)
+
+                        smoke.Size = 25
+
+                        smoke.RiseVelocity = 12
+
+                        smoke.Opacity = 0.9
+
+                    end
+
+                else
+
+                    if handle and handle:FindFirstChild("TienHeavySmoke") then
+
+                        handle.TienHeavySmoke:Destroy()
+
+                    end
+
+                end
+
+            end
+
+        end)
+
+    end
+
+
+
+    if godmodEnabled and player.Character and player.Character:FindFirstChild("Humanoid") then
+
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+
+    end
+
+
+
+    if noclipEnabled and player.Character then
+
+        for _, part in pairs(player.Character:GetDescendants()) do
+
+            if part:IsA("BasePart") then part.CanCollide = false end
+
+        end
+
+    end
+
+
+
+    local humanCount = 0
+
+    local robotCount = 0
+
+
+
+    for _, plr in pairs(Players:GetPlayers()) do
+
+        if plr ~= player and plr.Character then
+
+            local char = plr.Character
+
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+
+            local head = char:FindFirstChild("Head")
+
+            local humanoid = char:FindFirstChild("Humanoid")
+
+
+
+            if hrp and humanoid and humanoid.Health > 0 then
+
+                if Players:GetPlayerFromCharacter(char) then
+
+                    humanCount = humanCount + 1
+
+                else
+
+                    robotCount = robotCount + 1
+
+                end
+
+
+
+                if head and head:IsA("BasePart") then
+
+                    if headHitboxEnabled then
+
+                        pcall(function()
+
+                            head.Size = Vector3.new(headHitboxSize, headHitboxSize, headHitboxSize)
+
+                            head.Transparency = 0.6
+
+                            head.Material = Enum.Material.Neon
+
+                            head.Color = Color3.fromRGB(255, 140, 0)
+
+                            head.CanCollide = false
+
+                        end)
+
+                    else
+
+                        pcall(function()
+
+                            head.Size = Vector3.new(2, 1, 1)
+
+                            head.Transparency = 0
+
+                            head.Material = Enum.Material.Plastic
+
+                            head.Color = Color3.fromRGB(248, 217, 192)
+
+                        end)
+
+                    end
+
+                end
+
+
+
+                if hitboxEnabled then
+
+                    pcall(function()
+
+                        hrp.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
+
+                        hrp.Shape = Enum.PartType.Ball
+
+                        hrp.Color = Color3.fromRGB(255, 140, 0)
+
+                        hrp.Transparency = 0.7
+
+                        hrp.Material = Enum.Material.Neon
+
+                        hrp.CanCollide = false
+
+                    end)
+
+                else
+
+                    pcall(function()
+
+                        hrp.Size = Vector3.new(2, 2, 1)
+
+                        hrp.Shape = Enum.PartType.Block
+
+                        hrp.Transparency = 1
+
+                    end)
+
+                end
+
+
+
+                if not espCache[plr] then
+
+                    espCache[plr] = {
+
+                        Box = Drawing.new("Square"),
+
+                        Tracer = Drawing.new("Line"),
+
+                        HealthBarBg = Drawing.new("Square"),
+
+                        HealthBarFill = Drawing.new("Square")
+
+                    }
+
+                    espCache[plr].Box.Visible = false; espCache[plr].Box.Thickness = 1; espCache[plr].Box.Color = Color3.fromRGB(255, 140, 0); espCache[plr].Box.Filled = false
+
+                    espCache[plr].Tracer.Visible = false; espCache[plr].Tracer.Thickness = 1; espCache[plr].Tracer.Color = Color3.fromRGB(255, 140, 0)
+
+                    espCache[plr].HealthBarBg.Visible = false; espCache[plr].HealthBarBg.Filled = true; espCache[plr].HealthBarBg.Color = Color3.fromRGB(30, 30, 30)
+
+                    espCache[plr].HealthBarFill.Visible = false; espCache[plr].HealthBarFill.Filled = true; espCache[plr].HealthBarFill.Color = Color3.fromRGB(255, 140, 0)
+
+                end
+
+
+
+                local cache = espCache[plr]
+
+                
+
+                local healthPercent = math.clamp(humanoid.Health / humanoid.MaxHealth, 0, 1)
+
+                if healthPercent < 0.3 then
+
+                    cache.HealthBarFill.Color = Color3.fromRGB(255, 50, 50)
+
+                else
+
+                    cache.HealthBarFill.Color = Color3.fromRGB(255, 140, 0)
+
+                end
+
+
+
+                local vector, onScreen = Camera:WorldToViewportPoint(hrp.Position)
+
+
+
+                if onScreen and anyEspActive then
+
+                    local boxSize = Vector2.new(2000 / vector.Z, 3000 / vector.Z)
+
+                    local boxPos = Vector2.new(vector.X - boxSize.X / 2, vector.Y - boxSize.Y / 2)
+
+
+
+                    if espBoxesEnabled then
+
+                        cache.Box.Visible = true; cache.Box.Size = boxSize; cache.Box.Position = boxPos
+
+                    else
+
+                        cache.Box.Visible = false
+
+                    end
+
+
+
+                    if espTracersEnabled then
+
+                        cache.Tracer.Visible = true
+
+                        cache.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+
+                        cache.Tracer.To = Vector2.new(vector.X, vector.Y)
+
+                    else
+
+                        cache.Tracer.Visible = false
+
+                    end
+
+
+
+                    if espHealthEnabled then
+
+                        local barHeight = boxSize.Y
+
+                        local currentBarHeight = barHeight * healthPercent
+
+
+
+                        cache.HealthBarBg.Visible = true
+
+                        cache.HealthBarBg.Size = Vector2.new(3, barHeight)
+
+                        cache.HealthBarBg.Position = Vector2.new(boxPos.X - 5, boxPos.Y)
+
+
+
+                        cache.HealthBarFill.Visible = true
+
+                        cache.HealthBarFill.Size = Vector2.new(3, currentBarHeight)
+
+                        cache.HealthBarFill.Position = Vector2.new(boxPos.X - 5, boxPos.Y + (barHeight - currentBarHeight))
+
+                    else
+
+                        cache.HealthBarBg.Visible = false
+
+                        cache.HealthBarFill.Visible = false
+
+                    end
+
+                else
+
+                    cache.Box.Visible = false
+
+                    cache.Tracer.Visible = false
+
+                    cache.HealthBarBg.Visible = false
+
+                    cache.HealthBarFill.Visible = false
+
+                end
+
+            else
+
+                if espCache[plr] then
+
+                    espCache[plr].Box.Visible = false
+
+                    espCache[plr].Tracer.Visible = false
+
+                    espCache[plr].HealthBarBg.Visible = false
+
+                    espCache[plr].HealthBarFill.Visible = false
+
+                end
+
+            end
+
+        else
+
+            if espCache[plr] then
+
+                espCache[plr].Box.Visible = false
+
+                espCache[plr].Tracer.Visible = false
+
+                espCache[plr].HealthBarBg.Visible = false
+
+                espCache[plr].HealthBarFill.Visible = false
+
+            end
+
+        end
+
+    end
+
+
+
+    counterLabel.Text = string.format("👤 %d   🤖 %d", humanCount, robotCount)
+
+end)
