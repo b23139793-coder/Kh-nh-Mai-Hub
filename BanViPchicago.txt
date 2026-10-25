@@ -1,1 +1,12 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/b23139793-coder/Kh-nh-Mai-Hub/refs/heads/main/Vip.txt"))()
+local url = "https://raw.githubusercontent.com/b23139793-coder/Kh-nh-Mai-Hub/refs/heads/main/Vip.txt"
+
+local success, result = pcall(function()
+    return game:HttpGet(url)
+end)
+
+if success then
+    print("Đã tải nội dung Vip.txt")
+    print(result)
+else
+    warn("Không thể tải Vip.txt: " .. tostring(result))
+end
