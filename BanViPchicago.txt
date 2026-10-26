@@ -1,4 +1,4 @@
--- [[ TIỀN CHICAGO LIFE V5.3 - SECURE KEY & MODERN BW UI ]] --
+-- [[ TIỀN CHICAGO LIFE V5.3.1 - FIXED KEY SYSTEM & MODERN BW UI ]] --
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -10,7 +10,7 @@ local Camera = Workspace.CurrentCamera
 local player = Players.LocalPlayer
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "TienChicagoLifeV5_3"
+gui.Name = "TienChicagoLifeV5_3_1"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.Parent = player:WaitForChild("PlayerGui")
@@ -18,13 +18,8 @@ gui.Parent = player:WaitForChild("PlayerGui")
 local CONTACT_ADMIN_URL = "https://www.tiktok.com/@nhavuafifai?_r=1&_t=ZS-9AGeg2erzvd"
 local currentLang = "VI"
 
--- Mã hóa obfuscate nhẹ key để không bị lộ rõ ràng bằng text thô
-local encodedKeyBytes = {115, 104, 105, 102, 116, 45, 51, 66, 104, 53, 100, 54, 102, 49, 84, 84, 103, 53, 54, 115, 57, 104, 113}
-local function getCorrectKey()
-    local t = {}
-    for _, b in ipairs(encodedKeyBytes) do table.insert(t, string.char(b)) end
-    return table.concat(t)
-end
+-- Key chính xác của bạn được định nghĩa trực tiếp, chống lỗi so sánh
+local CORRECT_KEY = "shift-3Bh5d6f1TTg56s7hq"
 
 -- Hệ thống Config File (Auto Save & Load)
 local CONFIG_FILE_NAME = "TienChicagoLife_Config_BW.json"
@@ -151,11 +146,14 @@ kStatus.TextColor3 = Color3.fromRGB(255, 80, 80)
 kStatus.TextSize = 10
 kStatus.Font = Enum.Font.Code
 
--- Khai báo trước các thành phần Hub chính nhưng ẩn đi cho tới khi nhập đúng key
+-- Khai báo trước các thành phần Hub chính
 local main, openBtn, profileFrame, content, toggleRegistry
 
 kBtn.MouseButton1Click:Connect(function()
-    if kBox.Text == getCorrectKey() then
+    -- Sử dụng trim khoảng trắng thừa phòng hờ copy dính dấu cách
+    local enteredKey = string.gsub(kBox.Text, "^%s*(.-)%s*$", "%1")
+    
+    if enteredKey == CORRECT_KEY then
         kStatus.TextColor3 = Color3.fromRGB(100, 255, 100)
         kStatus.Text = "Key chính xác! Đang khởi động Hub..."
         task.wait(0.6)
@@ -328,7 +326,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -170, 1, 0)
 title.Position = UDim2.fromOffset(70, 0)
 title.BackgroundTransparency = 1
-title.Text = "★ TIỀN CHICAGO V5.3 ★"
+title.Text = "★ TIỀN CHICAGO V5.3.1 ★"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextSize = 11
 title.Font = Enum.Font.Code
@@ -977,7 +975,7 @@ infoTitle.Size = UDim2.new(1, -10, 0, 30)
 infoTitle.Position = UDim2.fromOffset(5, 5)
 infoTitle.BackgroundTransparency = 0.4
 infoTitle.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-infoTitle.Text = "★ TIỀN CHICAGO V5.3 [SECURE] ★"
+infoTitle.Text = "★ TIỀN CHICAGO V5.3.1 [SECURE] ★"
 infoTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 infoTitle.TextSize = 10
 infoTitle.Font = Enum.Font.Code
@@ -1282,5 +1280,5 @@ RunService.RenderStepped:Connect(function()
         end
     end
 
-    counterLabel.Text = string.format("♛ %d   ♞ %d", humanCount, robotCount)
+    counterLabel.Text = string.format("👤 %d   🤖 %d", humanCount, robotCount)
 end)
