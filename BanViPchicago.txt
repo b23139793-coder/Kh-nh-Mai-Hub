@@ -1,4 +1,4 @@
--- [[ TIỀN CHICAGO LIFE V5.3.1 - FIXED KEY SYSTEM & MODERN BW UI ]] --
+-- [[ TIỀN HUB - VIP EDITION (RAINBOW RGB & SECURE KEY) ]] --
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -10,19 +10,17 @@ local Camera = Workspace.CurrentCamera
 local player = Players.LocalPlayer
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "TienChicagoLifeV5_3_1"
+gui.Name = "TienHubVip"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local CONTACT_ADMIN_URL = "https://www.tiktok.com/@nhavuafifai?_r=1&_t=ZS-9AGeg2erzvd"
 local currentLang = "VI"
-
--- Key chính xác của bạn được định nghĩa trực tiếp, chống lỗi so sánh
 local CORRECT_KEY = "shift-3Bh5d6f1TTg56s7hq"
 
 -- Hệ thống Config File (Auto Save & Load)
-local CONFIG_FILE_NAME = "TienChicagoLife_Config_BW.json"
+local CONFIG_FILE_NAME = "TienHubVip_Config.json"
 local configData = {
     AutoBox = false, AutoMoney = false, AutoKill = false, AutoCar = false,
     InfiniteAmmo = false, NoReload = false, HeadHitbox = false, BodyHitbox = false,
@@ -70,37 +68,83 @@ local function makeDraggable(topbarObject, object)
 end
 
 --==================================================
--- BẢNG NHẬP KEY CỰC ĐẸP (BO GÓC, VIỀN TRẮNG ĐEN)
+-- THÔNG BÁO CHÀO MỪNG VIP
+--==================================================
+local function showWelcomeNotification()
+    local notif = Instance.new("Frame")
+    notif.Size = UDim2.fromOffset(260, 70)
+    notif.Position = UDim2.new(1, 300, 0, 20)
+    notif.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    notif.BackgroundTransparency = 0.1
+    notif.Parent = gui
+
+    Instance.new("UICorner", notif).CornerRadius = UDim.new(0, 8)
+    local ns = Instance.new("UIStroke", notif)
+    ns.Thickness = 2
+
+    local bar = Instance.new("Frame", notif)
+    bar.Size = UDim2.new(0, 4, 0, 45)
+    bar.Position = UDim2.fromOffset(8, 12)
+    bar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Instance.new("UICorner", bar).CornerRadius = UDim.new(1, 0)
+
+    local titleNotif = Instance.new("TextLabel", notif)
+    titleNotif.Size = UDim2.new(1, -25, 0, 22)
+    titleNotif.Position = UDim2.fromOffset(20, 10)
+    titleNotif.BackgroundTransparency = 1
+    titleNotif.Text = "🤖 TIỀN HUB - VIP EDITION"
+    titleNotif.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleNotif.TextSize = 12
+    titleNotif.Font = Enum.Font.Code
+    titleNotif.TextXAlignment = Enum.TextXAlignment.Left
+
+    local subNotif = Instance.new("TextLabel", notif)
+    subNotif.Size = UDim2.new(1, -25, 0, 30)
+    subNotif.Position = UDim2.fromOffset(20, 32)
+    subNotif.BackgroundTransparency = 1
+    subNotif.Text = "VIP Script Loaded Successfully."
+    subNotif.TextColor3 = Color3.fromRGB(200, 200, 200)
+    subNotif.TextSize = 10
+    subNotif.Font = Enum.Font.Code
+    subNotif.TextXAlignment = Enum.TextXAlignment.Left
+
+    task.spawn(function()
+        notif:TweenPosition(UDim2.new(1, -280, 0, 20), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.4, true)
+        task.wait(3.5)
+        notif:TweenPosition(UDim2.new(1, 300, 0, 20), Enum.EasingDirection.In, Enum.EasingStyle.Quad, 0.4, true)
+        task.wait(0.5)
+        notif:Destroy()
+    end)
+end
+
+--==================================================
+-- BẢNG NHẬP KEY VIP
 --==================================================
 local keyFrame = Instance.new("Frame", gui)
 keyFrame.Size = UDim2.fromOffset(380, 190)
 keyFrame.Position = UDim2.fromScale(.5, .5)
 keyFrame.AnchorPoint = Vector2.new(.5, .5)
-keyFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+keyFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 keyFrame.BackgroundTransparency = 0.05
 keyFrame.BorderSizePixel = 0
 
-local kCorner = Instance.new("UICorner", keyFrame)
-kCorner.CornerRadius = UDim.new(0, 10)
-
+Instance.new("UICorner", keyFrame).CornerRadius = UDim.new(0, 10)
 local kStroke = Instance.new("UIStroke", keyFrame)
-kStroke.Thickness = 1.5
-kStroke.Color = Color3.fromRGB(240, 240, 240)
+kStroke.Thickness = 2
 
 makeDraggable(keyFrame, keyFrame)
 
 local kHeader = Instance.new("Frame", keyFrame)
 kHeader.Size = UDim2.new(1, 0, 0, 36)
-kHeader.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+kHeader.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 kHeader.BorderSizePixel = 0
-local khCorner = Instance.new("UICorner", kHeader)
-khCorner.CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", kHeader).CornerRadius = UDim.new(0, 10)
 
 local kTitle = Instance.new("TextLabel", kHeader)
 kTitle.Size = UDim2.new(1, -20, 1, 0)
 kTitle.Position = UDim2.fromOffset(12, 0)
 kTitle.BackgroundTransparency = 1
-kTitle.Text = "★ XÁC THỰC KEY - TIỀN HUB ★"
+kTitle.Text = "★ XÁC THỰC KEY - TIỀN HUB VIP ★"
 kTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 kTitle.TextSize = 11
 kTitle.Font = Enum.Font.Code
@@ -109,7 +153,7 @@ kTitle.TextXAlignment = Enum.TextXAlignment.Left
 local kBox = Instance.new("TextBox", keyFrame)
 kBox.Size = UDim2.new(1, -30, 0, 40)
 kBox.Position = UDim2.fromOffset(15, 60)
-kBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+kBox.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 kBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 kBox.PlaceholderText = "Nhập Key vào đây..."
 kBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
@@ -117,25 +161,23 @@ kBox.TextSize = 11
 kBox.Font = Enum.Font.Code
 kBox.ClearTextOnFocus = false
 kBox.BorderSizePixel = 0
-
-local kbCorner = Instance.new("UICorner", kBox)
-kbCorner.CornerRadius = UDim.new(0, 6)
+Instance.new("UICorner", kBox).CornerRadius = UDim.new(0, 6)
 local kbStroke = Instance.new("UIStroke", kBox)
 kbStroke.Thickness = 1
-kbStroke.Color = Color3.fromRGB(200, 200, 200)
+kbStroke.Color = Color3.fromRGB(150, 150, 150)
 
 local kBtn = Instance.new("TextButton", keyFrame)
 kBtn.Size = UDim2.new(1, -30, 0, 38)
 kBtn.Position = UDim2.fromOffset(15, 115)
-kBtn.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+kBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 kBtn.Text = "XÁC NHẬN KEY"
-kBtn.TextColor3 = Color3.fromRGB(20, 20, 20)
+kBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 kBtn.TextSize = 12
 kBtn.Font = Enum.Font.Code
 kBtn.BorderSizePixel = 0
-
-local btnCorner = Instance.new("UICorner", kBtn)
-btnCorner.CornerRadius = UDim.new(0, 6)
+Instance.new("UICorner", kBtn).CornerRadius = UDim.new(0, 6)
+local btnStroke = Instance.new("UIStroke", kBtn)
+btnStroke.Thickness = 1
 
 local kStatus = Instance.new("TextLabel", keyFrame)
 kStatus.Size = UDim2.new(1, 0, 0, 20)
@@ -146,21 +188,19 @@ kStatus.TextColor3 = Color3.fromRGB(255, 80, 80)
 kStatus.TextSize = 10
 kStatus.Font = Enum.Font.Code
 
--- Khai báo trước các thành phần Hub chính
 local main, openBtn, profileFrame, content, toggleRegistry
 
 kBtn.MouseButton1Click:Connect(function()
-    -- Sử dụng trim khoảng trắng thừa phòng hờ copy dính dấu cách
     local enteredKey = string.gsub(kBox.Text, "^%s*(.-)%s*$", "%1")
-    
     if enteredKey == CORRECT_KEY then
         kStatus.TextColor3 = Color3.fromRGB(100, 255, 100)
-        kStatus.Text = "Key chính xác! Đang khởi động Hub..."
+        kStatus.Text = "Key chính xác! Đang khởi động VIP Hub..."
         task.wait(0.6)
         keyFrame:Destroy()
         if main then main.Visible = true end
         if profileFrame then profileFrame.Visible = true end
         if content then content.Visible = true end
+        showWelcomeNotification()
     else
         kStatus.TextColor3 = Color3.fromRGB(255, 80, 80)
         kStatus.Text = "Sai Key! Vui lòng kiểm tra lại."
@@ -174,17 +214,15 @@ local infoTopLabel = Instance.new("TextLabel", gui)
 infoTopLabel.Size = UDim2.fromOffset(190, 24)
 infoTopLabel.Position = UDim2.new(0.5, -95, 0, 6)
 infoTopLabel.BackgroundTransparency = 0.2
-infoTopLabel.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+infoTopLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 infoTopLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 infoTopLabel.TextSize = 11
 infoTopLabel.Font = Enum.Font.Code
 infoTopLabel.Text = "FPS: 60 | 26/10/2026"
 
-local itCorner = Instance.new("UICorner", infoTopLabel)
-itCorner.CornerRadius = UDim.new(0, 6)
+Instance.new("UICorner", infoTopLabel).CornerRadius = UDim.new(0, 6)
 local itStroke = Instance.new("UIStroke", infoTopLabel)
 itStroke.Thickness = 1
-itStroke.Color = Color3.fromRGB(220, 220, 220)
 
 makeDraggable(infoTopLabel, infoTopLabel)
 
@@ -192,7 +230,7 @@ task.spawn(function()
     local lastUpdate = 0
     local frameCount = 0
     local currentFps = 60
-    RunService.RenderStepped:Connect(function(dt)
+    RunService.RenderStepped:Connect(function()
         frameCount = frameCount + 1
         if tick() - lastUpdate >= 1 then
             currentFps = math.floor(frameCount / (tick() - lastUpdate))
@@ -210,21 +248,19 @@ local counterLabel = Instance.new("TextLabel", gui)
 counterLabel.Size = UDim2.fromOffset(140, 24)
 counterLabel.Position = UDim2.new(0.5, -70, 0, 34)
 counterLabel.BackgroundTransparency = 0.3
-counterLabel.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+counterLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 counterLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 counterLabel.TextSize = 11
 counterLabel.Font = Enum.Font.Code
 counterLabel.Text = "👤 0   🤖 0"
 counterLabel.Visible = false
 
-local clCorner = Instance.new("UICorner", counterLabel)
-clCorner.CornerRadius = UDim.new(0, 6)
+Instance.new("UICorner", counterLabel).CornerRadius = UDim.new(0, 6)
 local counterStroke = Instance.new("UIStroke", counterLabel)
 counterStroke.Thickness = 1
-counterStroke.Color = Color3.fromRGB(220, 220, 220)
 
 --==================================================
--- MAIN WINDOW (BO GÓC, VIỀN TRẮNG ĐEN, CHỮ TRẮNG)
+-- MAIN WINDOW VIP
 --==================================================
 main = Instance.new("Frame", gui)
 main.Size = UDim2.fromOffset(460, 300)
@@ -235,13 +271,10 @@ main.BackgroundTransparency = 0.05
 main.BorderSizePixel = 0
 main.Visible = false
 
-local mCorner = Instance.new("UICorner", main)
-mCorner.CornerRadius = UDim.new(0, 10)
-
+Instance.new("UICorner", main).CornerRadius = UDim.new(0, 10)
 makeDraggable(main, main)
 local mainStroke = Instance.new("UIStroke", main)
-mainStroke.Thickness = 1.5
-mainStroke.Color = Color3.fromRGB(240, 240, 240)
+mainStroke.Thickness = 2
 
 --==================================================
 -- PROFILE GÓC DƯỚI TRÁI
@@ -252,11 +285,9 @@ profileFrame.Position = UDim2.new(0, 6, 1, -44)
 profileFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 profileFrame.BackgroundTransparency = 0.2
 
-local pfCorner = Instance.new("UICorner", profileFrame)
-pfCorner.CornerRadius = UDim.new(0, 6)
+Instance.new("UICorner", profileFrame).CornerRadius = UDim.new(0, 6)
 local pfStroke = Instance.new("UIStroke", profileFrame)
 pfStroke.Thickness = 1
-pfStroke.Color = Color3.fromRGB(200, 200, 200)
 
 local avatarImg = Instance.new("ImageLabel", profileFrame)
 avatarImg.Size = UDim2.fromOffset(28, 28)
@@ -292,9 +323,7 @@ header.Size = UDim2.new(1, 0, 0, 36)
 header.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 header.BackgroundTransparency = 0.1
 header.BorderSizePixel = 0
-
-local hCorner = Instance.new("UICorner", header)
-hCorner.CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", header).CornerRadius = UDim.new(0, 10)
 
 local dotsContainer = Instance.new("Frame", header)
 dotsContainer.Size = UDim2.fromOffset(55, 20)
@@ -326,7 +355,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -170, 1, 0)
 title.Position = UDim2.fromOffset(70, 0)
 title.BackgroundTransparency = 1
-title.Text = "★ TIỀN CHICAGO V5.3.1 ★"
+title.Text = "★ TIỀN HUB [VIP] ★"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextSize = 11
 title.Font = Enum.Font.Code
@@ -335,9 +364,9 @@ title.TextXAlignment = Enum.TextXAlignment.Left
 local langBtn = Instance.new("TextButton", header)
 langBtn.Size = UDim2.fromOffset(32, 22)
 langBtn.Position = UDim2.new(1, -94, 0, 7)
-langBtn.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+langBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 langBtn.Text = "VI"
-langBtn.TextColor3 = Color3.fromRGB(20, 20, 20)
+langBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 langBtn.TextSize = 9
 langBtn.Font = Enum.Font.Code
 langBtn.BorderSizePixel = 0
@@ -391,9 +420,7 @@ local function makePage(name)
     page.CanvasSize = UDim2.new(0, 0, 0, 950)
     page.Visible = false
 
-    local pCorner = Instance.new("UICorner", page)
-    pCorner.CornerRadius = UDim.new(0, 6)
-
+    Instance.new("UICorner", page).CornerRadius = UDim.new(0, 6)
     pages[name] = page
     return page
 end
@@ -407,11 +434,9 @@ local function addToggle(page, textVI, textEN, y, configKey, callback)
     frame.Text = ""
     frame.BorderSizePixel = 0
     
-    local fCorner = Instance.new("UICorner", frame)
-    fCorner.CornerRadius = UDim.new(0, 6)
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
     local stroke = Instance.new("UIStroke", frame)
     stroke.Thickness = 1
-    stroke.Color = Color3.fromRGB(200, 200, 200)
 
     local lbl = Instance.new("TextLabel", frame)
     lbl.Size = UDim2.new(1, -45, 1, 0)
@@ -441,21 +466,19 @@ local function addToggle(page, textVI, textEN, y, configKey, callback)
     
     local function updateVisual()
         if active then
-            switchBg.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+            switchBg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             switchDot.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
             switchDot.Position = UDim2.new(1, -16, 0.5, -7)
-            stroke.Color = Color3.fromRGB(255, 255, 255)
         else
             switchBg.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
             switchDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             switchDot.Position = UDim2.new(0, 2, 0.5, -7)
-            stroke.Color = Color3.fromRGB(200, 200, 200)
         end
     end
 
     updateVisual()
 
-    local function triggerToggle()
+    frame.MouseButton1Click:Connect(function()
         active = not active
         updateVisual()
         if configKey then
@@ -463,15 +486,9 @@ local function addToggle(page, textVI, textEN, y, configKey, callback)
             saveConfig()
         end
         if callback then callback(active, frame) end
-    end
+    end)
 
-    frame.MouseButton1Click:Connect(triggerToggle)
-
-    table.insert(toggleRegistry, {
-        Label = lbl,
-        TextVI = textVI,
-        TextEN = textEN
-    })
+    table.insert(toggleRegistry, { Label = lbl, TextVI = textVI, TextEN = textEN })
 
     if active and callback then
         task.spawn(function()
@@ -975,7 +992,7 @@ infoTitle.Size = UDim2.new(1, -10, 0, 30)
 infoTitle.Position = UDim2.fromOffset(5, 5)
 infoTitle.BackgroundTransparency = 0.4
 infoTitle.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-infoTitle.Text = "★ TIỀN CHICAGO V5.3.1 [SECURE] ★"
+infoTitle.Text = "★ TIỀN HUB - VIP EDITION ★"
 infoTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 infoTitle.TextSize = 10
 infoTitle.Font = Enum.Font.Code
@@ -1048,16 +1065,20 @@ langBtn.MouseButton1Click:Connect(function()
 end)
 
 --==================================================
--- NÚT MỞ SCRIPT HÌNH ROBOT (🤖) - TO, TRONG SUỐT
+-- NÚT MỞ SCRIPT HÌNH TRÒN CÓ ROBOT (🤖) & VIỀN 7 MÀU
 --==================================================
 openBtn = Instance.new("TextButton", gui)
 openBtn.Size = UDim2.fromOffset(60, 60)
 openBtn.Position = UDim2.new(0, 15, 0, 65)
 openBtn.BackgroundTransparency = 1
 openBtn.Text = "🤖"
-openBtn.TextSize = 32
+openBtn.TextSize = 28
 openBtn.Visible = false
 openBtn.BorderSizePixel = 0
+
+Instance.new("UICorner", openBtn).CornerRadius = UDim.new(1, 0)
+local openStroke = Instance.new("UIStroke", openBtn)
+openStroke.Thickness = 2.5
 
 makeDraggable(openBtn, openBtn)
 
@@ -1082,9 +1103,19 @@ openBtn.MouseButton1Click:Connect(function()
 end)
 
 --==================================================
--- RENDER LOOP (XỬ LÝ ESP, HITBOX, LASER,...)
+-- RENDER LOOP (HIỆU ỨNG VIỀN 7 MÀU RGB & TÍNH NĂNG)
 --==================================================
 RunService.RenderStepped:Connect(function()
+    local rgbColor = Color3.fromHSV(tick() % 6 / 6, 1, 1)
+    
+    mainStroke.Color = rgbColor
+    kStroke.Color = rgbColor
+    btnStroke.Color = rgbColor
+    openStroke.Color = rgbColor
+    itStroke.Color = rgbColor
+    counterStroke.Color = rgbColor
+    pfStroke.Color = rgbColor
+
     local currentLaserColor = nil
     local transparencyVal = 0.4
     if bloodLaserEnabled then 
@@ -1093,7 +1124,7 @@ RunService.RenderStepped:Connect(function()
         currentLaserColor = Color3.fromRGB(0, 255, 0)
         transparencyVal = 0
     elseif rainbowLaserEnabled then 
-        currentLaserColor = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+        currentLaserColor = rgbColor
         transparencyVal = 0
     end
 
@@ -1169,7 +1200,7 @@ RunService.RenderStepped:Connect(function()
                             head.Size = Vector3.new(headHitboxSize, headHitboxSize, headHitboxSize)
                             head.Transparency = 0.6
                             head.Material = Enum.Material.Neon
-                            head.Color = Color3.fromRGB(240, 240, 240)
+                            head.Color = rgbColor
                             head.CanCollide = false
                         end)
                     else
@@ -1186,7 +1217,7 @@ RunService.RenderStepped:Connect(function()
                     pcall(function()
                         hrp.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
                         hrp.Shape = Enum.PartType.Ball
-                        hrp.Color = Color3.fromRGB(240, 240, 240)
+                        hrp.Color = rgbColor
                         hrp.Transparency = 0.7
                         hrp.Material = Enum.Material.Neon
                         hrp.CanCollide = false
