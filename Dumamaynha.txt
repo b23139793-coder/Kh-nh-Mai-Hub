@@ -1,337 +1,334 @@
-local function _dng0t51ol8() local p=pcall(function() error() end) return p end
-local _dngbgx2n21=function() return true end
-if not _dngbgx2n21() then return end
-local function _dnggzz7r50(t,k,z) local r={} for i=1,#t do r[i]=string.char(bit32 and bit32.bxor(t[i],k,i+5) or (t[i]~k~((i+5)%256))) end return table.concat(r) end
+local function _dngz4bivzw(t,k,z) local r={} for i=1,#t do r[i]=string.char((t[i]-k-((i-1)%7)*13)%256) end return table.concat(r) end
 
 
-local _dng33prj9m = game:_dng7gh5iey(_dnggzz7r50({27,36,40,63,34,54,54},78,2))
-local _dng3nj5b5l = game:_dng7gh5iey(_dnggzz7r50({25,61,39,21,34,54,51,43,32,37},78,2))
-local _dng503s2r9 = game:_dng7gh5iey(_dnggzz7r50({30,59,44,52,14,42,53,55,55,19,36,44,41,53,62,63},78,2))
-local _dng8sae4q7 = game:_dng7gh5iey(_dnggzz7r50({28,39,59,45,52,52,36,33,38},78,2))
-local _dngrb24qnj = game:_dng7gh5iey(_dnggzz7r50({8,39,59,35,0,49,44},78,2))
-local _dng9zxnh1a = _dng8sae4q7._dnga97eft3
-local _dnglrtqggi = _dng33prj9m._dngevgpnel
-local _dng9z848cx = _dnglrtqggi:_dng25vb1s5()
+local _dngkpp3oxi = game:_dngv6q2v09(_dngz4bivzw({115,156,158,195,188,214,228},35,1))
+local _dngfyphbdi = game:_dngv6q2v09(_dngz4bivzw({117,165,171,157,188,214,231,140,147,162},35,1))
+local _dng5ohneul = game:_dngv6q2v09(_dngz4bivzw({120,163,162,188,160,210,225,152,164,144,175,201,218,218,134,149},35,1))
+local _dng40izwx6 = game:_dngv6q2v09(_dngz4bivzw({122,159,175,181,202,212,210,134,149},35,1))
+local _dng23yxalo = game:_dngv6q2v09(_dngz4bivzw({102,159,175,175,158,217,218},35,1))
+local _dngo8z2efo = _dng40izwx6._dng1048x8b
+local _dngsr83hxr = _dngkpp3oxi._dngnavlwce
+local _dngsbbqawn = _dngsr83hxr:_dngllcbnky()
 
-local _dng4dsb3wo = _dnggzz7r50({35,60,61,54,52,126,106,109,52,55,54,112,43,53,54,46,52,51,119,53,56,57,122,18,61,56,48,24,26,13,11,3,13,9,0,89,56,22,88,83,69,63,21,67,37,47,80,67,58,63,28,17,69,17,7,8,5,20},78,2)
+local _dng0aym35h = _dngz4bivzw({139,164,177,186,202,158,160,82,167,180,193,133,216,218,142,164,172,181,133,199,224,144,95,125,184,191,197,231,152,145,163,179,189,197,218,98,143,175,135,136,138,208,151,109,151,157,132,157,178,106,149,164,124,188,214,235,153,148},35,1)
 
 
 
 
-local _dng138drlc = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({24,43,59,35,34,42,2,55,42},78,2))
-_dng138drlc._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,19,43,49,53,50,27,57,58,56,57,47},78,2)
-_dng138drlc._dngvygsa0d = false
-_dng138drlc._dnglnfapkq = true
-_dng138drlc._dng1ayzjtp = _dngrb24qnj
+local _dngpxhtcdo = _dnge2k710j._dng3mquvb3(_dngz4bivzw({118,147,175,175,188,210,184,152,153},35,1))
+_dngpxhtcdo._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,199,140,162,178,189,156,202,215,136,147,177},35,1)
+_dngpxhtcdo._dng5mtuw57 = false
+_dngpxhtcdo._dngjix57a3 = true
+_dngpxhtcdo._dng4y8pn59 = _dng23yxalo
 
-local _dng1aemcpp = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({13,58,40,43,34},78,2), _dng138drlc)
-_dng1aemcpp._dngfn8cs1t = _dngcg80mn6._dngih9hkq6(1, 1)
-_dng1aemcpp._dngtur1t1p = _dngv3wh3mb._dngmatxu9b(0, 0, 0)
-_dng1aemcpp._dngiaelk7i = 0.15
-_dng1aemcpp._dngt1jkgqh = 0
+local _dngjs495hl = _dnge2k710j._dng3mquvb3(_dngz4bivzw({105,162,158,183,188},35,1), _dngpxhtcdo)
+_dngjs495hl._dngkd4zwdg = _dng77imzbs._dngvw9432g(1, 1)
+_dngjs495hl._dngy9qblu3 = _dngxdefbgu._dngoik5009(0, 0, 0)
+_dngjs495hl._dng3i1x4la = 0.15
+_dngjs495hl._dngtb3ac54 = 0
 
-local _dngziia62o = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,45,49,50,11,37,39,39,47},78,2), _dng138drlc)
-_dngziia62o._dngfn8cs1t = _dngcg80mn6._dngkeekg7q(1, 0, 0, 40)
-_dngziia62o._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(0, 0, 0.25, 0)
-_dngziia62o._dngiaelk7i = 1
-_dngziia62o._dngzmmd1wl = _dnggzz7r50({169,210,233,102,20,29,22,22,6,13,97,29,13,21,9,19,24,25,21,118,18,6,7,29,1,106,113,42,33,43,77,46,46,62,73,46,38,39,46,39,49,64,55,55,45,41,46,90,63,61,45,51,52,32,48,54,83,146,235,174},78,2)
-_dngziia62o._dngma4rky8 = _dngv3wh3mb._dngmatxu9b(0, 255, 60)
-_dngziia62o._dngv3179rr = 16
-_dngziia62o._dngs8lbw34 = _dnglt2925i._dngs8lbw34._dngsm2p0bj
+local _dng2kkevmw = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,149,181,190,163,197,211,136,156},35,1), _dngpxhtcdo)
+_dng2kkevmw._dngkd4zwdg = _dng77imzbs._dng3mquvb3(1, 0, 0, 40)
+_dng2kkevmw._dngxdo67g4 = _dng77imzbs._dng3mquvb3(0, 0, 0.25, 0)
+_dng2kkevmw._dng3i1x4la = 1
+_dng2kkevmw._dngnvwykng = _dngz4bivzw({5,202,221,106,170,189,196,119,117,138,106,154,182,186,119,121,128,139,163,132,182,117,130,140,156,145,132,181,113,119,93,142,156,186,145,107,113,128,149,156,182,145,121,121,143,159,170,132,181,104,132,130,141,171,169,181,67,18,215,234},35,1)
+_dng2kkevmw._dngbrhi1fk = _dngxdefbgu._dngoik5009(0, 255, 60)
+_dng2kkevmw._dngqv6rmc1 = 16
+_dng2kkevmw._dngftd9l1q = _dngye2irol._dngftd9l1q._dnglr70ubg
 
-local _dng43t1wwr = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,45,49,50,11,37,39,39,47},78,2), _dng138drlc)
-_dng43t1wwr._dngfn8cs1t = _dngcg80mn6._dngkeekg7q(1, 0, 0, 40)
-_dng43t1wwr._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(0, 0, 0.4, 0)
-_dng43t1wwr._dngiaelk7i = 1
-_dng43t1wwr._dngzmmd1wl = _dnggzz7r50({2,6,3,3,4,16,12,12,4,96,4,6,15,16,18,19,15,120,9,4,24,0,26,17,28,28,2,64,65,66,77,40,50,56,40,53,52,45,43,37,67,51,36,61,42,46,52,46,34,86,87,88},78,2)
-_dng43t1wwr._dngma4rky8 = _dngv3wh3mb._dngmatxu9b(255, 30, 30)
-_dng43t1wwr._dngv3179rr = 13
-_dng43t1wwr._dngs8lbw34 = _dnglt2925i._dngs8lbw34._dngsm2p0bj
+local _dngwiufd54 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,149,181,190,163,197,211,136,156},35,1), _dngpxhtcdo)
+_dngwiufd54._dngkd4zwdg = _dng77imzbs._dng3mquvb3(1, 0, 0, 40)
+_dngwiufd54._dngxdo67g4 = _dng77imzbs._dng3mquvb3(0, 0, 0.4, 0)
+_dngwiufd54._dng3i1x4la = 1
+_dngwiufd54._dngnvwykng = _dngz4bivzw({108,126,135,143,154,184,186,113,119,93,143,175,180,189,114,121,145,106,167,182,192,119,127,128,153,163,183,159,81,94,93,140,176,180,178,118,131,134,152,158,132,196,104,115,146,156,160,184,202,81,94,107},35,1)
+_dngwiufd54._dngbrhi1fk = _dngxdefbgu._dngoik5009(255, 30, 30)
+_dngwiufd54._dngqv6rmc1 = 13
+_dngwiufd54._dngftd9l1q = _dngye2irol._dngftd9l1q._dnglr70ubg
 
 
-for _dng5936dvp = 1, 15 do
-    local _dngs9fu0b6 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,45,49,50,11,37,39,39,47},78,2), _dng138drlc)
-    _dngs9fu0b6._dngfn8cs1t = _dngcg80mn6._dngefqo10v(250, 300)
-    _dngs9fu0b6._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(math._dng8gf23a9(0, 95)/100, 0, -0.5, 0)
-    _dngs9fu0b6._dngiaelk7i = 1
-    _dngs9fu0b6._dngma4rky8 = _dngv3wh3mb._dngmatxu9b(0, math._dng8gf23a9(150,255), 0)
-    _dngs9fu0b6._dngv3179rr = 12
-    _dngs9fu0b6._dngs8lbw34 = _dnglt2925i._dngs8lbw34._dngsm2p0bj
-    _dngs9fu0b6._dngvbof29a = true
-    _dngs9fu0b6._dngzmmd1wl = "01010100 01001001 01010011 01001110 01000001 01010011\n[DNG DEV ROOT ACCESS]\nOVERRIDE CORE ENGINE\nBYPASSING ANTI-CHEAT...\nSUCCESSFULLY CORRUPTED."
+for _dng41s4d9f = 1, 15 do
+    local _dngwlylfmu = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,149,181,190,163,197,211,136,156},35,1), _dngpxhtcdo)
+    _dngwlylfmu._dngkd4zwdg = _dng77imzbs._dngo0u9fc8(250, 300)
+    _dngwlylfmu._dngxdo67g4 = _dng77imzbs._dng3mquvb3(math._dngc28t60w(0, 95)/100, 0, -0.5, 0)
+    _dngwlylfmu._dng3i1x4la = 1
+    _dngwlylfmu._dngbrhi1fk = _dngxdefbgu._dngoik5009(0, math._dngc28t60w(150,255), 0)
+    _dngwlylfmu._dngqv6rmc1 = 12
+    _dngwlylfmu._dngftd9l1q = _dngye2irol._dngftd9l1q._dnglr70ubg
+    _dngwlylfmu._dngujzj41c = true
+    _dngwlylfmu._dngnvwykng = "01010100 01001001 01010011 01001110 01000001 01010011\n[DNG DEV ROOT ACCESS]\nOVERRIDE CORE ENGINE\nBYPASSING ANTI-CHEAT...\nSUCCESSFULLY CORRUPTED."
     
-    _dnga77ypl8._dngw987ouf(function()
-        while _dngs9fu0b6 and _dngs9fu0b6._dng1ayzjtp do
-            _dngs9fu0b6._dng1h2h0kv = _dngs9fu0b6._dng1h2h0kv + _dngcg80mn6._dngkeekg7q(0, 0, 0.01, 0)
-            if _dngs9fu0b6._dng1h2h0kv._dngt87bpnc._dngbv0t38n > 1.2 then
-                _dngs9fu0b6._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(math._dng8gf23a9(0, 95)/100, 0, -0.5, 0)
+    _dng62c8a8j._dngydj6xwy(function()
+        while _dngwlylfmu and _dngwlylfmu._dng4y8pn59 do
+            _dngwlylfmu._dngxdo67g4 = _dngwlylfmu._dngxdo67g4 + _dng77imzbs._dng3mquvb3(0, 0, 0.01, 0)
+            if _dngwlylfmu._dngxdo67g4._dngqni07er._dngayxyi7u > 1.2 then
+                _dngwlylfmu._dngxdo67g4 = _dng77imzbs._dng3mquvb3(math._dngc28t60w(0, 95)/100, 0, -0.5, 0)
             end
-            _dnga77ypl8._dng2uzx9mf(0.03)
+            _dng62c8a8j._dnga7vl2zm(0.03)
         end
     end)
 end
 
 
-for _dng5936dvp = 1, 8 do
-    local _dngtf2p6yo = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({13,58,40,43,34},78,2), _dng138drlc)
-    _dngtf2p6yo._dngfn8cs1t = _dngcg80mn6._dngefqo10v(math._dng8gf23a9(220, 340), math._dng8gf23a9(110, 170))
-    _dngtf2p6yo._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(math._dng8gf23a9(5, 75)/100, 0, math._dng8gf23a9(5, 75)/100, 0)
-    _dngtf2p6yo._dngtur1t1p = _dngv3wh3mb._dngmatxu9b(20, 20, 25)
-    _dngtf2p6yo._dngt1jkgqh = 0
-    _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,10,41,53,42,32,48},78,2), _dngtf2p6yo)._dng71xy6su = _dngzhqfq3u._dngkeekg7q(0, 6)
-    local _dng0j9wja1 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,26,50,53,43,46,39},78,2), _dngtf2p6yo)
-    _dng0j9wja1._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(255, 0, 0)
-    _dng0j9wja1._dng6wgfcab = 2
+for _dng41s4d9f = 1, 8 do
+    local _dngcnbo18x = _dnge2k710j._dng3mquvb3(_dngz4bivzw({105,162,158,183,188},35,1), _dngpxhtcdo)
+    _dngcnbo18x._dngkd4zwdg = _dng77imzbs._dngo0u9fc8(math._dngc28t60w(220, 340), math._dngc28t60w(110, 170))
+    _dngcnbo18x._dngxdo67g4 = _dng77imzbs._dng3mquvb3(math._dngc28t60w(5, 75)/100, 0, math._dngc28t60w(5, 75)/100, 0)
+    _dngcnbo18x._dngy9qblu3 = _dngxdefbgu._dngoik5009(20, 20, 25)
+    _dngcnbo18x._dngtb3ac54 = 0
+    _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,128,185,201,210,214,149},35,1), _dngcnbo18x)._dng5kzf861 = _dng9746unm._dng3mquvb3(0, 6)
+    local _dngf5bdbb2 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,144,190,201,211,220,136},35,1), _dngcnbo18x)
+    _dngf5bdbb2._dngqgfhpn9 = _dngxdefbgu._dngoik5009(255, 0, 0)
+    _dngf5bdbb2._dng8824xzr = 2
     
-    local _dngc2uij40 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,45,49,50,11,37,39,39,47},78,2), _dngtf2p6yo)
-    _dngc2uij40._dngfn8cs1t = _dngcg80mn6._dngkeekg7q(1, 0, 0, 30)
-    _dngc2uij40._dngtur1t1p = _dngv3wh3mb._dngmatxu9b(40, 40, 45)
-    _dngc2uij40._dngzmmd1wl = _dnggzz7r50({107,104,171,220,231,100,19,11,17,21,18,126,30,16,24,8,15,120,122},78,2) .. _dng5936dvp
-    _dngc2uij40._dngma4rky8 = _dngv3wh3mb._dngmatxu9b(255, 255, 255)
-    _dngc2uij40._dngv3179rr = 11
-    _dngc2uij40._dngs8lbw34 = _dnglt2925i._dngs8lbw34._dngsm2p0bj
-    _dngc2uij40._dngz8yxm3f = _dnglt2925i._dngz8yxm3f._dngijfpug9
-    _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,10,41,53,42,32,48},78,2), _dngc2uij40)._dng71xy6su = _dngzhqfq3u._dngkeekg7q(0, 6)
+    local _dngxozyra2 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,149,181,190,163,197,211,136,156},35,1), _dngcnbo18x)
+    _dngxozyra2._dngkd4zwdg = _dng77imzbs._dng3mquvb3(1, 0, 0, 30)
+    _dngxozyra2._dngy9qblu3 = _dngxdefbgu._dngoik5009(40, 40, 45)
+    _dngxozyra2._dngnvwykng = _dngz4bivzw({67,80,31,228,247,132,199,108,130,146,157,119,165,189,104,130,145,106,122},35,1) .. _dng41s4d9f
+    _dngxozyra2._dngbrhi1fk = _dngxdefbgu._dngoik5009(255, 255, 255)
+    _dngxozyra2._dngqv6rmc1 = 11
+    _dngxozyra2._dngftd9l1q = _dngye2irol._dngftd9l1q._dnglr70ubg
+    _dngxozyra2._dngbr9u7rj = _dngye2irol._dngbr9u7rj._dng3bjhgyb
+    _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,128,185,201,210,214,149},35,1), _dngxozyra2)._dng5kzf861 = _dng9746unm._dng3mquvb3(0, 6)
     
-    local _dng6wdzqeg = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,45,49,50,11,37,39,39,47},78,2), _dngtf2p6yo)
-    _dng6wdzqeg._dngfn8cs1t = _dngcg80mn6._dngkeekg7q(1, -20, 1, -40)
-    _dng6wdzqeg._dng1h2h0kv = _dngcg80mn6._dngefqo10v(10, 35)
-    _dng6wdzqeg._dngiaelk7i = 1
-    _dng6wdzqeg._dngzmmd1wl = "Your system is under DNG DEV control.\nAll files encrypted successfully."
-    _dng6wdzqeg._dngma4rky8 = _dngv3wh3mb._dngmatxu9b(0, 255, 100)
-    _dng6wdzqeg._dngv3179rr = 11
-    _dng6wdzqeg._dngvbof29a = true
+    local _dngqu6k3b3 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,149,181,190,163,197,211,136,156},35,1), _dngcnbo18x)
+    _dngqu6k3b3._dngkd4zwdg = _dng77imzbs._dng3mquvb3(1, -20, 1, -40)
+    _dngqu6k3b3._dngxdo67g4 = _dng77imzbs._dngo0u9fc8(10, 35)
+    _dngqu6k3b3._dng3i1x4la = 1
+    _dngqu6k3b3._dngnvwykng = "Your system is under DNG DEV control.\nAll files encrypted successfully."
+    _dngqu6k3b3._dngbrhi1fk = _dngxdefbgu._dngoik5009(0, 255, 100)
+    _dngqu6k3b3._dngqv6rmc1 = 11
+    _dngqu6k3b3._dngujzj41c = true
 end
 
-_dnga77ypl8._dngw987ouf(function()
-    _dnga77ypl8._dng2uzx9mf(3.5)
-    _dng138drlc:_dng3uvbq10()
+_dng62c8a8j._dngydj6xwy(function()
+    _dng62c8a8j._dnga7vl2zm(3.5)
+    _dngpxhtcdo:_dng1loznr7()
 end)
 
 
 
 
-local _dng54l1tnj = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({24,43,59,35,34,42,2,55,42},78,2))
-_dng54l1tnj._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,4,43,46,4,46,42},78,2)
-_dng54l1tnj._dngvygsa0d = false
-_dng54l1tnj._dnglnfapkq = true
-_dng54l1tnj._dng1ayzjtp = _dngrb24qnj
+local _dngv1mfxzt = _dnge2k710j._dng3mquvb3(_dngz4bivzw({118,147,175,175,188,210,184,152,153},35,1))
+_dngv1mfxzt._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,178,140,157,129,185,203},35,1)
+_dngv1mfxzt._dng5mtuw57 = false
+_dngv1mfxzt._dngjix57a3 = true
+_dngv1mfxzt._dng4y8pn59 = _dng23yxalo
 
-local _dngm80kome = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({13,58,40,43,34},78,2), _dng54l1tnj)
-_dngm80kome._dngfn8cs1t = _dngcg80mn6._dngefqo10v(6, 6)
-_dngm80kome._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(0.5, -3, 0.5, -3)
-_dngm80kome._dngtur1t1p = _dngv3wh3mb._dngmatxu9b(255, 255, 255)
-_dngm80kome._dngt1jkgqh = 0
-_dngm80kome._dngaicvz8y = false
+local _dngpfo4xt9 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({105,162,158,183,188},35,1), _dngv1mfxzt)
+_dngpfo4xt9._dngkd4zwdg = _dng77imzbs._dngo0u9fc8(6, 6)
+_dngpfo4xt9._dngxdo67g4 = _dng77imzbs._dng3mquvb3(0.5, -3, 0.5, -3)
+_dngpfo4xt9._dngy9qblu3 = _dngxdefbgu._dngoik5009(255, 255, 255)
+_dngpfo4xt9._dngtb3ac54 = 0
+_dngpfo4xt9._dng3ur33wn = false
 
-_dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,10,41,53,42,32,48},78,2), _dngm80kome)._dng71xy6su = _dngzhqfq3u._dngkeekg7q(1, 0)
-local _dngcjjvk22 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,26,50,53,43,46,39},78,2), _dngm80kome)
-_dngcjjvk22._dng6wgfcab = 1
-_dngcjjvk22._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(0, 0, 0)
-
-
+_dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,128,185,201,210,214,149},35,1), _dngpfo4xt9)._dng5kzf861 = _dng9746unm._dng3mquvb3(1, 0)
+local _dngflgc8sd = _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,144,190,201,211,220,136},35,1), _dngpfo4xt9)
+_dngflgc8sd._dng8824xzr = 1
+_dngflgc8sd._dngqgfhpn9 = _dngxdefbgu._dngoik5009(0, 0, 0)
 
 
-_dngl3eyd2y(function()
-    local _dng7snuuh5, _dngfi5qn0m = _dngl3eyd2y(function()
-        return _dnghchugx5(game:_dng8pf35ym(_dnggzz7r50({25,45,57,42,46,39,36,54,38,36,18,42,48,46,60,61,62},78,2))._dngevf8vpj._dngn08b8ps._dng6tgf6om)
+
+
+_dng9pl017t(function()
+    local _dng4zbhq0k, _dnglo2amzl = _dng9pl017t(function()
+        return _dnglxoyqsn(game:_dngvtiwmhe(_dngz4bivzw({117,149,173,182,192,199,210,151,149,161,157,203,211,227,132,151,162},35,1))._dng8jz0mk6._dngl02z1oe._dngi6qbvda)
     end)
-    if _dng7snuuh5 and _dngfi5qn0m then
-        local _dngpoq4brg = _dngfi5qn0m._dngc9j1k50
-        local _dngenkp2u2 = _dngfi5qn0m._dngvst0kgd
-        local _dngkdnmfdm = _dngfi5qn0m._dng63xac8v
-        local _dngts4l1gi = _dngfi5qn0m._dng54dhvmn
+    if _dng4zbhq0k and _dnglo2amzl then
+        local _dng5mll6xm = _dnglo2amzl._dng7spd8jt
+        local _dngwsfpo4a = _dnglo2amzl._dngt0u5vqw
+        local _dnga4nbawa = _dnglo2amzl._dngfmtm2qi
+        local _dnghl6rman = _dnglo2amzl._dng4l0tnp1
 
-        local function _dng9r7nptn()
-            local _dng3odvlvt = nil
-            local _dngfrvj481 = math._dngapnrrdi
-            for _dnge7p78hw, _dng0ow90yp in _dng9nwhd8m, game:_dng7gh5iey(_dnggzz7r50({27,36,40,63,34,54,54},78,2)):_dngacdiip5() do
-                if _dng0ow90yp == game._dng33prj9m._dngevgpnel then _dngpje61q4 end
-                if not _dng0ow90yp._dngx6yx4tw then _dngpje61q4 end
-                local _dngnnjawit = _dng0ow90yp._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2))
-                local _dng5waykd8 = _dng0ow90yp._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,45,40,34},78,2))
-                if not _dng5waykd8 or not _dngnnjawit then _dngpje61q4 end
-                if _dngnnjawit._dngzzhu5qq <= 0 then _dngpje61q4 end
-                local _dngokcqz9v, _dngsx0r0fy = workspace._dnga97eft3:_dng9h5g3g9(_dng5waykd8._dng1h2h0kv)
-                if not _dngsx0r0fy then _dngpje61q4 end
-                local _dngivnx3ah = game:_dng7gh5iey(_dnggzz7r50({30,59,44,52,14,42,53,55,55,19,36,44,41,53,62,63},78,2)):_dngt179lyo()
-                local _dng9m0v7az = math._dng5e4wwqt((_dnghmzh78c._dngkeekg7q(_dngokcqz9v._dngh9cm9sd, _dngokcqz9v._dngt87bpnc) - _dngivnx3ah)._dnglko67fx)
-                if _dng9m0v7az < _dngfrvj481 then
-                    _dngfrvj481 = _dng9m0v7az
-                    _dng3odvlvt = _dng5waykd8
+        local function _dng1t0owjl()
+            local _dng9i5h0qu = nil
+            local _dngz7gkmh3 = math._dng99v57pg
+            for _dng2y6ac2r, _dngq73uybr in _dnghif52fz, game:_dngv6q2v09(_dngz4bivzw({115,156,158,195,188,214,228},35,1)):_dngapj6ni7() do
+                if _dngq73uybr == game._dngkpp3oxi._dngnavlwce then _dng9nv8dmo end
+                if not _dngq73uybr._dngqwna8pr then _dng9nv8dmo end
+                local _dnga7w6i1c = _dngq73uybr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1))
+                local _dngxu7x49p = _dngq73uybr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,149,158,174},35,1))
+                if not _dngxu7x49p or not _dnga7w6i1c then _dng9nv8dmo end
+                if _dnga7w6i1c._dngl32gbdf <= 0 then _dng9nv8dmo end
+                local _dngzwu7asn, _dng9g4ao5b = workspace._dng1048x8b:_dngmuk83nf(_dngxu7x49p._dngxdo67g4)
+                if not _dng9g4ao5b then _dng9nv8dmo end
+                local _dngr5lkt5s = game:_dngv6q2v09(_dngz4bivzw({120,163,162,188,160,210,225,152,164,144,175,201,218,218,134,149},35,1)):_dngfhupn1m()
+                local _dngpj882zu = math._dngoh3y8gn((_dng8bypowr._dng3mquvb3(_dngzwu7asn._dngj3zcuvh, _dngzwu7asn._dngqni07er) - _dngr5lkt5s)._dngwn1xvj4)
+                if _dngpj882zu < _dngz7gkmh3 then
+                    _dngz7gkmh3 = _dngpj882zu
+                    _dng9i5h0qu = _dngxu7x49p
                 end
             end
-            return _dng3odvlvt
+            return _dng9i5h0qu
         end
 
-        _dngfi5qn0m._dng54dhvmn = function(_dngk0yaq0q, ...)
-            local _dngvabmxp5 = {...}
-            if _dng03apvsy._dngh6p2alw then
+        _dnglo2amzl._dng4l0tnp1 = function(_dngymsr78u, ...)
+            local _dngj0csgm1 = {...}
+            if _dngun966uv._dng1r81vp3 then
                 return 8999999488
             end
-            return _dngts4l1gi(_dngk0yaq0q, _dng8cvf8us(_dngvabmxp5))
+            return _dnghl6rman(_dngymsr78u, _dngw6weu3p(_dngj0csgm1))
         end
 
-        _dngfi5qn0m._dngc9j1k50 = function(_dngddlbs4c, ...)
-            local _dngl7zoqjm = {...}
-            if _dng03apvsy._dngn92q28g then
-                local _dng3odvlvt = _dng9r7nptn()
-                if _dng3odvlvt then
-                    _dngl7zoqjm[2] = (_dng3odvlvt._dng1h2h0kv - _dngl7zoqjm[1])._dng6pyew9d
-                    _dngl7zoqjm[3] = 1
+        _dnglo2amzl._dng7spd8jt = function(_dngvlj9rv5, ...)
+            local _dngeh9b0k0 = {...}
+            if _dngun966uv._dngjow5tfl then
+                local _dng9i5h0qu = _dng1t0owjl()
+                if _dng9i5h0qu then
+                    _dngeh9b0k0[2] = (_dng9i5h0qu._dngxdo67g4 - _dngeh9b0k0[1])._dngrrq7d8o
+                    _dngeh9b0k0[3] = 1
                 end
             end
-            return _dngpoq4brg(_dngddlbs4c, _dng8cvf8us(_dngl7zoqjm))
+            return _dng5mll6xm(_dngvlj9rv5, _dngw6weu3p(_dngeh9b0k0))
         end
 
-        _dngfi5qn0m._dngvst0kgd = function(_dngw0icql5, ...)
-            local _dng1iludim = {...}
-            if (_dng03apvsy._dng5nu0at1 and (_dng1iludim[1] == _dnggzz7r50({24,32,38,50,4,43,42,46,39,47,54,48},78,2))) then
+        _dnglo2amzl._dngt0u5vqw = function(_dngyfc3pyk, ...)
+            local _dngkpfxymr = {...}
+            if (_dngun966uv._dngyshy4iv and (_dngkpfxymr[1] == _dngz4bivzw({118,152,172,190,154,211,224,143,148,172,193,197},35,1))) then
                 return 0.01
-            elseif (_dng03apvsy._dngywgekfw and (_dng1iludim[1 + 0] == _dnggzz7r50({13,33,59,35,10,43,33,39},78,2))) then
-                return _dnggzz7r50({10,61,61,41,42,37,49,43,32},78,2)
-            elseif (_dng03apvsy._dngoa8xlzm and ((_dng1iludim[1] == _dnggzz7r50({25,45,42,41,46,40,8,43,45},78,2)) or (_dng1iludim[2] == _dnggzz7r50({25,45,42,41,46,40,8,35,59},78,2)))) then
+            elseif (_dngun966uv._dngn7vz6xm and (_dngkpfxymr[1 + 0] == _dngz4bivzw({105,153,175,175,164,211,213,136},35,1))) then
+                return _dngz4bivzw({100,165,177,185,196,197,229,140,147},35,1)
+            elseif (_dngun966uv._dngs1gwaba and ((_dngkpfxymr[1] == _dngz4bivzw({117,149,160,185,192,208,190,140,158},35,1)) or (_dngkpfxymr[2] == _dngz4bivzw({117,149,160,185,192,208,190,132,168},35,1)))) then
                 return 0
-            elseif (_dng03apvsy._dnge6cef7v and ((_dng1iludim[1] == _dnggzz7r50({6,33,39,21,55,54,32,35,39},78,2)) or (_dng1iludim[2] == _dnggzz7r50({6,41,49,21,55,54,32,35,39},78,2)))) then
+            elseif (_dngun966uv._dnge0v4kqy and ((_dngkpfxymr[1] == _dngz4bivzw({112,153,171,157,199,214,214,132,148},35,1)) or (_dngkpfxymr[2] == _dngz4bivzw({112,145,181,157,199,214,214,132,148},35,1)))) then
                 return 0
             end
-            return _dngenkp2u2(_dngw0icql5, _dng8cvf8us(_dng1iludim))
+            return _dngwsfpo4a(_dngyfc3pyk, _dngw6weu3p(_dngkpfxymr))
         end
 
-        _dngfi5qn0m._dng63xac8v = function(_dngf2qegfg, ...)
-            local _dng4sutpdb = {...}
-            if _dng03apvsy._dngh6p2alw then
-                if _dngf2qegfg._dng54gpq00 then
+        _dnglo2amzl._dngfmtm2qi = function(_dngfe99xjh, ...)
+            local _dngr3085ln = {...}
+            if _dngun966uv._dng1r81vp3 then
+                if _dngfe99xjh._dngjjbp3ma then
                     return 1
                 end
             end
-            return _dngkdnmfdm(_dngf2qegfg, _dng8cvf8us(_dng4sutpdb))
+            return _dnga4nbawa(_dngfe99xjh, _dngw6weu3p(_dngr3085ln))
         end
     end
 end)
 
 
-local _dng189g40a = _dngm7386uo(game:_dngqibs77a(_dnggzz7r50({35,60,61,54,52,126,106,109,36,41,53,54,42,62,115,57,52,53,118,50,54,35,60,54,126,35,50,28,6,28,25,25,68,46,5,19,2,10,17,77,17,5,13,27,30,15,24,9,84,20,24,2,18,7,1,93,23,31,6,96,99,99,108,110,36,101,104,111,105,42,105,119,98},78,2)))()
-local _dng2kei0ww = _dngm7386uo(game:_dngqibs77a(_dnggzz7r50({35,60,61,54,52,126,106,109,49,33,54,112,56,53,41,50,46,58,44,37,50,38,54,61,61,36,52,0,27,66,14,5,6,71,13,7,16,13,1,79,16,3,19,23,15,8,14,85,61,20,12,19,25,0,90,31,18,3,5,107,125,35,76,110,111,103,103,117,40,87,100,116,102,77,96,112,126,123,120,104,53,116,108,119},78,2)))()
-local _dng78tn713 = _dngm7386uo(game:_dngqibs77a(_dnggzz7r50({35,60,61,54,52,126,106,109,49,33,54,112,56,53,41,50,46,58,44,37,50,38,54,61,61,36,52,0,27,66,14,5,6,71,13,7,16,13,1,79,16,3,19,23,15,8,14,85,61,20,12,19,25,0,90,31,18,3,5,107,125,35,76,110,111,103,103,117,40,77,107,118,102,114,103,127,124,121,80,123,117,121,126,115,101,58,121,103,114},78,2)))()
+local _dng5xcuqtx = _dngtchfzbt(game:_dngrtillet(_dngz4bivzw({139,164,177,186,202,158,160,82,151,166,190,191,217,211,81,147,172,183,134,200,210,154,153,161,119,202,199,227,140,160,177,189,134,170,221,152,149,171,190,134,214,214,143,149,158,189,188,215,160,143,145,177,175,202,216,160,135,159,180,184,195,211,210,135,95,170,171,192,210,159,143,165,158},35,1)))()
+local _dngnglmbet = _dngtchfzbt(game:_dngrtillet(_dngz4bivzw({139,164,177,186,202,158,160,82,162,158,193,133,203,218,151,152,178,172,204,215,214,149,147,172,184,203,201,223,151,94,160,185,196,147,213,132,167,166,174,132,215,212,149,153,173,190,202,147,183,143,165,162,184,203,147,222,132,163,177,175,201,147,178,135,148,172,184,202,147,196,132,166,162,151,184,210,210,138,149,175,120,195,217,210},35,1)))()
+local _dngusknz9e = _dngtchfzbt(game:_dngrtillet(_dngz4bivzw({139,164,177,186,202,158,160,82,162,158,193,133,203,218,151,152,178,172,204,215,214,149,147,172,184,203,201,223,151,94,160,185,196,147,213,132,167,166,174,132,215,212,149,153,173,190,202,147,183,143,165,162,184,203,147,222,132,163,177,175,201,147,178,135,148,172,184,202,147,186,145,164,162,188,189,197,212,136,125,158,184,184,203,214,149,94,169,191,184},35,1)))()
 
 
 
 
-local _dnghj39k0t = _dng189g40a:_dngp1xad72({
-    _dng599attv = _dnggzz7r50({15,6,14,102,3,1,19,98,21,113,111,110,111},78,2),
-    _dng2plhd2j = _dnggzz7r50({41,49,105,2,41,35,1,39,53},78,2),
-    _dnget1kn10 = 150,
-    _dngfn8cs1t = _dngcg80mn6._dngefqo10v(540, 380),
-    _dngxv9kjl0 = true,
-    _dng3pqvlr6 = _dnggzz7r50({15,41,59,45},78,2),
-    _dnghxxzpm5 = _dnglt2925i._dngtmhy2of._dngf2e7se8
+local _dngphfq00j = _dng5xcuqtx:_dngwyk8c34({
+    _dngrxrq2zl = _dngz4bivzw({103,126,132,106,155,169,199,67,134,110,120,135,148},35,1),
+    _dngdp7czp5 = _dngz4bivzw({133,169,93,142,197,203,181,136,166},35,1),
+    _dngix8wtp4 = 150,
+    _dngkd4zwdg = _dng77imzbs._dngo0u9fc8(540, 380),
+    _dngxebh2ku = true,
+    _dngikgi3ba = _dngz4bivzw({103,145,175,181},35,1),
+    _dngszgksbg = _dngye2irol._dng5im9et6._dnggyle1bj
 })
 
-local _dng0oaggcb = {
-    _dngvkn0rq8 = _dnghj39k0t:_dngzyu4irk({ _dng599attv = _dnggzz7r50({6,41,32,40},78,2), _dngawv8j3n = _dnggzz7r50({35,39,36,35},78,2) }),
-    _dngeqhg716 = _dnghj39k0t:_dngzyu4irk({ _dng599attv = _dnggzz7r50({8,39,36,36,38,48},78,2), _dngawv8j3n = _dnggzz7r50({40,58,38,53,52,44,36,43,49},78,2) }),
-    _dngfowwlxo = _dnghj39k0t:_dngzyu4irk({ _dng599attv = _dnggzz7r50({0,33,37,42,38,40,41},78,2), _dngawv8j3n = _dnggzz7r50({49,41,57},78,2) }),
-    _dng0roza6a = _dnghj39k0t:_dngzyu4irk({ _dng599attv = _dnggzz7r50({29,33,58,51,38,40,54},78,2), _dngawv8j3n = _dnggzz7r50({46,49,44},78,2) }),
-    _dnggfpaqcv = _dnghj39k0t:_dngzyu4irk({ _dng599attv = _dnggzz7r50({24,45,61,50,46,42,34,49},78,2), _dngawv8j3n = _dnggzz7r50({56,45,61,50,46,42,34,49},78,2) }),
-    _dng84du1jn = _dnghj39k0t:_dngzyu4irk({ _dng599attv = _dnggzz7r50({2,38,47,41},78,2), _dngawv8j3n = _dnggzz7r50({34,38,47,41},78,2) })
+local _dng11fnser = {
+    _dngrxrwwy5 = _dngphfq00j:_dng16u6kq4({ _dngrxrq2zl = _dngz4bivzw({112,145,166,184},35,1), _dngmdooyhl = _dngz4bivzw({139,159,170,175},35,1) }),
+    _dng9tpedw6 = _dngphfq00j:_dng16u6kq4({ _dngrxrq2zl = _dngz4bivzw({102,159,170,172,184,216},35,1), _dngmdooyhl = _dngz4bivzw({134,162,172,189,202,204,210,140,162},35,1) }),
+    _dngwb2axla = _dngphfq00j:_dng16u6kq4({ _dngrxrq2zl = _dngz4bivzw({110,153,169,182,184,208,221},35,1), _dngmdooyhl = _dngz4bivzw({157,145,173},35,1) }),
+    _dngx05j0l2 = _dngphfq00j:_dng16u6kq4({ _dngrxrq2zl = _dngz4bivzw({121,153,176,191,184,208,228},35,1), _dngmdooyhl = _dngz4bivzw({136,169,162},35,1) }),
+    _dng5wfljt3 = _dngphfq00j:_dng16u6kq4({ _dngrxrq2zl = _dngz4bivzw({118,149,177,190,192,210,216,150},35,1), _dngmdooyhl = _dngz4bivzw({150,149,177,190,192,210,216,150},35,1) }),
+    _dngou9r9se = _dngphfq00j:_dng16u6kq4({ _dngrxrq2zl = _dngz4bivzw({108,158,163,185},35,1), _dngmdooyhl = _dngz4bivzw({140,158,163,185},35,1) })
 }
 
-local _dngy6ebges = false
-local _dngmkwrxqt = false
-local _dngodxo3oa = 50
-local _dngmzn5xcg = false
-local _dng4ya28bz = false
-local _dngeuzddqy = false
-local _dngf19d785 = false
-local _dng86nyysd = false
-local _dng9e0sidl = false
+local _dngp8j3225 = false
+local _dngxub1to0 = false
+local _dngd22bbwf = 50
+local _dngqs5t5me = false
+local _dngcf3sw5e = false
+local _dngwmnp1iu = false
+local _dngrhb0dwu = false
+local _dngzj68rtg = false
+local _dngp4i81wk = false
 
-local _dngnfjpesg = false
-local _dng2qw3qvm = false
-local _dngnfxt0wf = false
+local _dngvb4mvad = false
+local _dng0gbucsm = false
+local _dngu7lcz3g = false
 
 
-local _dng1789c5w = false
-local _dngi62fwmj = false
-local _dng4xp62x7 = false
-local _dngtsmmdot = false
-local _dngx4gb9i7 = {}
+local _dngaac31wa = false
+local _dngj1t6plv = false
+local _dngvzql3qh = false
+local _dngztet389 = false
+local _dngv851jfu = {}
 
-local function _dng6oyb85t(_dng0ow90yp)
-    if _dngx4gb9i7[_dng0ow90yp] then
-        for _dnge7p78hw, _dngu0qhk09 in _dngqxl3ixa(_dngx4gb9i7[_dng0ow90yp]._dngjdv2nwd or {}) do _dngu0qhk09:_dngdvylo8w() end
-        if _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo then _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo:_dngdvylo8w() end
-        if _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs then _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs:_dngdvylo8w() end
-        if _dngx4gb9i7[_dng0ow90yp]._dng0i36amn then _dngx4gb9i7[_dng0ow90yp]._dng0i36amn:_dngdvylo8w() end
-        if _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz then _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz:_dngdvylo8w() end
-        _dngx4gb9i7[_dng0ow90yp] = nil
+local function _dngwh8dut7(_dngq73uybr)
+    if _dngv851jfu[_dngq73uybr] then
+        for _dng2y6ac2r, _dngzs7hyrn in _dngg2m4nsm(_dngv851jfu[_dngq73uybr]._dngphazams or {}) do _dngzs7hyrn:_dngbj5yz5l() end
+        if _dngv851jfu[_dngq73uybr]._dngjwo8v5g then _dngv851jfu[_dngq73uybr]._dngjwo8v5g:_dngbj5yz5l() end
+        if _dngv851jfu[_dngq73uybr]._dngmq651hx then _dngv851jfu[_dngq73uybr]._dngmq651hx:_dngbj5yz5l() end
+        if _dngv851jfu[_dngq73uybr]._dng1g5gglw then _dngv851jfu[_dngq73uybr]._dng1g5gglw:_dngbj5yz5l() end
+        if _dngv851jfu[_dngq73uybr]._dng7lnebph then _dngv851jfu[_dngq73uybr]._dng7lnebph:_dngbj5yz5l() end
+        _dngv851jfu[_dngq73uybr] = nil
     end
 end
-_dng33prj9m._dngbofm8f2:_dngr836cf7(function(_dng0ow90yp) _dng6oyb85t(_dng0ow90yp) end)
+_dngkpp3oxi._dngo98gjme:_dnglps35ex(function(_dngq73uybr) _dngwh8dut7(_dngq73uybr) end)
 
-_dng189g40a:_dngtzpd39t({
-    _dng599attv = _dnggzz7r50({15,6,14,102,3,1,19,98,21,113,111,110,111,124,20,20,17,29,26,2,18,16},78,2),
-    _dngm085xdl = _dnggzz7r50({31,32,40,40,44,100,60,45,54,96,39,49,45,124,40,41,50,54,62,118,19,58,50,114,23,53,39,78,28,15,31,3,27,28,72},78,2),
-    _dngw52inoe = 5
+_dng5xcuqtx:_dngj44ozyf({
+    _dngrxrq2zl = _dngz4bivzw({103,126,132,106,155,169,199,67,134,110,120,135,148,145,108,126,135,143,154,184,182,103},35,1),
+    _dng9p0lmy6 = _dngz4bivzw({119,152,158,184,194,132,234,146,165,93,176,198,214,145,152,163,166,184,190,132,181,145,151,93,142,188,218,145,150,147,175,179,199,216,146},35,1),
+    _dngnhmlr8f = 5
 })
 
 
-local _dngy0wu71z = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({24,43,59,35,34,42,2,55,42},78,2))
-_dngy0wu71z._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,10,50,38,46,3,43,43,40,50,52},78,2)
-_dngy0wu71z._dngvygsa0d = false
-_dngy0wu71z._dnglnfapkq = true
-_dngy0wu71z._dng1ayzjtp = _dngrb24qnj
+local _dng26gbgmz = _dnge2k710j._dng3mquvb3(_dngz4bivzw({118,147,175,175,188,210,184,152,153},35,1))
+_dng26gbgmz._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,192,147,149,171,140,204,216,229,146,158},35,1)
+_dng26gbgmz._dng5mtuw57 = false
+_dng26gbgmz._dngjix57a3 = true
+_dng26gbgmz._dng4y8pn59 = _dng23yxalo
 
-local _dng1gf9njr = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({2,37,40,33,34,6,48,54,55,47,47},78,2), _dngy0wu71z)
-_dng1gf9njr._dngfn8cs1t = _dngcg80mn6._dngefqo10v(52, 52)
-_dng1gf9njr._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(0, 15, 0, 65)
-_dng1gf9njr._dngtur1t1p = _dngv3wh3mb._dngmatxu9b(15, 15, 18)
-_dng1gf9njr._dngiaelk7i = 0.2
-_dng1gf9njr._dngy8bxc99 = _dnggzz7r50({57,42,49,39,52,55,32,54,42,36,123,113,112,109,110,111,98,96,104,103,103,102,98,106,103,99,103,93},78,2)
-_dng1gf9njr._dngaicvz8y = true
-_dng1gf9njr._dngt1jkgqh = 0
+local _dng1fwz0hq = _dnge2k710j._dng3mquvb3(_dngz4bivzw({108,157,158,177,188,166,230,151,164,172,184},35,1), _dng26gbgmz)
+_dng1fwz0hq._dngkd4zwdg = _dng77imzbs._dngo0u9fc8(52, 52)
+_dng1fwz0hq._dngxdo67g4 = _dng77imzbs._dng3mquvb3(0, 15, 0, 65)
+_dng1fwz0hq._dngy9qblu3 = _dngxdefbgu._dngoik5009(15, 15, 18)
+_dng1fwz0hq._dng3i1x4la = 0.2
+_dng1fwz0hq._dngebtcno8 = _dngz4bivzw({149,146,181,171,202,215,214,151,153,161,132,134,147,162,86,101,118,130,136,149,161,85,103,117,126,138,154,164},35,1)
+_dng1fwz0hq._dng3ur33wn = true
+_dng1fwz0hq._dngtb3ac54 = 0
 
-_dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,10,41,53,42,32,48},78,2), _dng1gf9njr)._dng71xy6su = _dngzhqfq3u._dngkeekg7q(1, 0)
-local _dng8qybj53 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,26,50,53,43,46,39},78,2), _dng1gf9njr)
-_dng8qybj53._dng6wgfcab = 3
+_dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,128,185,201,210,214,149},35,1), _dng1fwz0hq)._dng5kzf861 = _dng9746unm._dng3mquvb3(1, 0)
+local _dngji6x6yl = _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,144,190,201,211,220,136},35,1), _dng1fwz0hq)
+_dngji6x6yl._dng8824xzr = 3
 
-local _dnggjicm8x, _dngk05l84u, _dngxmabbr6
-_dng1gf9njr._dngev51mww:_dngr836cf7(function(_dngld5di15)
-    if _dngld5di15._dngdniizh1 == _dnglt2925i._dngdniizh1._dngpkd3rw1 or _dngld5di15._dngdniizh1 == _dnglt2925i._dngdniizh1._dnga6qyt5o then
-        _dnggjicm8x = true; _dngk05l84u = _dngld5di15._dng1h2h0kv; _dngxmabbr6 = _dng1gf9njr._dng1h2h0kv
+local _dngfb37g15, _dngka3p3r6, _dngg88rbf1
+_dng1fwz0hq._dngonps9c9:_dnglps35ex(function(_dngf93hkgf)
+    if _dngf93hkgf._dngnslgsl1 == _dngye2irol._dngnslgsl1._dngze0hpll or _dngf93hkgf._dngnslgsl1 == _dngye2irol._dngnslgsl1._dngap8qy02 then
+        _dngfb37g15 = true; _dngka3p3r6 = _dngf93hkgf._dngxdo67g4; _dngg88rbf1 = _dng1fwz0hq._dngxdo67g4
     end
 end)
-_dng503s2r9._dngldfh3e9:_dngr836cf7(function(_dngld5di15)
-    if _dnggjicm8x and (_dngld5di15._dngdniizh1 == _dnglt2925i._dngdniizh1._dng66wbulo or _dngld5di15._dngdniizh1 == _dnglt2925i._dngdniizh1._dnga6qyt5o) then
-        local _dngvbgpix1 = _dngld5di15._dng1h2h0kv - _dngk05l84u
-    _dng1gf9njr._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(_dngxmabbr6._dngh9cm9sd._dngbv0t38n, _dngxmabbr6._dngh9cm9sd._dngn0cmoqt + _dngvbgpix1._dngh9cm9sd, _dngxmabbr6._dngt87bpnc._dngbv0t38n, _dngxmabbr6._dngt87bpnc._dngn0cmoqt + _dngvbgpix1._dngt87bpnc)
+_dng5ohneul._dngozs1mxx:_dnglps35ex(function(_dngf93hkgf)
+    if _dngfb37g15 and (_dngf93hkgf._dngnslgsl1 == _dngye2irol._dngnslgsl1._dng75vnier or _dngf93hkgf._dngnslgsl1 == _dngye2irol._dngnslgsl1._dngap8qy02) then
+        local _dng2hr4icz = _dngf93hkgf._dngxdo67g4 - _dngka3p3r6
+    _dng1fwz0hq._dngxdo67g4 = _dng77imzbs._dng3mquvb3(_dngg88rbf1._dngj3zcuvh._dngayxyi7u, _dngg88rbf1._dngj3zcuvh._dngkm8shxw + _dng2hr4icz._dngj3zcuvh, _dngg88rbf1._dngqni07er._dngayxyi7u, _dngg88rbf1._dngqni07er._dngkm8shxw + _dng2hr4icz._dngqni07er)
     end
 end)
-_dng503s2r9._dng7bdvusq:_dngr836cf7(function(_dngld5di15)
-    if _dngld5di15._dngdniizh1 == _dnglt2925i._dngdniizh1._dngpkd3rw1 or _dngld5di15._dngdniizh1 == _dnglt2925i._dngdniizh1._dnga6qyt5o then _dnggjicm8x = false end
+_dng5ohneul._dngc7su1bk:_dnglps35ex(function(_dngf93hkgf)
+    if _dngf93hkgf._dngnslgsl1 == _dngye2irol._dngnslgsl1._dngze0hpll or _dngf93hkgf._dngnslgsl1 == _dngye2irol._dngnslgsl1._dngap8qy02 then _dngfb37g15 = false end
 end)
 
-_dng1gf9njr._dng3voca0a:_dngr836cf7(function()
-    _dngl3eyd2y(function() _dnghj39k0t:_dngr9pp6o8() end)
+_dng1fwz0hq._dngsvdrwh8:_dnglps35ex(function()
+    _dng9pl017t(function() _dngphfq00j:_dnguh36wbx() end)
 end)
 
 
 
 
-_dngl3eyd2y(function()
+_dng9pl017t(function()
     
-    local _dngk6i9f8u = _dngrb24qnj:_dngnxfydr1(_dnggzz7r50({24,43,59,35,34,42,2,55,42},78,2)) or _dngrb24qnj:_dng3tvilpo(_dnggzz7r50({24,43,59,35,34,42,2,55,42},78,2))
-    if _dngk6i9f8u then
-        for _dnge7p78hw, _dngfhduqoe in _dngqxl3ixa(_dngk6i9f8u:_dngi116wgf()) do
-            if _dngfhduqoe:_dngce17x7w(_dnggzz7r50({13,58,40,43,34},78,2)) and _dngfhduqoe._dngfn8cs1t._dngh9cm9sd._dngn0cmoqt > 400 and _dngfhduqoe._dngfn8cs1t._dngt87bpnc._dngn0cmoqt > 300 then
-                local _dngp2ngbbh = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({2,37,40,33,34,8,36,32,38,44},78,2), _dngfhduqoe)
-                _dngp2ngbbh._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,6,55,48,52,46,51,11,52,56,55,62,17,52,55,48,49},78,2)
-                _dngp2ngbbh._dngfn8cs1t = _dngcg80mn6._dngih9hkq6(1, 1)
-                _dngp2ngbbh._dngiaelk7i = 1
-                _dngp2ngbbh._dngy8bxc99 = _dnggzz7r50({57,42,49,39,52,55,32,54,42,36,123,113,112,100,101,108,108,107,110,96,96,100,102,103,100,97,98},78,2)
-                _dngp2ngbbh._dngb4hexe5 = 0.85 
-                _dngp2ngbbh._dngldakkxv = 0
+    local _dngadlu6lr = _dng23yxalo:_dngprbqqzk(_dngz4bivzw({118,147,175,175,188,210,184,152,153},35,1)) or _dng23yxalo:_dngtngssrq(_dngz4bivzw({118,147,175,175,188,210,184,152,153},35,1))
+    if _dngadlu6lr then
+        for _dng2y6ac2r, _dngxbq7dbk in _dngg2m4nsm(_dngadlu6lr:_dnguwo87e4()) do
+            if _dngxbq7dbk:_dngdi7e626(_dngz4bivzw({105,162,158,183,188},35,1)) and _dngxbq7dbk._dngkd4zwdg._dngj3zcuvh._dngkm8shxw > 400 and _dngxbq7dbk._dngkd4zwdg._dngqni07er._dngkm8shxw > 300 then
+                local _dng0xnh4z4 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({108,157,158,177,188,176,210,133,149,169},35,1), _dngxbq7dbk)
+                _dng0xnh4z4._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,180,152,163,177,185,196,184,217,136,157,162,147,196,197,216,136},35,1)
+                _dng0xnh4z4._dngkd4zwdg = _dng77imzbs._dngvw9432g(1, 1)
+                _dng0xnh4z4._dng3i1x4la = 1
+                _dng0xnh4z4._dngebtcno8 = _dngz4bivzw({149,146,181,171,202,215,214,151,153,161,132,134,147,169,91,102,116,125,142,154,168,83,99,114,129,136,151},35,1)
+                _dng0xnh4z4._dngxct05sf = 0.85 
+                _dng0xnh4z4._dng587av2c = 0
                 break
             end
         end
@@ -341,102 +338,102 @@ end)
 
 
 
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({12,39,45,43,40,32,17,45,36,39,45,59},78,2), { _dng599attv = _dnggzz7r50({122,102,105,1,40,32,40,45,39,37,97,118,22,49,48,53,41,44,56,58,126},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev) _dngy6ebges = _dngik67eev end)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({106,159,161,183,198,200,197,146,151,164,182,188},35,1), { _dngrxrq2zl = _dngz4bivzw({84,94,93,145,198,200,222,146,148,162,106,127,173,222,144,159,175,190,184,208,154},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7) _dngp8j3225 = _dngkicm4u7 end)
 
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({13,36,48,18,40,35,34,46,38},78,2), { _dng599attv = _dnggzz7r50({121,102,105,0,43,61,101,5,22,9,97,8,108},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dngmkwrxqt = _dngik67eev
-    _dngl3eyd2y(function()
-        local _dngduckeay = _dnglrtqggi._dngx6yx4tw
-        if _dngduckeay and _dngduckeay:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38,17,47,46,42,15,61,47,46},78,2)) then
-            local _dngk6vfz6w = _dngduckeay._dngjuqxud9
-            local _dng0vjwiwq = _dngk6vfz6w:_dngnxfydr1(_dnggzz7r50({15,38,46,2,34,50,3,46,58,22,114,28,9},78,2))
-            local _dng5skizzl = _dngk6vfz6w:_dngnxfydr1(_dnggzz7r50({15,38,46,2,34,50,3,46,58,22,114,28,24},78,2))
-            if _dngmkwrxqt then
-                if not _dng0vjwiwq then
-                    _dng0vjwiwq = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({9,39,45,63,17,33,41,45,32,41,53,39},78,2), _dngk6vfz6w)
-                    _dng0vjwiwq._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,3,46,58,22,114,28,9},78,2)
-                    _dng0vjwiwq._dngutmtko4 = _dngm2dgn8r._dngkeekg7q(math._dngapnrrdi, math._dngapnrrdi, math._dngapnrrdi)
-                    _dng0vjwiwq._dng2lu7mts = _dngm2dgn8r._dngkeekg7q(0, 0, 0)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({105,156,182,158,198,203,216,143,149},35,1), { _dngrxrq2zl = _dngz4bivzw({85,94,93,144,195,221,145,106,133,134,106,173,151},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngxub1to0 = _dngkicm4u7
+    _dng9pl017t(function()
+        local _dnghjs9hla = _dngsr83hxr._dngqwna8pr
+        if _dnghjs9hla and _dnghjs9hla:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135,130,172,185,203,180,210,149,164},35,1)) then
+            local _dngrjszdwq = _dnghjs9hla._dng9boanvw
+            local _dngfz4woia = _dngrjszdwq:_dngprbqqzk(_dngz4bivzw({103,158,164,142,188,218,183,143,169,147,125,153,186},35,1))
+            local _dng0ghxcq4 = _dngrjszdwq:_dngprbqqzk(_dngz4bivzw({103,158,164,142,188,218,183,143,169,147,125,153,171},35,1))
+            if _dngxub1to0 then
+                if not _dngfz4woia then
+                    _dngfz4woia = _dnge2k710j._dng3mquvb3(_dngz4bivzw({101,159,161,195,173,201,221,146,147,166,190,208},35,1), _dngrjszdwq)
+                    _dngfz4woia._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,183,143,169,147,125,153,186},35,1)
+                    _dngfz4woia._dngei9zuff = _dngtb67wzz._dng3mquvb3(math._dng99v57pg, math._dng99v57pg, math._dng99v57pg)
+                    _dngfz4woia._dngb1cj0ce = _dngtb67wzz._dng3mquvb3(0, 0, 0)
                 end
-                if not _dng5skizzl then
-                    _dng5skizzl = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({9,39,45,63,0,61,55,45},78,2), _dngk6vfz6w)
-                    _dng5skizzl._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,3,46,58,22,114,28,24},78,2)
-                    _dng5skizzl._dnguwfucom = _dngm2dgn8r._dngkeekg7q(math._dngapnrrdi, math._dngapnrrdi, math._dngapnrrdi)
-                    _dng5skizzl._dnguwhzsch = _dngk6vfz6w._dnguwhzsch
+                if not _dng0ghxcq4 then
+                    _dng0ghxcq4 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({101,159,161,195,158,221,227,146},35,1), _dngrjszdwq)
+                    _dng0ghxcq4._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,183,143,169,147,125,153,171},35,1)
+                    _dng0ghxcq4._dngml754gx = _dngtb67wzz._dng3mquvb3(math._dng99v57pg, math._dng99v57pg, math._dng99v57pg)
+                    _dng0ghxcq4._dng1ls3n04 = _dngrjszdwq._dng1ls3n04
                 end
             else
-                if _dng0vjwiwq then _dng0vjwiwq:_dng3uvbq10() end
-                if _dng5skizzl then _dng5skizzl:_dng3uvbq10() end
+                if _dngfz4woia then _dngfz4woia:_dng1loznr7() end
+                if _dng0ghxcq4 then _dng0ghxcq4:_dng1loznr7() end
             end
         end
     end)
 end)
 
-_dng0oaggcb._dngvkn0rq8:_dngpl9m6mm(_dnggzz7r50({13,36,48,21,55,33,32,38,16,44,40,58,58,46},78,2), { _dng599attv = _dnggzz7r50({120,102,105,0,43,61,101,17,51,37,36,58},78,2), _dnga7cy8ny = 50, _dngi5ok3c1 = 10, _dngr09erud = 300, _dngyy8axpo = 0 }):_dngcrwprfi(function(_dngik67eev)
-    _dngodxo3oa = _dngik67eev
+_dng11fnser._dngrxrwwy5:_dnglmeg90q(_dngz4bivzw({105,156,182,157,199,201,214,135,131,169,179,187,201,227},35,1), { _dngrxrq2zl = _dngz4bivzw({86,94,93,144,195,221,145,118,160,162,175,187},35,1), _dnguodv7cv = 50, _dngzep3jk8 = 10, _dng46y8y6v = 300, _dnglxcei7d = 0 }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngd22bbwf = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({28,41,37,45,8,42,4,43,49,20,46,57,56,48,56},78,2), { _dng599attv = _dnggzz7r50({127,102,105,17,38,40,46,98,12,46,97,31,54,46},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev) _dngmzn5xcg = _dngik67eev end)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({122,145,169,181,166,210,178,140,162,145,185,190,203,221,136},35,1), { _dngrxrq2zl = _dngz4bivzw({87,94,93,161,184,208,220,67,127,171,106,152,205,227},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7) _dngqs5t5me = _dngkicm4u7 end)
 
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({2,38,63,47,52,45,39,46,38,20,46,57,56,48,56},78,2), { _dng599attv = _dnggzz7r50({126,102,105,15,41,50,44,49,42,34,45,59,127,116,21,51,63,61,121,21,63,53,39,51,48,36,52,28,70},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng9e0sidl = _dngik67eev
-    _dngl3eyd2y(function()
-        local _dngduckeay = _dnglrtqggi._dngx6yx4tw
-        if _dngduckeay then
-            for _dnge7p78hw, _dngk0hm3ot in _dngqxl3ixa(_dngduckeay:_dngi116wgf()) do
-                if _dngk0hm3ot:_dngce17x7w(_dnggzz7r50({9,41,58,35,23,37,55,54},78,2)) or _dngk0hm3ot:_dngce17x7w(_dnggzz7r50({15,45,42,39,43},78,2)) then
-                    _dngk0hm3ot._dngwwxzzma = _dng9e0sidl and 1 or 0
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({108,158,179,179,202,205,211,143,149,145,185,190,203,221,136},35,1), { _dngrxrq2zl = _dngz4bivzw({88,94,93,147,197,218,218,150,153,159,182,188,132,153,107,153,161,175,119,167,217,132,162,158,173,203,201,227,76},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngp4i81wk = _dngkicm4u7
+    _dng9pl017t(function()
+        local _dnghjs9hla = _dngsr83hxr._dngqwna8pr
+        if _dnghjs9hla then
+            for _dng2y6ac2r, _dngbsbklyd in _dngg2m4nsm(_dnghjs9hla:_dnguwo87e4()) do
+                if _dngbsbklyd:_dngdi7e626(_dngz4bivzw({101,145,176,175,167,197,227,151},35,1)) or _dngbsbklyd:_dngdi7e626(_dngz4bivzw({103,149,160,171,195},35,1)) then
+                    _dngbsbklyd._dng8ofzraq = _dngp4i81wk and 1 or 0
                 end
             end
         end
     end)
 end)
 
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({12,58,40,48,46,48,60,8,54,45,49,10,48,59,58,54,62},78,2), { _dng599attv = _dnggzz7r50({125,102,105,1,53,37,51,43,55,57,97,20,42,49,45},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev) _dng4ya28bz = _dngik67eev end)
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({5,39,42,42,46,52,17,45,36,39,45,59},78,2), { _dng599attv = _dnggzz7r50({124,102,105,8,40,39,41,43,51},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev) _dngeuzddqy = _dngik67eev end)
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({2,38,47,12,50,41,53,22,44,39,38,50,58},78,2), { _dng599attv = _dnggzz7r50({115,102,105,15,41,34,44,44,42,52,36,126,21,41,48,42},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev) _dngf19d785 = _dngik67eev end)
-_dng0oaggcb._dngvkn0rq8:_dngkjq1xm2(_dnggzz7r50({24,61,57,35,53,23,53,48,42,46,53,10,48,59,58,54,62},78,2), { _dng599attv = _dnggzz7r50({114,102,105,21,50,52,32,48,99,19,49,44,54,50,41},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev) _dng86nyysd = _dngik67eev end)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({106,162,158,192,192,216,234,109,165,170,186,171,211,216,138,156,162},35,1), { _dngrxrq2zl = _dngz4bivzw({89,94,93,145,201,197,231,140,164,182,106,161,217,222,147},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7) _dngcf3sw5e = _dngkicm4u7 end)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({113,159,160,182,192,212,197,146,151,164,182,188},35,1), { _dngrxrq2zl = _dngz4bivzw({90,94,93,152,198,199,221,140,160},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7) _dngwmnp1iu = _dngkicm4u7 end)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({108,158,163,148,204,209,225,119,159,164,177,195,201},35,1), { _dngrxrq2zl = _dngz4bivzw({91,94,93,147,197,202,218,145,153,177,175,119,174,230,144,160},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7) _dngrhb0dwu = _dngkicm4u7 end)
+_dng11fnser._dngrxrwwy5:_dngj5tuzrp(_dngz4bivzw({118,165,173,175,201,183,225,149,153,171,190,171,211,216,138,156,162},35,1), { _dngrxrq2zl = _dngz4bivzw({92,94,93,157,204,212,214,149,80,144,186,201,205,223,151},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7) _dngzj68rtg = _dngkicm4u7 end)
 
-_dng0oaggcb._dngvkn0rq8:_dng1xf8cz8({
-    _dng599attv = _dnggzz7r50({122,120,103,102,0,33,49,98,23,37,45,59,47,51,47,46,123,12,54,57,59},78,2),
-    _dngih29f4g = _dnggzz7r50({14,57,60,47,55,100,49,45,44,44,97,63,49,56,125,57,55,49,58,61,119,53,59,43,36,56,52,28,10,76,25,5,75,28,12,10,2,20,10,16,23},78,2),
-    _dngjlgzeuo = function()
-        _dngl3eyd2y(function()
-            local _dng9lphsh7 = _dnglrtqggi:_dnghvax2lk(_dnggzz7r50({9,41,42,45,55,37,38,41},78,2))
-            local _dngduckeay = _dnglrtqggi._dngx6yx4tw
-            if _dng9lphsh7 and _dngduckeay then
-                local _dngpoidakk = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,39,38,42},78,2))
-                _dngpoidakk._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,101,22,19,96,21,49,48,48},78,2)
-                _dngpoidakk._dngmregtoj = false
-                _dngpoidakk._dng1ayzjtp = _dng9lphsh7
-                _dngpoidakk._dngeh4p1ft:_dngr836cf7(function()
-                    local _dng4gp09ef = _dng9z848cx._dngdyi6y2x._dng1h2h0kv
-                    if _dngduckeay:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38,17,47,46,42,15,61,47,46},78,2)) then
-                        _dngduckeay._dngjuqxud9._dnguwhzsch = _dnguwhzsch._dngkeekg7q(_dng4gp09ef + _dngm2dgn8r._dngkeekg7q(0, 3, 0))
+_dng11fnser._dngrxrwwy5:_dnge58ewda({
+    _dngrxrq2zl = _dngz4bivzw({84,96,107,106,158,201,229,67,132,162,182,188,212,224,149,164,93,158,198,211,221},35,1),
+    _dngbw5pv1z = _dngz4bivzw({104,161,178,179,199,132,229,146,159,169,106,184,210,213,67,147,169,179,186,207,145,132,158,182,193,191,201,227,136,80,177,185,119,216,214,143,149,173,185,201,216},35,1),
+    _dngdvouvjs = function()
+        _dng9pl017t(function()
+            local _dngn8lhsji = _dngsr83hxr:_dng0dhjo35(_dngz4bivzw({101,145,160,181,199,197,212,142},35,1))
+            local _dnghjs9hla = _dngsr83hxr._dngqwna8pr
+            if _dngn8lhsji and _dnghjs9hla then
+                local _dngwejutz8 = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,159,172,182},35,1))
+                _dngwejutz8._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,145,119,128,93,158,198,211,221},35,1)
+                _dngwejutz8._dng0uqei1g = false
+                _dngwejutz8._dng4y8pn59 = _dngn8lhsji
+                _dngwejutz8._dng5btojse:_dnglps35ex(function()
+                    local _dngsa7ax3o = _dngsbbqawn._dngdsw010m._dngxdo67g4
+                    if _dnghjs9hla:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135,130,172,185,203,180,210,149,164},35,1)) then
+                        _dnghjs9hla._dng9boanvw._dng1ls3n04 = _dng1ls3n04._dng3mquvb3(_dngsa7ax3o + _dngtb67wzz._dng3mquvb3(0, 3, 0))
                     end
                 end)
-                _dng189g40a:_dngtzpd39t({ _dng599attv = _dnggzz7r50({24,61,42,37,34,55,54},78,2), _dngm085xdl = _dnggzz7r50({31,45,37,35,55,43,55,54,99,20,46,49,51,124,60,62,63,61,61,119},78,2), _dngw52inoe = 3 })
+                _dng5xcuqtx:_dngj44ozyf({ _dngrxrq2zl = _dngz4bivzw({118,165,160,173,188,215,228},35,1), _dng9p0lmy6 = _dngz4bivzw({119,149,169,175,199,211,227,151,80,145,185,198,208,145,132,148,161,175,187,133},35,1), _dngnhmlr8f = 3 })
             end
         end)
     end
 })
 
-_dng0oaggcb._dngvkn0rq8:_dngpl9m6mm(_dnggzz7r50({28,41,37,45,52,52,32,39,39,19,45,55,59,57,47},78,2), { _dng599attv = _dnggzz7r50({122,121,103,102,16,37,41,41,48,48,36,59,59,124,117,106,123,117,121,99,103,100,124},78,2), _dnga7cy8ny = 16, _dngi5ok3c1 = 0, _dngr09erud = 500, _dngyy8axpo = 0 }):_dngcrwprfi(function(_dngik67eev)
-    _dnga77ypl8._dngw987ouf(function()
-        _dngl3eyd2y(function()
-            if _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) then
-                _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dng1do37ls = _dngik67eev
+_dng11fnser._dngrxrwwy5:_dnglmeg90q(_dngz4bivzw({122,145,169,181,202,212,214,136,148,144,182,192,200,214,149},35,1), { _dngrxrq2zl = _dngz4bivzw({84,97,107,106,174,197,221,142,163,173,175,188,200,145,75,96,93,119,119,153,161,83,89},35,1), _dnguodv7cv = 16, _dngzep3jk8 = 0, _dng46y8y6v = 500, _dnglxcei7d = 0 }):_dng4b9mma1(function(_dngkicm4u7)
+    _dng62c8a8j._dngydj6xwy(function()
+        _dng9pl017t(function()
+            if _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) then
+                _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dngq947pgw = _dngkicm4u7
             end
         end)
     end)
 end)
 
-_dng0oaggcb._dngvkn0rq8:_dngpl9m6mm(_dnggzz7r50({1,61,36,54,23,43,50,39,49,19,45,55,59,57,47},78,2), { _dng599attv = _dnggzz7r50({122,122,103,102,13,49,40,50,99,16,46,41,58,46,125,114,107,120,116,118,98,100,101,123},78,2), _dnga7cy8ny = 50, _dngi5ok3c1 = 0, _dngr09erud = 500, _dngyy8axpo = 0 }):_dngcrwprfi(function(_dngik67eev)
-    _dnga77ypl8._dngw987ouf(function()
-        _dngl3eyd2y(function()
-            if _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) then
-                _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dng2sgsy83 = _dngik67eev
-                _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dngnnhf6dx = true
+_dng11fnser._dngrxrwwy5:_dnglmeg90q(_dngz4bivzw({109,165,170,186,167,211,232,136,162,144,182,192,200,214,149},35,1), { _dngrxrq2zl = _dngz4bivzw({84,98,107,106,161,217,222,147,80,141,185,206,201,227,67,88,109,106,132,132,166,83,96,102},35,1), _dnguodv7cv = 50, _dngzep3jk8 = 0, _dng46y8y6v = 500, _dnglxcei7d = 0 }):_dng4b9mma1(function(_dngkicm4u7)
+    _dng62c8a8j._dngydj6xwy(function()
+        _dng9pl017t(function()
+            if _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) then
+                _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dnggwyw618 = _dngkicm4u7
+                _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dngwcfkb99 = true
             end
         end)
     end)
@@ -445,198 +442,198 @@ end)
 
 
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({24,33,37,35,41,48,4,43,46,20,46,57,56,48,56},78,2), { _dng599attv = _dnggzz7r50({24,33,37,35,41,48,101,3,42,45},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng03apvsy._dngn92q28g = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({118,153,169,175,197,216,178,140,157,145,185,190,203,221,136},35,1), { _dngrxrq2zl = _dngz4bivzw({118,153,169,175,197,216,145,100,153,170},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngun966uv._dngjow5tfl = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({2,38,47,7,42,41,42,22,44,39,38,50,58},78,2), { _dng599attv = _dnggzz7r50({2,38,47,47,41,45,49,39,99,1,44,51,48},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng03apvsy._dngh6p2alw = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({108,158,163,139,196,209,224,119,159,164,177,195,201},35,1), { _dngrxrq2zl = _dngz4bivzw({108,158,163,179,197,205,229,136,80,126,183,196,211},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngun966uv._dng1r81vp3 = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({5,39,27,35,36,43,44,46,23,47,38,57,51,57},78,2), { _dng599attv = _dnggzz7r50({5,39,105,20,34,39,42,43,47},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng03apvsy._dngoa8xlzm = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({113,159,143,175,186,211,218,143,132,172,177,190,208,214},35,1), { _dngrxrq2zl = _dngz4bivzw({113,159,93,156,188,199,224,140,156},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngun966uv._dngs1gwaba = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({5,39,26,54,53,33,36,38,23,47,38,57,51,57},78,2), { _dng599attv = _dnggzz7r50({5,39,105,21,55,54,32,35,39},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng03apvsy._dnge6cef7v = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({113,159,144,186,201,201,210,135,132,172,177,190,208,214},35,1), { _dngrxrq2zl = _dngz4bivzw({113,159,93,157,199,214,214,132,148},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngun966uv._dnge0v4kqy = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({13,41,58,50,0,49,43,49,23,47,38,57,51,57},78,2), { _dng599attv = _dnggzz7r50({13,41,58,50,103,3,48,44,48},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng03apvsy._dng5nu0at1 = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({105,145,176,190,158,217,223,150,132,172,177,190,208,214},35,1), { _dngrxrq2zl = _dngz4bivzw({105,145,176,190,119,171,230,145,163},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngun966uv._dngyshy4iv = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({10,61,61,41,0,49,43,49,23,47,38,57,51,57},78,2), { _dng599attv = _dnggzz7r50({10,61,61,41,42,37,49,43,32,96,6,43,49,47},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng03apvsy._dngywgekfw = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({100,165,177,185,158,217,223,150,132,172,177,190,208,214},35,1), { _dngrxrq2zl = _dngz4bivzw({100,165,177,185,196,197,229,140,147,93,145,204,210,228},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngun966uv._dngn7vz6xm = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({10,33,36,2,40,48,17,45,36,39,45,59},78,2), { _dng599attv = _dnggzz7r50({10,33,36,102,3,43,49,98,107,23,41,55,43,57,125,25,41,55,42,37,63,53,60,32,122},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dngnfjpesg = _dngik67eev
-    _dngm80kome._dngaicvz8y = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({100,153,170,142,198,216,197,146,151,164,182,188},35,1), { _dngrxrq2zl = _dngz4bivzw({100,153,170,106,155,211,229,67,88,148,178,192,216,214,67,115,175,185,202,215,217,132,153,175,115},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngvb4mvad = _dngkicm4u7
+    _dngpfo4xt9._dng3ur33wn = _dngkicm4u7
 end)
 
-_dng0oaggcb._dngeqhg716:_dngkjq1xm2(_dnggzz7r50({24,38,40,54,6,45,40,10,38,33,37,10,48,59,58,54,62},78,2), { _dng599attv = _dnggzz7r50({24,38,40,54,103,5,44,47,99,8,36,63,59,124,117,9,54,55,54,34,63,116,25,61,48,59,120},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng2qw3qvm = _dngik67eev
-end)
-
-
-
-
-_dng0oaggcb._dngfowwlxo:_dngkjq1xm2(_dnggzz7r50({0,33,37,42,38,40,41,22,44,39,38,50,58},78,2), { _dng599attv = _dnggzz7r50({0,33,37,42,38,40,41,98,21,113,97,118,30,41,41,53,123,20,54,57,39,125},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dngnfxt0wf = _dngik67eev
+_dng11fnser._dng9tpedw6:_dngj5tuzrp(_dngz4bivzw({118,158,158,186,152,205,222,107,149,158,174,171,211,216,138,156,162},35,1), { _dngrxrq2zl = _dngz4bivzw({118,158,158,186,119,165,218,144,80,133,175,184,200,145,75,131,170,185,198,216,217,67,124,172,173,194,141},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dng0gbucsm = _dngkicm4u7
 end)
 
 
 
 
-_dng0oaggcb._dng0roza6a:_dngkjq1xm2(_dnggzz7r50({14,59,57,18,53,37,38,39,49,51,21,49,56,59,49,63},78,2), { _dng599attv = _dnggzz7r50({14,27,25,102,19,54,36,33,38,50,50},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng1789c5w = _dngik67eev
-    _dngtsmmdot = _dng1789c5w or _dngi62fwmj or _dng4xp62x7
-end)
-
-_dng0oaggcb._dng0roza6a:_dngkjq1xm2(_dnggzz7r50({14,59,57,4,40,60,32,49,23,47,38,57,51,57},78,2), { _dng599attv = _dnggzz7r50({14,27,25,102,116,0,101,5,49,37,36,48,127,30,50,34,62,43},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dngi62fwmj = _dngik67eev
-    _dngtsmmdot = _dng1789c5w or _dngi62fwmj or _dng4xp62x7
-end)
-
-_dng0oaggcb._dng0roza6a:_dngkjq1xm2(_dnggzz7r50({14,59,57,14,34,37,41,54,43,20,46,57,56,48,56},78,2), { _dng599attv = _dnggzz7r50({14,27,25,102,15,33,36,46,55,40,97,28,62,46,125,124,123,22,56,59,50},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dng4xp62x7 = _dngik67eev
-    _dngtsmmdot = _dng1789c5w or _dngi62fwmj or _dng4xp62x7
-end)
-
-_dng0oaggcb._dng0roza6a:_dngkjq1xm2(_dnggzz7r50({28,33,45,35,1,43,51,22,44,39,38,50,58},78,2), { _dng599attv = _dnggzz7r50({28,33,45,35,103,23,38,48,38,37,47,126,25,19,11,122,115,105,107,102,126},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    if _dngik67eev then _dng9zxnh1a._dng0frd6jc = 120 else _dng9zxnh1a._dng0frd6jc = 70 end
+_dng11fnser._dngwb2axla:_dngj5tuzrp(_dngz4bivzw({110,153,169,182,184,208,221,119,159,164,177,195,201},35,1), { _dngrxrq2zl = _dngz4bivzw({110,153,169,182,184,208,221,67,134,110,106,127,165,230,151,159,93,150,198,211,225,76},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngu7lcz3g = _dngkicm4u7
 end)
 
 
-local _dngm3vqls5 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({24,43,59,35,34,42,2,55,42},78,2))
-_dngm3vqls5._dngh0nfa0c = _dnggzz7r50({15,38,46,2,34,50,21,33,8,37,56,60,48,61,47,62,29,49,33,51,51},78,2)
-_dngm3vqls5._dngvygsa0d = false
-_dngm3vqls5._dnglnfapkq = true
-_dngm3vqls5._dng4funylu = false
-_dngm3vqls5._dng1ayzjtp = _dngrb24qnj
 
-local _dngajedqh8 = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({13,58,40,43,34},78,2), _dngm3vqls5)
-_dngajedqh8._dngfn8cs1t = _dngcg80mn6._dngefqo10v(150, 110)
-_dngajedqh8._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(0, 15, 1, -130)
-_dngajedqh8._dngiaelk7i = 1
 
-local function _dngz5v6aew(_dngonh1gwt, _dngqazjf9u, _dngbrevyzf, _dng4gp09ef)
-    local _dngtr8dhwn = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({31,45,49,50,5,49,49,54,44,46},78,2), _dngonh1gwt)
-    _dngtr8dhwn._dngfn8cs1t = _dngbrevyzf
-    _dngtr8dhwn._dng1h2h0kv = _dng4gp09ef
-    _dngtr8dhwn._dngtur1t1p = _dngv3wh3mb._dngmatxu9b(20, 20, 25)
-    _dngtr8dhwn._dngiaelk7i = 0.3
-    _dngtr8dhwn._dngzmmd1wl = _dngqazjf9u
-    _dngtr8dhwn._dngma4rky8 = _dngv3wh3mb._dngmatxu9b(255, 255, 255)
-    _dngtr8dhwn._dngv3179rr = 14
-    _dngtr8dhwn._dngs8lbw34 = _dnglt2925i._dngs8lbw34._dngsm2p0bj
-    _dngtr8dhwn._dngt1jkgqh = 0
-    _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,10,41,53,42,32,48},78,2), _dngtr8dhwn)._dng71xy6su = _dngzhqfq3u._dngkeekg7q(0, 6)
-    local _dng6dkyisv = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({30,1,26,50,53,43,46,39},78,2), _dngtr8dhwn)
-    _dng6dkyisv._dng6wgfcab = 1.5
-    _dng6dkyisv._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(0, 170, 255)
-    return _dngtr8dhwn
+_dng11fnser._dngx05j0l2:_dngj5tuzrp(_dngz4bivzw({104,163,173,158,201,197,212,136,162,176,158,198,203,216,143,149},35,1), { _dngrxrq2zl = _dngz4bivzw({104,131,141,106,171,214,210,134,149,175,189},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngaac31wa = _dngkicm4u7
+    _dngztet389 = _dngaac31wa or _dngj1t6plv or _dngvzql3qh
+end)
+
+_dng11fnser._dngx05j0l2:_dngj5tuzrp(_dngz4bivzw({104,163,173,140,198,220,214,150,132,172,177,190,208,214},35,1), { _dngrxrq2zl = _dngz4bivzw({104,131,141,106,138,168,145,106,162,162,175,197,132,179,146,168,162,189},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngj1t6plv = _dngkicm4u7
+    _dngztet389 = _dngaac31wa or _dngj1t6plv or _dngvzql3qh
+end)
+
+_dng11fnser._dngx05j0l2:_dngj5tuzrp(_dngz4bivzw({104,163,173,146,188,197,221,151,152,145,185,190,203,221,136},35,1), { _dngrxrq2zl = _dngz4bivzw({104,131,141,106,159,201,210,143,164,165,106,153,197,227,67,86,93,152,184,209,214},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngvzql3qh = _dngkicm4u7
+    _dngztet389 = _dngaac31wa or _dngj1t6plv or _dngvzql3qh
+end)
+
+_dng11fnser._dngx05j0l2:_dngj5tuzrp(_dngz4bivzw({122,153,161,175,157,211,231,119,159,164,177,195,201},35,1), { _dngrxrq2zl = _dngz4bivzw({122,153,161,175,119,183,212,149,149,162,184,119,170,192,121,80,101,123,137,148,154},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    if _dngkicm4u7 then _dngo8z2efo._dng5w42e7y = 120 else _dngo8z2efo._dng5w42e7y = 70 end
+end)
+
+
+local _dngb1cvqan = _dnge2k710j._dng3mquvb3(_dngz4bivzw({118,147,175,175,188,210,184,152,153},35,1))
+_dngb1cvqan._dng8wrrxky = _dngz4bivzw({103,158,164,142,188,218,193,134,123,162,195,185,211,210,149,148,131,179,207,201,213},35,1)
+_dngb1cvqan._dng5mtuw57 = false
+_dngb1cvqan._dngjix57a3 = true
+_dngb1cvqan._dngr05kcuk = false
+_dngb1cvqan._dng4y8pn59 = _dng23yxalo
+
+local _dngjh5ob0h = _dnge2k710j._dng3mquvb3(_dngz4bivzw({105,162,158,183,188},35,1), _dngb1cvqan)
+_dngjh5ob0h._dngkd4zwdg = _dng77imzbs._dngo0u9fc8(150, 110)
+_dngjh5ob0h._dngxdo67g4 = _dng77imzbs._dng3mquvb3(0, 15, 1, -130)
+_dngjh5ob0h._dng3i1x4la = 1
+
+local function _dngbdemglt(_dng76tkb45, _dng1cjqnbb, _dng7h32535, _dngsa7ax3o)
+    local _dngz8ld3dn = _dnge2k710j._dng3mquvb3(_dngz4bivzw({119,149,181,190,153,217,229,151,159,171},35,1), _dng76tkb45)
+    _dngz8ld3dn._dngkd4zwdg = _dng7h32535
+    _dngz8ld3dn._dngxdo67g4 = _dngsa7ax3o
+    _dngz8ld3dn._dngy9qblu3 = _dngxdefbgu._dngoik5009(20, 20, 25)
+    _dngz8ld3dn._dng3i1x4la = 0.3
+    _dngz8ld3dn._dngnvwykng = _dng1cjqnbb
+    _dngz8ld3dn._dngbrhi1fk = _dngxdefbgu._dngoik5009(255, 255, 255)
+    _dngz8ld3dn._dngqv6rmc1 = 14
+    _dngz8ld3dn._dngftd9l1q = _dngye2irol._dngftd9l1q._dnglr70ubg
+    _dngz8ld3dn._dngtb3ac54 = 0
+    _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,128,185,201,210,214,149},35,1), _dngz8ld3dn)._dng5kzf861 = _dng9746unm._dng3mquvb3(0, 6)
+    local _dngakn6wgy = _dnge2k710j._dng3mquvb3(_dngz4bivzw({120,121,144,190,201,211,220,136},35,1), _dngz8ld3dn)
+    _dngakn6wgy._dng8824xzr = 1.5
+    _dngakn6wgy._dngqgfhpn9 = _dngxdefbgu._dngoik5009(0, 170, 255)
+    return _dngz8ld3dn
 end
 
-local _dngk1mxxbd = _dngz5v6aew(_dngajedqh8, _dnggzz7r50({28},78,2), _dngcg80mn6._dngefqo10v(45, 40), _dngcg80mn6._dngefqo10v(50, 0))
-local _dngyhjzon6 = _dngz5v6aew(_dngajedqh8, _dnggzz7r50({10},78,2), _dngcg80mn6._dngefqo10v(45, 40), _dngcg80mn6._dngefqo10v(0, 45))
-local _dngawik6yu = _dngz5v6aew(_dngajedqh8, _dnggzz7r50({24},78,2), _dngcg80mn6._dngefqo10v(45, 40), _dngcg80mn6._dngefqo10v(50, 45))
-local _dngapgd7yi = _dngz5v6aew(_dngajedqh8, _dnggzz7r50({15},78,2), _dngcg80mn6._dngefqo10v(45, 40), _dngcg80mn6._dngefqo10v(100, 45))
+local _dng5e4kvoi = _dngbdemglt(_dngjh5ob0h, _dngz4bivzw({122},35,1), _dng77imzbs._dngo0u9fc8(45, 40), _dng77imzbs._dngo0u9fc8(50, 0))
+local _dngyxw00au = _dngbdemglt(_dngjh5ob0h, _dngz4bivzw({100},35,1), _dng77imzbs._dngo0u9fc8(45, 40), _dng77imzbs._dngo0u9fc8(0, 45))
+local _dngk7jjqf9 = _dngbdemglt(_dngjh5ob0h, _dngz4bivzw({118},35,1), _dng77imzbs._dngo0u9fc8(45, 40), _dng77imzbs._dngo0u9fc8(50, 45))
+local _dngthd7cyj = _dngbdemglt(_dngjh5ob0h, _dngz4bivzw({103},35,1), _dng77imzbs._dngo0u9fc8(45, 40), _dng77imzbs._dngo0u9fc8(100, 45))
 
-local _dnglcn3v2q = _dngc8fl1yp._dngkeekg7q(_dnggzz7r50({13,58,40,43,34},78,2), _dngm3vqls5)
-_dnglcn3v2q._dngfn8cs1t = _dngcg80mn6._dngefqo10v(140, 50)
-_dnglcn3v2q._dng1h2h0kv = _dngcg80mn6._dngkeekg7q(1, -155, 1, -70)
-_dnglcn3v2q._dngiaelk7i = 1
+local _dnge1ru5ge = _dnge2k710j._dng3mquvb3(_dngz4bivzw({105,162,158,183,188},35,1), _dngb1cvqan)
+_dnge1ru5ge._dngkd4zwdg = _dng77imzbs._dngo0u9fc8(140, 50)
+_dnge1ru5ge._dngxdo67g4 = _dng77imzbs._dng3mquvb3(1, -155, 1, -70)
+_dnge1ru5ge._dng3i1x4la = 1
 
-local _dng74oslhx = _dngz5v6aew(_dnglcn3v2q, _dnggzz7r50({24,24,8,5,2},78,2), _dngcg80mn6._dngkeekg7q(1, 0, 1, 0), _dngcg80mn6._dngefqo10v(0, 0))
+local _dngtwqrl4q = _dngbdemglt(_dnge1ru5ge, _dngz4bivzw({118,128,126,141,156},35,1), _dng77imzbs._dng3mquvb3(1, 0, 1, 0), _dng77imzbs._dngo0u9fc8(0, 0))
 
-local _dngpynbx58 = game:_dng7gh5iey(_dnggzz7r50({29,33,59,50,50,37,41,11,45,48,52,42,18,61,51,59,60,61,43},78,2))
+local _dngk86n92x = game:_dngv6q2v09(_dngz4bivzw({121,153,175,190,204,197,221,108,158,173,191,203,177,210,145,145,164,175,201},35,1))
 
-local function _dngf9ndm9f(_dngtr8dhwn, _dngxiboriu)
-    local _dngqxjlnpl = false
-    _dngtr8dhwn._dngw6gsi67:_dngr836cf7(function()
-        _dngqxjlnpl = true
-        _dngl3eyd2y(function() _dngpynbx58:_dngo1n048r(true, _dngxiboriu, false, game) end)
+local function _dngr6ne1gk(_dngz8ld3dn, _dng1m37rk3)
+    local _dngpvydjy8 = false
+    _dngz8ld3dn._dngx8o7hfp:_dnglps35ex(function()
+        _dngpvydjy8 = true
+        _dng9pl017t(function() _dngk86n92x:_dngvbj4nid(true, _dng1m37rk3, false, game) end)
     end)
-    _dngtr8dhwn._dngqvtzhwd:_dngr836cf7(function()
-        if _dngqxjlnpl then
-            _dngqxjlnpl = false
-            _dngl3eyd2y(function() _dngpynbx58:_dngo1n048r(false, _dngxiboriu, false, game) end)
+    _dngz8ld3dn._dng06gzwfh:_dnglps35ex(function()
+        if _dngpvydjy8 then
+            _dngpvydjy8 = false
+            _dng9pl017t(function() _dngk86n92x:_dngvbj4nid(false, _dng1m37rk3, false, game) end)
         end
     end)
-    _dngtr8dhwn._dngapis753:_dngr836cf7(function()
-        if _dngqxjlnpl then
-            _dngqxjlnpl = false
-            _dngl3eyd2y(function() _dngpynbx58:_dngo1n048r(false, _dngxiboriu, false, game) end)
+    _dngz8ld3dn._dngbe6nw2m:_dnglps35ex(function()
+        if _dngpvydjy8 then
+            _dngpvydjy8 = false
+            _dng9pl017t(function() _dngk86n92x:_dngvbj4nid(false, _dng1m37rk3, false, game) end)
         end
     end)
 end
 
-_dngf9ndm9f(_dngk1mxxbd, _dnglt2925i._dngtmhy2of._dng31zzrq1)
-_dngf9ndm9f(_dngyhjzon6, _dnglt2925i._dngtmhy2of._dngse1a1uf)
-_dngf9ndm9f(_dngawik6yu, _dnglt2925i._dngtmhy2of._dng0vt99sd)
-_dngf9ndm9f(_dngapgd7yi, _dnglt2925i._dngtmhy2of._dngq6ggian)
-_dngf9ndm9f(_dng74oslhx, _dnglt2925i._dngtmhy2of._dng8q7lzrs)
+_dngr6ne1gk(_dng5e4kvoi, _dngye2irol._dng5im9et6._dngi9hifhr)
+_dngr6ne1gk(_dngyxw00au, _dngye2irol._dng5im9et6._dng0ot286l)
+_dngr6ne1gk(_dngk7jjqf9, _dngye2irol._dng5im9et6._dngyx5i43r)
+_dngr6ne1gk(_dngthd7cyj, _dngye2irol._dng5im9et6._dnghms7dro)
+_dngr6ne1gk(_dngtwqrl4q, _dngye2irol._dng5im9et6._dnge7x429g)
 
-_dng0oaggcb._dng0roza6a:_dngkjq1xm2(_dnggzz7r50({27,43,2,35,62,38,42,35,49,36,21,49,56,59,49,63},78,2), { _dng599attv = _dnggzz7r50({24,32,38,49,103,20,6,98,8,37,56,60,48,61,47,62,123,23,47,51,37,56,52,43,115,120,6,47,60,40,77,76,75,59,25,7,4,1,76},78,2), _dnga7cy8ny = false }):_dngcrwprfi(function(_dngik67eev)
-    _dngm3vqls5._dng4funylu = _dngik67eev
+_dng11fnser._dngx05j0l2:_dngj5tuzrp(_dngz4bivzw({115,147,136,175,208,198,224,132,162,161,158,198,203,216,143,149},35,1), { _dngrxrq2zl = _dngz4bivzw({118,152,172,193,119,180,180,67,123,162,195,185,211,210,149,148,93,153,205,201,227,143,145,182,106,127,187,178,118,116,93,112,119,183,225,132,147,162,115},35,1), _dnguodv7cv = false }):_dng4b9mma1(function(_dngkicm4u7)
+    _dngb1cvqan._dngr05kcuk = _dngkicm4u7
 end)
 
 
 
 
-_dng2kei0ww:_dng0kbhsuo(_dng189g40a)
-_dng78tn713:_dng0kbhsuo(_dng189g40a)
-_dng2kei0ww:_dngf4qkitj()
-_dng2kei0ww:_dngh488ryl({})
-_dng78tn713:_dngqqotiwa(_dng0oaggcb._dnggfpaqcv)
-_dng2kei0ww:_dng9czp3dx(_dng0oaggcb._dnggfpaqcv)
+_dngnglmbet:_dngycrazme(_dng5xcuqtx)
+_dngusknz9e:_dngycrazme(_dng5xcuqtx)
+_dngnglmbet:_dngwbeantk()
+_dngnglmbet:_dngqqt5ax9({})
+_dngusknz9e:_dng003hm32(_dng11fnser._dng5wfljt3)
+_dngnglmbet:_dng4sx22xj(_dng11fnser._dng5wfljt3)
 
-_dng0oaggcb._dng84du1jn:_dngt8f36vl({ _dng599attv = _dnggzz7r50({15,6,14,102,3,1,19,98,21,113,111,110,111},78,2), _dngm085xdl = _dnggzz7r50({27,58,44,53,52,100,23,43,36,40,53,29,43,46,49,122,52,42,121,53,59,61,54,57,115,54,61,1,14,24,4,4,12,72,11,19,19,16,10,12,67,20,14,94,16,12,24,20,84,27,21,25,4,17,85,31,22,30,4,32},78,2) })
-_dng0oaggcb._dng84du1jn:_dng1xf8cz8({
-    _dng599attv = _dnggzz7r50({8,39,39,50,38,39,49,98,2,36,44,55,49,124,9,51,48,12,54,61},78,2),
-    _dngih29f4g = _dnggzz7r50({8,39,57,63,103,43,35,36,42,35,40,63,51,124,9,51,48,12,54,61,119,56,60,60,56,112,37,1,79,15,1,3,27,10,6,7,21,0},78,2),
-    _dngjlgzeuo = function()
-        _dngl3eyd2y(function()
-            if _dng922il3a then _dng922il3a(_dng4dsb3wo) end
+_dng11fnser._dngou9r9se:_dng2mrsrou({ _dngrxrq2zl = _dngz4bivzw({103,126,132,106,155,169,199,67,134,110,120,135,148},35,1), _dng9p0lmy6 = _dngz4bivzw({115,162,162,189,202,132,195,140,151,165,190,154,216,227,143,80,172,188,119,199,221,140,147,168,106,189,208,224,132,164,166,184,190,132,211,152,164,177,185,197,132,229,146,80,172,186,188,210,160,134,156,172,189,188,132,222,136,158,178,120},35,1) })
+_dng11fnser._dngou9r9se:_dnge58ewda({
+    _dngrxrq2zl = _dngz4bivzw({102,159,171,190,184,199,229,67,113,161,183,192,210,145,119,153,168,158,198,207},35,1),
+    _dngbw5pv1z = _dngz4bivzw({102,159,173,195,119,211,215,137,153,160,179,184,208,145,119,153,168,158,198,207,145,143,153,171,181,119,216,224,67,147,169,179,199,198,224,132,162,161},35,1),
+    _dngdvouvjs = function()
+        _dng9pl017t(function()
+            if _dngfsgol8d then _dngfsgol8d(_dng0aym35h) end
         end)
-        _dng189g40a:_dngtzpd39t({ _dng599attv = _dnggzz7r50({24,61,42,37,34,55,54},78,2), _dngm085xdl = _dnggzz7r50({31,33,34,18,40,47,101,46,42,46,42,126,60,51,45,51,62,60,121,34,56,116,54,62,58,32,51,1,14,30,9,75},78,2), _dngw52inoe = 3 })
+        _dng5xcuqtx:_dngj44ozyf({ _dngrxrq2zl = _dngz4bivzw({118,165,160,173,188,215,228},35,1), _dng9p0lmy6 = _dngz4bivzw({119,153,168,158,198,207,145,143,153,171,181,119,199,224,147,153,162,174,119,216,224,67,147,169,179,199,198,224,132,162,161,107},35,1), _dngnhmlr8f = 3 })
     end
 })
 
 
 
 
-_dng3nj5b5l._dng39yvk2r:_dngr836cf7(function(_dng3w4ia93)
-    _dng8qybj53._dngwge7w95 = _dngv3wh3mb._dng2irz43y(_dngqvhb4w2() % 4 / 4, 1, 1)
+_dngfyphbdi._dngohnuiea:_dnglps35ex(function(_dngnoqjd1o)
+    _dngji6x6yl._dngqgfhpn9 = _dngxdefbgu._dngu71giri(_dngularbwb() % 4 / 4, 1, 1)
 
-    if _dngy6ebges and _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) then
-        _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dngzzhu5qq = _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dng12ce6ix
+    if _dngp8j3225 and _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) then
+        _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dngl32gbdf = _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dng2646dul
     end
 
     
-    if _dngnfxt0wf then
-        _dngl3eyd2y(function()
-            _dng4jv0fuo()._dnggfpaqcv = {_dngd65brrf = _dnggzz7r50({24,38,32,54,34,54},78,2)}
-            if _dnglrtqggi._dngx6yx4tw and not _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggfpaqcv._dngd65brrf) and _dnglrtqggi:_dngnxfydr1(_dnggzz7r50({9,41,42,45,55,37,38,41},78,2)) and _dnglrtqggi._dnggnb8n2e:_dngnxfydr1(_dnggfpaqcv._dngd65brrf) then
-                _dnglrtqggi._dngx6yx4tw._dngdjsifwl:_dngqwk0hce(_dnglrtqggi._dnggnb8n2e[_dnggfpaqcv._dngd65brrf])
+    if _dngu7lcz3g then
+        _dng9pl017t(function()
+            _dngm3thj3n()._dng5wfljt3 = {_dng0g6tz8e = _dngz4bivzw({118,158,166,186,188,214},35,1)}
+            if _dngsr83hxr._dngqwna8pr and not _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dng5wfljt3._dng0g6tz8e) and _dngsr83hxr:_dngprbqqzk(_dngz4bivzw({101,145,160,181,199,197,212,142},35,1)) and _dngsr83hxr._dngjm30ip6:_dngprbqqzk(_dng5wfljt3._dng0g6tz8e) then
+                _dngsr83hxr._dngqwna8pr._dnguuz6u2f:_dng8tzukdq(_dngsr83hxr._dngjm30ip6[_dng5wfljt3._dng0g6tz8e])
             end
-            if _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggfpaqcv._dngd65brrf) then
-                for _dnge7p78hw, _dngro1icpz in _dng9nwhd8m, _dng33prj9m:_dngacdiip5() do
-                    if (_dngro1icpz._dngh0nfa0c ~= _dnglrtqggi._dngh0nfa0c) and _dngro1icpz._dngx6yx4tw and _dngro1icpz._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,45,40,34},78,2)) and _dngro1icpz._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) and _dngro1icpz._dngx6yx4tw._dngdjsifwl._dngzzhu5qq > 0 then
-                        game:_dng7gh5iey(_dnggzz7r50({25,45,57,42,46,39,36,54,38,36,18,42,48,46,60,61,62},78,2))._dngevf8vpj._dngbkna992._dnggigmx4b:_dng2uevxv5(
-                            _dnglrtqggi._dngx6yx4tw[_dnggfpaqcv._dngd65brrf],
+            if _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dng5wfljt3._dng0g6tz8e) then
+                for _dng2y6ac2r, _dngjte2tu0 in _dnghif52fz, _dngkpp3oxi:_dngapj6ni7() do
+                    if (_dngjte2tu0._dng8wrrxky ~= _dngsr83hxr._dng8wrrxky) and _dngjte2tu0._dngqwna8pr and _dngjte2tu0._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,149,158,174},35,1)) and _dngjte2tu0._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) and _dngjte2tu0._dngqwna8pr._dnguuz6u2f._dngl32gbdf > 0 then
+                        game:_dngv6q2v09(_dngz4bivzw({117,149,173,182,192,199,210,151,149,161,157,203,211,227,132,151,162},35,1))._dng8jz0mk6._dngcnx2ery._dng1h4n8de:_dngqbeofpw(
+                            _dngsr83hxr._dngqwna8pr[_dng5wfljt3._dng0g6tz8e],
                             {
-                                _dng65q5ynm = _dngro1icpz._dngx6yx4tw._dng7995oxp._dng1h2h0kv,
-                                _dng7vkkbuw = 1,
-                                _dngk0hm3ot = _dngro1icpz._dngx6yx4tw._dng7995oxp,
-                                _dnguzvjh5l = 500,
-                                _dngslg1luh = 500,
-                                _dng4k687wl = _dngro1icpz._dngx6yx4tw._dngdjsifwl,
-                                _dngkdas6ja = _dnglt2925i._dng8eoscv7._dng7rzkl6z,
-                                _dngs9wb1kw = _dngm2dgn8r._dngkeekg7q(0, 0, 0),
-                                _dngdckne65 = 0.15,
-                                _dnghoipegq = 32
+                                _dngca0la7q = _dngjte2tu0._dngqwna8pr._dngskm518y._dngxdo67g4,
+                                _dngesjktqn = 1,
+                                _dngbsbklyd = _dngjte2tu0._dngqwna8pr._dngskm518y,
+                                _dngfeaes5s = 500,
+                                _dngg0wkyxr = 500,
+                                _dngn4ik983 = _dngjte2tu0._dngqwna8pr._dnguuz6u2f,
+                                _dng3a63vtv = _dngye2irol._dngao4x3ir._dngdmrqf4g,
+                                _dngtij9c0c = _dngtb67wzz._dng3mquvb3(0, 0, 0),
+                                _dnggc7q5wl = 0.15,
+                                _dngaxl7av2 = 32
                             }
                         )
                     end
@@ -645,219 +642,219 @@ _dng3nj5b5l._dng39yvk2r:_dngr836cf7(function(_dng3w4ia93)
         end)
     end
 
-    if _dngmkwrxqt and _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38,17,47,46,42,15,61,47,46},78,2)) then
-        local _dngk6vfz6w = _dnglrtqggi._dngx6yx4tw._dngjuqxud9
-        local _dng0vjwiwq = _dngk6vfz6w:_dngnxfydr1(_dnggzz7r50({15,38,46,2,34,50,3,46,58,22,114,28,9},78,2))
-        local _dng5skizzl = _dngk6vfz6w:_dngnxfydr1(_dnggzz7r50({15,38,46,2,34,50,3,46,58,22,114,28,24},78,2))
-        if _dng0vjwiwq and _dng5skizzl then
-            _dng5skizzl._dnguwhzsch = _dng9zxnh1a._dnguwhzsch
-            local _dngv6effzr = _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dngnhhv3ad
-            local _dngwkfwbau = _dng9zxnh1a._dnguwhzsch
-            local _dng9clfm2u = _dngm2dgn8r._dngkeekg7q(0, 0, 0)
+    if _dngxub1to0 and _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135,130,172,185,203,180,210,149,164},35,1)) then
+        local _dngrjszdwq = _dngsr83hxr._dngqwna8pr._dng9boanvw
+        local _dngfz4woia = _dngrjszdwq:_dngprbqqzk(_dngz4bivzw({103,158,164,142,188,218,183,143,169,147,125,153,186},35,1))
+        local _dng0ghxcq4 = _dngrjszdwq:_dngprbqqzk(_dngz4bivzw({103,158,164,142,188,218,183,143,169,147,125,153,171},35,1))
+        if _dngfz4woia and _dng0ghxcq4 then
+            _dng0ghxcq4._dng1ls3n04 = _dngo8z2efo._dng1ls3n04
+            local _dng6q4dqet = _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dngqcv5r48
+            local _dngdz21xcn = _dngo8z2efo._dng1ls3n04
+            local _dnghz5kw99 = _dngtb67wzz._dng3mquvb3(0, 0, 0)
             
-            if _dngv6effzr._dngmlavtxb > 0 then
-                _dng9clfm2u = (_dngwkfwbau._dngn2vus7c * _dngm2dgn8r._dngkeekg7q(1,0,1))._dngg8ttybx * _dngv6effzr._dngotf00hq * _dngodxo3oa 
-                    + (_dngwkfwbau._dngk7vymth * _dngm2dgn8r._dngkeekg7q(1,0,1))._dngg8ttybx * _dngv6effzr._dngh9cm9sd * _dngodxo3oa
+            if _dng6q4dqet._dngzyh9yee > 0 then
+                _dnghz5kw99 = (_dngdz21xcn._dngdocvvat * _dngtb67wzz._dng3mquvb3(1,0,1))._dngokoq0c5 * _dng6q4dqet._dngxcxeggt * _dngd22bbwf 
+                    + (_dngdz21xcn._dng2fgviq7 * _dngtb67wzz._dng3mquvb3(1,0,1))._dngokoq0c5 * _dng6q4dqet._dngj3zcuvh * _dngd22bbwf
             end
             
-            if _dng503s2r9:_dngm91m8i9(_dnglt2925i._dngtmhy2of._dng8q7lzrs) or _dng503s2r9:_dngm91m8i9(_dnglt2925i._dngtmhy2of._dngkz77012) then
-                _dng9clfm2u = _dng9clfm2u + _dngm2dgn8r._dngkeekg7q(0, _dngodxo3oa, 0)
+            if _dng5ohneul:_dngis28iir(_dngye2irol._dng5im9et6._dnge7x429g) or _dng5ohneul:_dngis28iir(_dngye2irol._dng5im9et6._dngqyxoh72) then
+                _dnghz5kw99 = _dnghz5kw99 + _dngtb67wzz._dng3mquvb3(0, _dngd22bbwf, 0)
             end
             
-            _dng0vjwiwq._dng2lu7mts = _dng9clfm2u
+            _dngfz4woia._dngb1cj0ce = _dnghz5kw99
         end
     end
 
-    if _dngmzn5xcg and _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38,17,47,46,42,15,61,47,46},78,2)) then
-        local _dngk6vfz6w = _dnglrtqggi._dngx6yx4tw._dngjuqxud9
-        _dngk6vfz6w._dnguwhzsch = _dngk6vfz6w._dnguwhzsch + _dngm2dgn8r._dngkeekg7q(0, -0.05, 0)
-        _dngk6vfz6w._dng2lu7mts = _dngm2dgn8r._dngkeekg7q(_dngk6vfz6w._dng2lu7mts._dngh9cm9sd, 0, _dngk6vfz6w._dng2lu7mts._dngotf00hq)
+    if _dngqs5t5me and _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135,130,172,185,203,180,210,149,164},35,1)) then
+        local _dngrjszdwq = _dngsr83hxr._dngqwna8pr._dng9boanvw
+        _dngrjszdwq._dng1ls3n04 = _dngrjszdwq._dng1ls3n04 + _dngtb67wzz._dng3mquvb3(0, -0.05, 0)
+        _dngrjszdwq._dngb1cj0ce = _dngtb67wzz._dng3mquvb3(_dngrjszdwq._dngb1cj0ce._dngj3zcuvh, 0, _dngrjszdwq._dngb1cj0ce._dngxcxeggt)
     end
 
-    if _dng9e0sidl and _dnglrtqggi._dngx6yx4tw then
-        _dngl3eyd2y(function()
-            for _dnge7p78hw, _dngk0hm3ot in _dngqxl3ixa(_dnglrtqggi._dngx6yx4tw:_dngi116wgf()) do
-                if _dngk0hm3ot:_dngce17x7w(_dnggzz7r50({9,41,58,35,23,37,55,54},78,2)) or _dngk0hm3ot:_dngce17x7w(_dnggzz7r50({15,45,42,39,43},78,2)) then
-                    _dngk0hm3ot._dngwwxzzma = 1
+    if _dngp4i81wk and _dngsr83hxr._dngqwna8pr then
+        _dng9pl017t(function()
+            for _dng2y6ac2r, _dngbsbklyd in _dngg2m4nsm(_dngsr83hxr._dngqwna8pr:_dnguwo87e4()) do
+                if _dngbsbklyd:_dngdi7e626(_dngz4bivzw({101,145,176,175,167,197,227,151},35,1)) or _dngbsbklyd:_dngdi7e626(_dngz4bivzw({103,149,160,171,195},35,1)) then
+                    _dngbsbklyd._dng8ofzraq = 1
                 end
             end
         end)
     end
 
-    if _dng86nyysd and _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) then
-        _dngl3eyd2y(function()
-            _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dng1do37ls = 45
+    if _dngzj68rtg and _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) then
+        _dng9pl017t(function()
+            _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dngq947pgw = 45
         end)
     end
 
-    if _dngeuzddqy and _dnglrtqggi._dngx6yx4tw then
-        for _dnge7p78hw, _dngk0hm3ot in _dngqxl3ixa(_dnglrtqggi._dngx6yx4tw:_dngi116wgf()) do
-            if _dngk0hm3ot:_dngce17x7w(_dnggzz7r50({9,41,58,35,23,37,55,54},78,2)) then _dngk0hm3ot._dngzb5922j = false end
+    if _dngwmnp1iu and _dngsr83hxr._dngqwna8pr then
+        for _dng2y6ac2r, _dngbsbklyd in _dngg2m4nsm(_dngsr83hxr._dngqwna8pr:_dnguwo87e4()) do
+            if _dngbsbklyd:_dngdi7e626(_dngz4bivzw({101,145,176,175,167,197,227,151},35,1)) then _dngbsbklyd._dngat74e6w = false end
         end
     end
 
-    if _dngf19d785 and _dng503s2r9:_dngm91m8i9(_dnglt2925i._dngtmhy2of._dng8q7lzrs) and _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) then
-        _dnglrtqggi._dngx6yx4tw._dngdjsifwl:_dng0bb67ta(_dnglt2925i._dngg8f3rqx._dngbq6dc1u)
+    if _dngrhb0dwu and _dng5ohneul:_dngis28iir(_dngye2irol._dng5im9et6._dnge7x429g) and _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) then
+        _dngsr83hxr._dngqwna8pr._dnguuz6u2f:_dngwes14on(_dngye2irol._dngrq8kfud._dngi73hi0g)
     end
 
-    if _dng4ya28bz and _dnglrtqggi._dngx6yx4tw and _dnglrtqggi._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) then
-        _dngl3eyd2y(function()
-            if _dnglrtqggi._dngx6yx4tw._dngdjsifwl._dng53gcrhm == _dnglt2925i._dng8eoscv7._dngzk6wsvj and _dng503s2r9:_dngm91m8i9(_dnglt2925i._dngtmhy2of._dng8q7lzrs) then
-                _dnglrtqggi._dngx6yx4tw._dngjuqxud9._dng2lu7mts = _dngm2dgn8r._dngkeekg7q(_dnglrtqggi._dngx6yx4tw._dngjuqxud9._dng2lu7mts._dngh9cm9sd, 60, _dnglrtqggi._dngx6yx4tw._dngjuqxud9._dng2lu7mts._dngotf00hq)
+    if _dngcf3sw5e and _dngsr83hxr._dngqwna8pr and _dngsr83hxr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) then
+        _dng9pl017t(function()
+            if _dngsr83hxr._dngqwna8pr._dnguuz6u2f._dng7ipx09m == _dngye2irol._dngao4x3ir._dngltvx6tx and _dng5ohneul:_dngis28iir(_dngye2irol._dng5im9et6._dnge7x429g) then
+                _dngsr83hxr._dngqwna8pr._dng9boanvw._dngb1cj0ce = _dngtb67wzz._dng3mquvb3(_dngsr83hxr._dngqwna8pr._dng9boanvw._dngb1cj0ce._dngj3zcuvh, 60, _dngsr83hxr._dngqwna8pr._dng9boanvw._dngb1cj0ce._dngxcxeggt)
             end
         end)
     end
 
-    if _dng2qw3qvm then
-        _dngl3eyd2y(function()
-            local _dngkdib8vz = nil
-            local _dngfrvj481 = 200
-            for _dnge7p78hw, _dng0ow90yp in _dngqxl3ixa(_dng33prj9m:_dngacdiip5()) do
-                if _dng0ow90yp ~= _dnglrtqggi and _dng0ow90yp._dngx6yx4tw and _dng0ow90yp._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,45,40,34},78,2)) and _dng0ow90yp._dngx6yx4tw:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2)) and _dng0ow90yp._dngx6yx4tw._dngdjsifwl._dngzzhu5qq > 0 then
-                    local _dngeaqn0sg = _dng0ow90yp._dngx6yx4tw._dng7995oxp._dng1h2h0kv
-                    local _dngokcqz9v, _dngsx0r0fy = _dng9zxnh1a:_dng9h5g3g9(_dngeaqn0sg)
-                    if _dngsx0r0fy then
-                        local _dngtetus33 = _dnghmzh78c._dngkeekg7q(_dng9zxnh1a._dng8fwgq87._dngh9cm9sd / 2, _dng9zxnh1a._dng8fwgq87._dngt87bpnc / 2)
-                        local _dng9m0v7az = (_dnghmzh78c._dngkeekg7q(_dngokcqz9v._dngh9cm9sd, _dngokcqz9v._dngt87bpnc) - _dngtetus33)._dngmlavtxb
-                        if _dng9m0v7az < _dngfrvj481 then
-                            _dngfrvj481 = _dng9m0v7az
-                            _dngkdib8vz = _dng0ow90yp._dngx6yx4tw
+    if _dng0gbucsm then
+        _dng9pl017t(function()
+            local _dnghorwyhk = nil
+            local _dngz7gkmh3 = 200
+            for _dng2y6ac2r, _dngq73uybr in _dngg2m4nsm(_dngkpp3oxi:_dngapj6ni7()) do
+                if _dngq73uybr ~= _dngsr83hxr and _dngq73uybr._dngqwna8pr and _dngq73uybr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,149,158,174},35,1)) and _dngq73uybr._dngqwna8pr:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1)) and _dngq73uybr._dngqwna8pr._dnguuz6u2f._dngl32gbdf > 0 then
+                    local _dngk1qi2ao = _dngq73uybr._dngqwna8pr._dngskm518y._dngxdo67g4
+                    local _dngzwu7asn, _dng9g4ao5b = _dngo8z2efo:_dngmuk83nf(_dngk1qi2ao)
+                    if _dng9g4ao5b then
+                        local _dngb0gxvoh = _dng8bypowr._dng3mquvb3(_dngo8z2efo._dng2obqrnl._dngj3zcuvh / 2, _dngo8z2efo._dng2obqrnl._dngqni07er / 2)
+                        local _dngpj882zu = (_dng8bypowr._dng3mquvb3(_dngzwu7asn._dngj3zcuvh, _dngzwu7asn._dngqni07er) - _dngb0gxvoh)._dngzyh9yee
+                        if _dngpj882zu < _dngz7gkmh3 then
+                            _dngz7gkmh3 = _dngpj882zu
+                            _dnghorwyhk = _dngq73uybr._dngqwna8pr
                         end
                     end
                 end
             end
-            if _dngkdib8vz and _dngkdib8vz:_dngnxfydr1(_dnggzz7r50({3,45,40,34},78,2)) then
-                local _dng1tzsua3 = _dnguwhzsch._dngkeekg7q(_dng9zxnh1a._dnguwhzsch._dng1h2h0kv, _dngkdib8vz._dng7995oxp._dng1h2h0kv)
-                _dng9zxnh1a._dnguwhzsch = _dng9zxnh1a._dnguwhzsch:_dng36bqce9(_dng1tzsua3, 0.35)
+            if _dnghorwyhk and _dnghorwyhk:_dngprbqqzk(_dngz4bivzw({107,149,158,174},35,1)) then
+                local _dngya3pnrb = _dng1ls3n04._dng3mquvb3(_dngo8z2efo._dng1ls3n04._dngxdo67g4, _dnghorwyhk._dngskm518y._dngxdo67g4)
+                _dngo8z2efo._dng1ls3n04 = _dngo8z2efo._dng1ls3n04:_dngtl4156m(_dngya3pnrb, 0.35)
             end
         end)
     end
 
     
-    for _dnge7p78hw, _dng0ow90yp in _dngqxl3ixa(_dng33prj9m:_dngacdiip5()) do
-        if _dng0ow90yp ~= _dnglrtqggi and _dng0ow90yp._dngx6yx4tw then
-            local _dngduckeay = _dng0ow90yp._dngx6yx4tw
-            local _dngk6vfz6w = _dngduckeay:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38,17,47,46,42,15,61,47,46},78,2))
-            local _dngnnjawit = _dngduckeay:_dngnxfydr1(_dnggzz7r50({3,61,36,39,41,43,44,38},78,2))
+    for _dng2y6ac2r, _dngq73uybr in _dngg2m4nsm(_dngkpp3oxi:_dngapj6ni7()) do
+        if _dngq73uybr ~= _dngsr83hxr and _dngq73uybr._dngqwna8pr then
+            local _dnghjs9hla = _dngq73uybr._dngqwna8pr
+            local _dngrjszdwq = _dnghjs9hla:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135,130,172,185,203,180,210,149,164},35,1))
+            local _dnga7w6i1c = _dnghjs9hla:_dngprbqqzk(_dngz4bivzw({107,165,170,171,197,211,218,135},35,1))
 
-            if _dngk6vfz6w and _dngnnjawit and _dngnnjawit._dngzzhu5qq > 0 then
-                if not _dngx4gb9i7[_dng0ow90yp] then
-                    local _dng9n4bgwa = {}
-                    for _dng5936dvp = 1, 12 do
-                        local _dngu0qhk09 = _dnglqg3hch._dngkeekg7q(_dnggzz7r50({7,33,39,35},78,2))
-                        _dngu0qhk09._dngaicvz8y = false
-                        _dngu0qhk09._dng6wgfcab = 1
-                        _dngu0qhk09._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(0, 255, 0)
-                        table._dng1jgs8qt(_dng9n4bgwa, _dngu0qhk09)
+            if _dngrjszdwq and _dnga7w6i1c and _dnga7w6i1c._dngl32gbdf > 0 then
+                if not _dngv851jfu[_dngq73uybr] then
+                    local _dng5kmyvsd = {}
+                    for _dng41s4d9f = 1, 12 do
+                        local _dngzs7hyrn = _dngycijg81._dng3mquvb3(_dngz4bivzw({111,153,171,175},35,1))
+                        _dngzs7hyrn._dng3ur33wn = false
+                        _dngzs7hyrn._dng8824xzr = 1
+                        _dngzs7hyrn._dngqgfhpn9 = _dngxdefbgu._dngoik5009(0, 255, 0)
+                        table._dngqs7kwe6(_dng5kmyvsd, _dngzs7hyrn)
                     end
 
-                    _dngx4gb9i7[_dng0ow90yp] = {
-                        _dngjdv2nwd = _dng9n4bgwa,
-                        _dng91h5hpo = _dnglqg3hch._dngkeekg7q(_dnggzz7r50({7,33,39,35},78,2)),
-                        _dng0rfapvs = _dnglqg3hch._dngkeekg7q(_dnggzz7r50({24,57,60,39,53,33},78,2)),
-                        _dng0i36amn = _dnglqg3hch._dngkeekg7q(_dnggzz7r50({24,57,60,39,53,33},78,2)),
-                        _dng23ipzuz = _dnglqg3hch._dngkeekg7q(_dnggzz7r50({31,45,49,50},78,2))
+                    _dngv851jfu[_dngq73uybr] = {
+                        _dngphazams = _dng5kmyvsd,
+                        _dngjwo8v5g = _dngycijg81._dng3mquvb3(_dngz4bivzw({111,153,171,175},35,1)),
+                        _dngmq651hx = _dngycijg81._dng3mquvb3(_dngz4bivzw({118,161,178,171,201,201},35,1)),
+                        _dng1g5gglw = _dngycijg81._dng3mquvb3(_dngz4bivzw({118,161,178,171,201,201},35,1)),
+                        _dng7lnebph = _dngycijg81._dng3mquvb3(_dngz4bivzw({119,149,181,190},35,1))
                     }
-                    _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo._dngaicvz8y = false; _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo._dng6wgfcab = 1; _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(0, 255, 0)
-                    _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs._dngaicvz8y = false; _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs._dngf6qd65a = true; _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(20, 50, 20)
-                    _dngx4gb9i7[_dng0ow90yp]._dng0i36amn._dngaicvz8y = false; _dngx4gb9i7[_dng0ow90yp]._dng0i36amn._dngf6qd65a = true; _dngx4gb9i7[_dng0ow90yp]._dng0i36amn._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(0, 255, 0)
-                    _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngaicvz8y = false; _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngfn8cs1t = 12; _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngo3ddtis = true; _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngo766p98 = true; _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngwge7w95 = _dngv3wh3mb._dngmatxu9b(0, 255, 0)
+                    _dngv851jfu[_dngq73uybr]._dngjwo8v5g._dng3ur33wn = false; _dngv851jfu[_dngq73uybr]._dngjwo8v5g._dng8824xzr = 1; _dngv851jfu[_dngq73uybr]._dngjwo8v5g._dngqgfhpn9 = _dngxdefbgu._dngoik5009(0, 255, 0)
+                    _dngv851jfu[_dngq73uybr]._dngmq651hx._dng3ur33wn = false; _dngv851jfu[_dngq73uybr]._dngmq651hx._dngppj6vif = true; _dngv851jfu[_dngq73uybr]._dngmq651hx._dngqgfhpn9 = _dngxdefbgu._dngoik5009(20, 50, 20)
+                    _dngv851jfu[_dngq73uybr]._dng1g5gglw._dng3ur33wn = false; _dngv851jfu[_dngq73uybr]._dng1g5gglw._dngppj6vif = true; _dngv851jfu[_dngq73uybr]._dng1g5gglw._dngqgfhpn9 = _dngxdefbgu._dngoik5009(0, 255, 0)
+                    _dngv851jfu[_dngq73uybr]._dng7lnebph._dng3ur33wn = false; _dngv851jfu[_dngq73uybr]._dng7lnebph._dngkd4zwdg = 12; _dngv851jfu[_dngq73uybr]._dng7lnebph._dngor6n7pg = true; _dngv851jfu[_dngq73uybr]._dng7lnebph._dngji14osw = true; _dngv851jfu[_dngq73uybr]._dng7lnebph._dngqgfhpn9 = _dngxdefbgu._dngoik5009(0, 255, 0)
                 end
 
-                local _dng8ssmpp6 = _dngx4gb9i7[_dng0ow90yp]
-                local _dngcoj6omd = math._dng4nw9h10(_dngnnjawit._dngzzhu5qq / _dngnnjawit._dng12ce6ix, 0, 1)
+                local _dngwx165pq = _dngv851jfu[_dngq73uybr]
+                local _dngfih6r55 = math._dng9jhv1y2(_dnga7w6i1c._dngl32gbdf / _dnga7w6i1c._dng2646dul, 0, 1)
 
-                local _dng5u6nhwt = _dngk6vfz6w._dnguwhzsch
-                local _dngbrevyzf = _dngm2dgn8r._dngkeekg7q(3, 5, 3)
-                local _dngg9l0uzo = {
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(-_dngbrevyzf._dngh9cm9sd/2, _dngbrevyzf._dngt87bpnc/2, -_dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(_dngbrevyzf._dngh9cm9sd/2, _dngbrevyzf._dngt87bpnc/2, -_dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(_dngbrevyzf._dngh9cm9sd/2, _dngbrevyzf._dngt87bpnc/2, _dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(-_dngbrevyzf._dngh9cm9sd/2, _dngbrevyzf._dngt87bpnc/2, _dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(-_dngbrevyzf._dngh9cm9sd/2, -_dngbrevyzf._dngt87bpnc/2, -_dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(_dngbrevyzf._dngh9cm9sd/2, -_dngbrevyzf._dngt87bpnc/2, -_dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(_dngbrevyzf._dngh9cm9sd/2, -_dngbrevyzf._dngt87bpnc/2, _dngbrevyzf._dngotf00hq/2),
-                    _dng5u6nhwt * _dnguwhzsch._dngkeekg7q(-_dngbrevyzf._dngh9cm9sd/2, -_dngbrevyzf._dngt87bpnc/2, _dngbrevyzf._dngotf00hq/2)
+                local _dng8qobzhx = _dngrjszdwq._dng1ls3n04
+                local _dng7h32535 = _dngtb67wzz._dng3mquvb3(3, 5, 3)
+                local _dngk0tou8z = {
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(-_dng7h32535._dngj3zcuvh/2, _dng7h32535._dngqni07er/2, -_dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(_dng7h32535._dngj3zcuvh/2, _dng7h32535._dngqni07er/2, -_dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(_dng7h32535._dngj3zcuvh/2, _dng7h32535._dngqni07er/2, _dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(-_dng7h32535._dngj3zcuvh/2, _dng7h32535._dngqni07er/2, _dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(-_dng7h32535._dngj3zcuvh/2, -_dng7h32535._dngqni07er/2, -_dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(_dng7h32535._dngj3zcuvh/2, -_dng7h32535._dngqni07er/2, -_dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(_dng7h32535._dngj3zcuvh/2, -_dng7h32535._dngqni07er/2, _dng7h32535._dngxcxeggt/2),
+                    _dng8qobzhx * _dng1ls3n04._dng3mquvb3(-_dng7h32535._dngj3zcuvh/2, -_dng7h32535._dngqni07er/2, _dng7h32535._dngxcxeggt/2)
                 }
 
-                local _dngnxenbw8 = {}
-                for _dnge7p78hw, _dngyd9j6ii in _dngcvzxfz1(_dngg9l0uzo) do
-                    local _dng4gp09ef, _dnge7p78hw = _dng9zxnh1a:_dng9h5g3g9(_dngyd9j6ii._dng1h2h0kv)
-                    table._dng1jgs8qt(_dngnxenbw8, _dnghmzh78c._dngkeekg7q(_dng4gp09ef._dngh9cm9sd, _dng4gp09ef._dngt87bpnc))
+                local _dng3smoul9 = {}
+                for _dng2y6ac2r, _dng61sv47a in _dng8ihbswn(_dngk0tou8z) do
+                    local _dngsa7ax3o, _dng2y6ac2r = _dngo8z2efo:_dngmuk83nf(_dng61sv47a._dngxdo67g4)
+                    table._dngqs7kwe6(_dng3smoul9, _dng8bypowr._dng3mquvb3(_dngsa7ax3o._dngj3zcuvh, _dngsa7ax3o._dngqni07er))
                 end
 
-                local _dngjdvxy93, _dngsx0r0fy = _dng9zxnh1a:_dng9h5g3g9(_dngk6vfz6w._dng1h2h0kv)
+                local _dngmx5yb4z, _dng9g4ao5b = _dngo8z2efo:_dngmuk83nf(_dngrjszdwq._dngxdo67g4)
 
-                if _dngsx0r0fy and _dngtsmmdot then
-                    if _dngi62fwmj then
-                        local _dngkl83ipe = {
+                if _dng9g4ao5b and _dngztet389 then
+                    if _dngj1t6plv then
+                        local _dnge8yyf4y = {
                             {1,2},{2,3},{3,4},{4,1},
                             {5,6},{6,7},{7,8},{8,5},
                             {1,5},{2,6},{3,7},{4,8}
                         }
-                        for _dng5936dvp, _dng65q5ynm in _dngcvzxfz1(_dngkl83ipe) do
-                            local _dngu0qhk09 = _dng8ssmpp6._dngjdv2nwd[_dng5936dvp]
-                            _dngu0qhk09._dngaicvz8y = true
-                            _dngu0qhk09._dngjo4v7pf = _dngnxenbw8[_dng65q5ynm[1]]
-                            _dngu0qhk09._dng6hobm3f = _dngnxenbw8[_dng65q5ynm[2]]
+                        for _dng41s4d9f, _dngca0la7q in _dng8ihbswn(_dnge8yyf4y) do
+                            local _dngzs7hyrn = _dngwx165pq._dngphazams[_dng41s4d9f]
+                            _dngzs7hyrn._dng3ur33wn = true
+                            _dngzs7hyrn._dngy26jdwq = _dng3smoul9[_dngca0la7q[1]]
+                            _dngzs7hyrn._dnghv65itj = _dng3smoul9[_dngca0la7q[2]]
                         end
                     else
-                        for _dnge7p78hw, _dngu0qhk09 in _dngcvzxfz1(_dng8ssmpp6._dngjdv2nwd) do _dngu0qhk09._dngaicvz8y = false end
+                        for _dng2y6ac2r, _dngzs7hyrn in _dng8ihbswn(_dngwx165pq._dngphazams) do _dngzs7hyrn._dng3ur33wn = false end
                     end
 
-                    if _dng1789c5w then
-                        _dng8ssmpp6._dng91h5hpo._dngaicvz8y = true
-                        _dng8ssmpp6._dng91h5hpo._dngjo4v7pf = _dnghmzh78c._dngkeekg7q(_dng9zxnh1a._dng8fwgq87._dngh9cm9sd / 2, _dng9zxnh1a._dng8fwgq87._dngt87bpnc)
-                        _dng8ssmpp6._dng91h5hpo._dng6hobm3f = _dnghmzh78c._dngkeekg7q(_dngjdvxy93._dngh9cm9sd, _dngjdvxy93._dngt87bpnc)
+                    if _dngaac31wa then
+                        _dngwx165pq._dngjwo8v5g._dng3ur33wn = true
+                        _dngwx165pq._dngjwo8v5g._dngy26jdwq = _dng8bypowr._dng3mquvb3(_dngo8z2efo._dng2obqrnl._dngj3zcuvh / 2, _dngo8z2efo._dng2obqrnl._dngqni07er)
+                        _dngwx165pq._dngjwo8v5g._dnghv65itj = _dng8bypowr._dng3mquvb3(_dngmx5yb4z._dngj3zcuvh, _dngmx5yb4z._dngqni07er)
                     else
-                        _dng8ssmpp6._dng91h5hpo._dngaicvz8y = false
+                        _dngwx165pq._dngjwo8v5g._dng3ur33wn = false
                     end
 
-                    if _dng4xp62x7 then
-                        local _dng6kb5buz = _dnghmzh78c._dngkeekg7q(2000 / _dngjdvxy93._dngotf00hq, 3000 / _dngjdvxy93._dngotf00hq)
-                        local _dngqx4jcka = _dnghmzh78c._dngkeekg7q(_dngjdvxy93._dngh9cm9sd - _dng6kb5buz._dngh9cm9sd / 2, _dngjdvxy93._dngt87bpnc - _dng6kb5buz._dngt87bpnc / 2)
-                        local _dngw94axki = _dng6kb5buz._dngt87bpnc
-                        local _dngngbbct5 = _dngw94axki * _dngcoj6omd
+                    if _dngvzql3qh then
+                        local _dnguwpor3s = _dng8bypowr._dng3mquvb3(2000 / _dngmx5yb4z._dngxcxeggt, 3000 / _dngmx5yb4z._dngxcxeggt)
+                        local _dng1b5w2qj = _dng8bypowr._dng3mquvb3(_dngmx5yb4z._dngj3zcuvh - _dnguwpor3s._dngj3zcuvh / 2, _dngmx5yb4z._dngqni07er - _dnguwpor3s._dngqni07er / 2)
+                        local _dng664d9xp = _dnguwpor3s._dngqni07er
+                        local _dnggio9bj1 = _dng664d9xp * _dngfih6r55
 
-                        _dng8ssmpp6._dng0rfapvs._dngaicvz8y = true
-                        _dng8ssmpp6._dng0rfapvs._dngfn8cs1t = _dnghmzh78c._dngkeekg7q(3, _dngw94axki)
-                        _dng8ssmpp6._dng0rfapvs._dng1h2h0kv = _dnghmzh78c._dngkeekg7q(_dngqx4jcka._dngh9cm9sd - 6, _dngqx4jcka._dngt87bpnc)
+                        _dngwx165pq._dngmq651hx._dng3ur33wn = true
+                        _dngwx165pq._dngmq651hx._dngkd4zwdg = _dng8bypowr._dng3mquvb3(3, _dng664d9xp)
+                        _dngwx165pq._dngmq651hx._dngxdo67g4 = _dng8bypowr._dng3mquvb3(_dng1b5w2qj._dngj3zcuvh - 6, _dng1b5w2qj._dngqni07er)
 
-                        _dng8ssmpp6._dng0i36amn._dngaicvz8y = true
-                        _dng8ssmpp6._dng0i36amn._dngfn8cs1t = _dnghmzh78c._dngkeekg7q(3, _dngngbbct5)
-                        _dng8ssmpp6._dng0i36amn._dng1h2h0kv = _dnghmzh78c._dngkeekg7q(_dngqx4jcka._dngh9cm9sd - 6, _dngqx4jcka._dngt87bpnc + (_dngw94axki - _dngngbbct5))
+                        _dngwx165pq._dng1g5gglw._dng3ur33wn = true
+                        _dngwx165pq._dng1g5gglw._dngkd4zwdg = _dng8bypowr._dng3mquvb3(3, _dnggio9bj1)
+                        _dngwx165pq._dng1g5gglw._dngxdo67g4 = _dng8bypowr._dng3mquvb3(_dng1b5w2qj._dngj3zcuvh - 6, _dng1b5w2qj._dngqni07er + (_dng664d9xp - _dnggio9bj1))
 
-                        _dng8ssmpp6._dng23ipzuz._dngaicvz8y = true
-                        _dng8ssmpp6._dng23ipzuz._dngzmmd1wl = string._dngfec2bnx(_dnggzz7r50({110,59,105,29,98,32,101,10,19,29},78,2), _dng0ow90yp._dngfmmdxfw or _dng0ow90yp._dngh0nfa0c, math._dng5e4wwqt(_dngnnjawit._dngzzhu5qq))
-                        _dng8ssmpp6._dng23ipzuz._dng1h2h0kv = _dnghmzh78c._dngkeekg7q(_dngjdvxy93._dngh9cm9sd, _dngqx4jcka._dngt87bpnc - 18)
+                        _dngwx165pq._dng7lnebph._dng3ur33wn = true
+                        _dngwx165pq._dng7lnebph._dngnvwykng = string._dngoeiuybe(_dngz4bivzw({72,163,93,165,124,200,145,107,128,154},35,1), _dngq73uybr._dng245vhy7 or _dngq73uybr._dng8wrrxky, math._dngoh3y8gn(_dnga7w6i1c._dngl32gbdf))
+                        _dngwx165pq._dng7lnebph._dngxdo67g4 = _dng8bypowr._dng3mquvb3(_dngmx5yb4z._dngj3zcuvh, _dng1b5w2qj._dngqni07er - 18)
                     else
-                        _dng8ssmpp6._dng0rfapvs._dngaicvz8y = false
-                        _dng8ssmpp6._dng0i36amn._dngaicvz8y = false
-                        _dng8ssmpp6._dng23ipzuz._dngaicvz8y = false
+                        _dngwx165pq._dngmq651hx._dng3ur33wn = false
+                        _dngwx165pq._dng1g5gglw._dng3ur33wn = false
+                        _dngwx165pq._dng7lnebph._dng3ur33wn = false
                     end
                 else
-                    for _dnge7p78hw, _dngu0qhk09 in _dngcvzxfz1(_dng8ssmpp6._dngjdv2nwd) do _dngu0qhk09._dngaicvz8y = false end
-                    _dng8ssmpp6._dng91h5hpo._dngaicvz8y = false
-                    _dng8ssmpp6._dng0rfapvs._dngaicvz8y = false
-                    _dng8ssmpp6._dng0i36amn._dngaicvz8y = false
-                    _dng8ssmpp6._dng23ipzuz._dngaicvz8y = false
+                    for _dng2y6ac2r, _dngzs7hyrn in _dng8ihbswn(_dngwx165pq._dngphazams) do _dngzs7hyrn._dng3ur33wn = false end
+                    _dngwx165pq._dngjwo8v5g._dng3ur33wn = false
+                    _dngwx165pq._dngmq651hx._dng3ur33wn = false
+                    _dngwx165pq._dng1g5gglw._dng3ur33wn = false
+                    _dngwx165pq._dng7lnebph._dng3ur33wn = false
                 end
             else
-                if _dngx4gb9i7[_dng0ow90yp] then
-                    for _dnge7p78hw, _dngu0qhk09 in _dngcvzxfz1(_dngx4gb9i7[_dng0ow90yp]._dngjdv2nwd) do _dngu0qhk09._dngaicvz8y = false end
-                    _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo._dngaicvz8y = false
-                    _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs._dngaicvz8y = false
-                    _dngx4gb9i7[_dng0ow90yp]._dng0i36amn._dngaicvz8y = false
-                    _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngaicvz8y = false
+                if _dngv851jfu[_dngq73uybr] then
+                    for _dng2y6ac2r, _dngzs7hyrn in _dng8ihbswn(_dngv851jfu[_dngq73uybr]._dngphazams) do _dngzs7hyrn._dng3ur33wn = false end
+                    _dngv851jfu[_dngq73uybr]._dngjwo8v5g._dng3ur33wn = false
+                    _dngv851jfu[_dngq73uybr]._dngmq651hx._dng3ur33wn = false
+                    _dngv851jfu[_dngq73uybr]._dng1g5gglw._dng3ur33wn = false
+                    _dngv851jfu[_dngq73uybr]._dng7lnebph._dng3ur33wn = false
                 end
             end
         else
-            if _dngx4gb9i7[_dng0ow90yp] then
-                for _dnge7p78hw, _dngu0qhk09 in _dngcvzxfz1(_dngx4gb9i7[_dng0ow90yp]._dngjdv2nwd) do _dngu0qhk09._dngaicvz8y = false end
-                _dngx4gb9i7[_dng0ow90yp]._dng91h5hpo._dngaicvz8y = false
-                _dngx4gb9i7[_dng0ow90yp]._dng0rfapvs._dngaicvz8y = false
-                _dngx4gb9i7[_dng0ow90yp]._dng0i36amn._dngaicvz8y = false
-                _dngx4gb9i7[_dng0ow90yp]._dng23ipzuz._dngaicvz8y = false
+            if _dngv851jfu[_dngq73uybr] then
+                for _dng2y6ac2r, _dngzs7hyrn in _dng8ihbswn(_dngv851jfu[_dngq73uybr]._dngphazams) do _dngzs7hyrn._dng3ur33wn = false end
+                _dngv851jfu[_dngq73uybr]._dngjwo8v5g._dng3ur33wn = false
+                _dngv851jfu[_dngq73uybr]._dngmq651hx._dng3ur33wn = false
+                _dngv851jfu[_dngq73uybr]._dng1g5gglw._dng3ur33wn = false
+                _dngv851jfu[_dngq73uybr]._dng7lnebph._dng3ur33wn = false
             end
         end
     end
